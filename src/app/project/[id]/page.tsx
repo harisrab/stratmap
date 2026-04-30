@@ -1,5 +1,6 @@
 import { StratMapShell } from "@/components/stratmap/app-shell";
 import { getCurrentUser } from "@/lib/auth";
+import { getBillingProfile } from "@/lib/billing";
 import {
   SupabaseNotConfiguredError,
   getProject,
@@ -18,13 +19,18 @@ export default async function ProjectPage({
   let project;
   let index;
   let initialFile;
+  let billing;
 
   if (!user) {
     redirect("/auth");
   }
 
   try {
-    [project, index] = await Promise.all([getProject(user.id, id), getWorkspaceIndex(user.id, id)]);
+    [project, index, billing] = await Promise.all([
+      getProject(user.id, id),
+      getWorkspaceIndex(user.id, id),
+      getBillingProfile(user.id),
+    ]);
 
     if (!index.defaultPath) {
       redirect("/app");
@@ -41,10 +47,18 @@ export default async function ProjectPage({
   return (
     <StratMapShell
       accessMode="owner"
+      billing={billing}
       initialFile={initialFile}
       initialIndex={index}
       project={project}
       projectId={id}
+      user={{
+        email: user.email ?? null,
+        name:
+          typeof user.user_metadata?.display_name === "string"
+            ? user.user_metadata.display_name
+            : null,
+      }}
     />
   );
 }

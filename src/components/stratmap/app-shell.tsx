@@ -4,6 +4,13 @@ import { MessageResponse } from "@/components/ai-elements/message";
 import { Onboarding } from "@/components/stratmap/onboarding";
 import { Button } from "@/components/ui/button";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -14,6 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import type { MapBaseThemeId } from "@/lib/stratmap/constants";
+import type { BillingProfile } from "@/lib/billing-types";
 import { humanizeFilename } from "@/lib/stratmap/humanize";
 import { cn } from "@/lib/utils";
 import type {
@@ -31,18 +39,22 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   CopyIcon,
+  CreditCardIcon,
+  CrownIcon,
   EyeIcon,
   EyeOffIcon,
   GitForkIcon,
   LayersIcon,
   Loader2Icon,
   LockIcon,
+  LogOutIcon,
   MapPinIcon,
   PencilIcon,
   SearchIcon,
   Share2Icon,
   SparklesIcon,
   Trash2Icon,
+  UserCircleIcon,
   XIcon,
 } from "lucide-react";
 import {
@@ -61,11 +73,16 @@ import { MapCanvas } from "./map-canvas";
 
 type StratMapShellProps = {
   accessMode?: WorkspaceAccessMode;
+  billing?: BillingProfile;
   initialFile: WorkspaceFile;
   initialIndex: WorkspaceIndex;
   project: Project;
   projectId: string;
   shareId?: string;
+  user?: {
+    email: string | null;
+    name: string | null;
+  };
 };
 
 async function requestJson<T>(input: string, init?: RequestInit): Promise<T> {
@@ -171,13 +188,24 @@ function EmptyNotePlaceholder({
   );
 }
 
+async function redirectFromBillingEndpoint(endpoint: "/api/stripe/checkout" | "/api/stripe/portal") {
+  const response = await fetch(endpoint, { method: "POST" });
+  const payload = (await response.json()) as { error?: string; url?: string };
+  if (!response.ok || !payload.url) {
+    throw new Error(payload.error ?? "Unable to open Stripe.");
+  }
+  window.location.href = payload.url;
+}
+
 export function StratMapShell({
   accessMode = "owner",
+  billing,
   initialFile,
   initialIndex,
   project,
   projectId,
   shareId,
+  user,
 }: StratMapShellProps) {
   const [index, setIndex] = useState<WorkspaceIndex>({
     ...initialIndex,
@@ -212,8 +240,11 @@ export function StratMapShell({
   const [selectedMarkerFocusKey, setSelectedMarkerFocusKey] = useState(0);
   const [spatialFocus, setSpatialFocus] = useState<"layer" | "note">("note");
   const [layerEditorOpen, setLayerEditorOpen] = useState(false);
+  const [billingError, setBillingError] = useState<string | null>(null);
+  const [isOpeningBilling, setIsOpeningBilling] = useState(false);
   const router = useRouter();
   const isOwnerMode = accessMode === "owner";
+  const isPro = Boolean(billing?.isPro);
   const fileApiBase = isOwnerMode
     ? `/api/workspace/file?project=${encodeURIComponent(projectId)}`
     : `/api/shares/${encodeURIComponent(shareId ?? "")}/workspace/file`;
@@ -232,6 +263,24 @@ export function StratMapShell({
     if (isOwnerMode) return true;
     setGateDialogOpen(true);
     return false;
+  }
+
+  async function openBilling(endpoint: "/api/stripe/checkout" | "/api/stripe/portal") {
+    if (isOpeningBilling) return;
+    setIsOpeningBilling(true);
+    setBillingError(null);
+    try {
+      await redirectFromBillingEndpoint(endpoint);
+    } catch (error) {
+      setBillingError(error instanceof Error ? error.message : "Unable to open Stripe.");
+      setIsOpeningBilling(false);
+    }
+  }
+
+  async function handleSignOut() {
+    await fetch("/api/auth/sign-out", { method: "POST" });
+    router.replace("/");
+    router.refresh();
   }
 
   function resolveShareUrl(nextShareId: string) {
@@ -786,6 +835,85 @@ export function StratMapShell({
 
       {/* Floating panels overlay — only panels are pointer-interactive */}
       <div className="pointer-events-none absolute inset-0 flex gap-3 p-3">
+        {isOwnerMode ? (
+          <div
+            className="pointer-events-auto absolute top-3 z-50 flex items-center gap-2"
+            style={{ right: "calc(26rem + 1.5rem)" }}
+          >
+            {billingError ? (
+              <div className="max-w-xs rounded-lg border border-rose-400/18 bg-rose-500/12 px-3 py-2 text-xs text-rose-100/90 shadow-[0_18px_48px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+                {billingError}
+              </div>
+            ) : null}
+            {!isPro ? (
+              <button
+                className="inline-flex h-9 items-center gap-2 rounded-lg bg-teal-300 px-3 text-[12px] font-semibold text-slate-950 shadow-[0_14px_36px_-16px_rgba(94,234,212,0.8)] transition hover:bg-teal-200 disabled:opacity-60"
+                disabled={isOpeningBilling}
+                onClick={() => void openBilling("/api/stripe/checkout")}
+                type="button"
+              >
+                {isOpeningBilling ? (
+                  <Loader2Icon className="size-3.5 animate-spin" />
+                ) : (
+                  <CrownIcon className="size-3.5" />
+                )}
+                Upgrade to Pro
+              </button>
+            ) : null}
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                aria-label="Open user menu"
+                className="inline-flex size-9 items-center justify-center rounded-lg border border-white/10 bg-[rgba(6,11,17,0.88)] text-white/70 shadow-[0_18px_48px_rgba(0,0,0,0.35)] backdrop-blur-xl transition hover:bg-white/[0.08] hover:text-white"
+              >
+                <UserCircleIcon className="size-5" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                className="w-72 border border-white/10 bg-[#071018] p-2 text-white shadow-[0_18px_60px_rgba(0,0,0,0.45)]"
+              >
+                <div className="px-2 py-2.5">
+                  <p className="truncate text-[13px] font-medium text-white/90">
+                    {user?.name || "Stratbook user"}
+                  </p>
+                  <p className="mt-0.5 truncate text-[11px] text-white/42">
+                    {user?.email || "Signed in"}
+                  </p>
+                  <span className="mt-2 inline-flex items-center gap-1.5 rounded-md border border-teal-300/15 bg-teal-300/8 px-2 py-1 font-mono text-[9.5px] uppercase tracking-[0.16em] text-teal-100/70">
+                    <CrownIcon className="size-3" />
+                    {isPro ? (billing?.cancelAtPeriodEnd ? "Pro ending" : "Pro") : "Free"}
+                  </span>
+                </div>
+                <DropdownMenuSeparator className="bg-white/8" />
+                {billing?.stripeCustomerId ? (
+                  <DropdownMenuItem
+                    className="cursor-pointer px-2 py-2 text-[12px] text-white/72 focus:bg-white/8 focus:text-white"
+                    onClick={() => void openBilling("/api/stripe/portal")}
+                  >
+                    <CreditCardIcon className="size-3.5" />
+                    Manage payments
+                  </DropdownMenuItem>
+                ) : (
+                  <DropdownMenuItem
+                    className="cursor-pointer px-2 py-2 text-[12px] text-white/72 focus:bg-white/8 focus:text-white"
+                    onClick={() => void openBilling("/api/stripe/checkout")}
+                  >
+                    <CrownIcon className="size-3.5" />
+                    Upgrade to Pro
+                  </DropdownMenuItem>
+                )}
+                <DropdownMenuItem
+                  className="cursor-pointer px-2 py-2 text-[12px] text-white/72 focus:bg-white/8 focus:text-white"
+                  onClick={() => {
+                    void handleSignOut();
+                  }}
+                >
+                  <LogOutIcon className="size-3.5" />
+                  Log out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        ) : null}
 
         {/* ── Left: Workspace panel ── */}
         <aside
@@ -1317,7 +1445,9 @@ export function StratMapShell({
         <div className="pointer-events-auto flex h-full w-[26rem] shrink-0">
           <ChatPanel
             accessMode={accessMode}
+            isPro={isPro}
             onBlockedChat={() => setGateDialogOpen(true)}
+            onUpgrade={() => void openBilling("/api/stripe/checkout")}
             onSelectFile={(path) => {
               void loadFile(path);
             }}

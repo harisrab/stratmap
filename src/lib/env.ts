@@ -34,3 +34,15 @@ export function getMapboxToken() {
 export function hasMapboxToken() {
   return Boolean(getMapboxToken());
 }
+
+export function getAppUrl() {
+  const explicitUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL;
+  if (explicitUrl) return explicitUrl.replace(/\/$/, "");
+
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  return "http://localhost:3000";
+}
+
+export function getStripeProPriceId() {
+  return process.env.STRIPE_PRO_PRICE_ID || "";
+}

@@ -1,5 +1,6 @@
 import { getAnthropicModel, hasAnthropicKey } from "@/lib/env";
 import { getCurrentUser } from "@/lib/auth";
+import { getBillingProfile, requireProSubscription } from "@/lib/billing";
 import {
   ChatUsageLimitError,
   createProjectChatThread,
@@ -70,21 +71,15 @@ export async function GET(request: Request) {
     readProjectChatMessages(user.id, query.projectId, activeThreadId),
     getChatUsage(user.id),
   ]);
+  const billing = await getBillingProfile(user.id);
 
-  return Response.json({ activeThreadId, messages, threads, usage });
+  return Response.json({ activeThreadId, billing, messages, threads, usage });
 }
 
 export async function POST(request: Request) {
   const user = await getCurrentUser();
   if (!user) {
     return Response.json({ error: "Authentication is required." }, { status: 401 });
-  }
-
-  if (!hasAnthropicKey()) {
-    return Response.json(
-      { error: "Missing ANTHROPIC_API_KEY. Add it to .env.local to enable chat." },
-      { status: 500 }
-    );
   }
 
   const body = chatBodySchema.parse(await request.json());
@@ -94,6 +89,22 @@ export async function POST(request: Request) {
     await getProject(user.id, projectId);
   } catch {
     return Response.json({ error: "Project not found or access denied." }, { status: 403 });
+  }
+
+  try {
+    await requireProSubscription(user.id);
+  } catch {
+    return Response.json(
+      { error: "Upgrade to Pro to use the Strategist." },
+      { status: 402 }
+    );
+  }
+
+  if (!hasAnthropicKey()) {
+    return Response.json(
+      { error: "Missing ANTHROPIC_API_KEY. Add it to .env.local to enable chat." },
+      { status: 500 }
+    );
   }
 
   try {

@@ -41,6 +41,7 @@ import {
   AlertCircleIcon,
   ChevronDownIcon,
   CompassIcon,
+  CrownIcon,
   FileEditIcon,
   FileSearchIcon,
   Loader2Icon,
@@ -52,8 +53,10 @@ import { useEffect, useRef, useState } from "react";
 
 type ChatPanelProps = {
   accessMode?: WorkspaceAccessMode;
+  isPro?: boolean;
   onBlockedChat?: () => void;
   onSelectFile?: (path: string) => void;
+  onUpgrade?: () => void;
   onWorkspaceRefresh: () => Promise<void>;
   projectId: string;
   selectedPath: string;
@@ -312,9 +315,11 @@ type ChatRuntimeProps = ChatPanelProps & {
 function ChatRuntime({
   accessMode = "owner",
   activeThreadId,
+  isPro = false,
   onActiveThreadChange,
   onBlockedChat,
   onSelectFile,
+  onUpgrade,
   onWorkspaceRefresh,
   projectId,
   selectedPath,
@@ -359,6 +364,7 @@ function ChatRuntime({
         messages?: UIMessage[];
         threads?: ChatThreadSummary[];
         usage?: ChatUsageSnapshot;
+        billing?: { isPro?: boolean };
       };
       if (!response.ok) {
         throw new Error(payload.error ?? "Unable to load Strategist history.");
@@ -516,6 +522,10 @@ function ChatRuntime({
       onBlockedChat?.();
       return;
     }
+    if (!isPro) {
+      onUpgrade?.();
+      return;
+    }
     if (usage && usage.remaining <= 0) {
       setLocalError(`You have used all ${usage.limit} Strategist messages for ${usage.month}.`);
       return;
@@ -564,6 +574,7 @@ function ChatRuntime({
     accessMode === "public-anonymous"
       ? "Sign up to ask questions about this public map..."
       : "Fork this map to ask questions or make edits...";
+  const proPlaceholder = "Upgrade to Pro to message the Strategist...";
   const activeThread = threads.find((thread) => thread.id === activeThreadId);
 
   return (
@@ -756,6 +767,7 @@ function ChatRuntime({
                 {suggestions.map((suggestion) => (
                   <Button
                     className="h-auto w-full max-w-[18rem] justify-center rounded-md px-2 py-1.5 text-center text-xs text-white/48 hover:bg-transparent hover:text-teal-100/82"
+                    disabled={accessMode === "owner" && !isPro}
                     key={suggestion}
                     onClick={() => {
                       void handleSubmit({ files: [], text: suggestion });
@@ -792,6 +804,27 @@ function ChatRuntime({
           </div>
         ) : null}
 
+        {accessMode === "owner" && !isPro ? (
+          <div className="mb-2.5 rounded-lg border border-teal-300/18 bg-teal-300/8 px-3 py-2.5">
+            <div className="flex items-start gap-2">
+              <CrownIcon className="mt-0.5 size-3.5 shrink-0 text-teal-200/85" />
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-medium text-white/82">Strategist is a Pro feature.</p>
+                <p className="mt-0.5 text-[11px] leading-relaxed text-white/42">
+                  Upgrade to send messages and let the Strategist read, search, and edit this stratbook.
+                </p>
+              </div>
+              <button
+                className="shrink-0 rounded-md bg-teal-300 px-2.5 py-1.5 text-[11px] font-semibold text-slate-950 transition hover:bg-teal-200"
+                onClick={onUpgrade}
+                type="button"
+              >
+                Upgrade
+              </button>
+            </div>
+          </div>
+        ) : null}
+
         <PromptInput
           className="rounded-xl border border-white/10 bg-white/4 p-2.5"
           onSubmit={(message, event) => {
@@ -806,6 +839,8 @@ function ChatRuntime({
               placeholder={
                 accessMode !== "owner"
                   ? publicPlaceholder
+                  : !isPro
+                  ? proPlaceholder
                   : selectedPath
                   ? `Ask about ${basename(selectedPath)} or request an edit...`
                   : "Ask about the map, notes, or next move..."
@@ -819,6 +854,7 @@ function ChatRuntime({
               disabled={
                 (!input.trim() && status === "ready") ||
                 isLoadingHistory ||
+                (accessMode === "owner" && !isPro) ||
                 (usage?.remaining ?? 1) <= 0
               }
               onStop={() => {

@@ -1,6 +1,7 @@
 import { ProjectHome } from "@/components/stratmap/project-home";
 import { MapCanvas } from "@/components/stratmap/map-canvas";
 import { getCurrentUser } from "@/lib/auth";
+import { getBillingProfile } from "@/lib/billing";
 import { hasSupabaseStorageConfig } from "@/lib/env";
 import { exampleStratbooks } from "@/lib/stratmap/example-stratbooks";
 import { ensurePublicExampleStratbooks, listProjects, listPublicProjects } from "@/lib/stratmap/workspace";
@@ -60,12 +61,15 @@ export default async function AppHome() {
 
   let personalProjects;
   let publicProjects;
+  let billing;
   try {
     await ensurePublicExampleStratbooks();
-    const [allUserProjects, allPublic] = await Promise.all([
+    const [allUserProjects, allPublic, userBilling] = await Promise.all([
       listProjects(user.id),
       listPublicProjects(),
+      getBillingProfile(user.id),
     ]);
+    billing = userBilling;
     // Filter legacy seeded examples out of the user's library — examples now
     // live in the community pool.
     personalProjects = allUserProjects.filter((project) => !exampleProjectIds.has(project.id));
@@ -78,9 +82,15 @@ export default async function AppHome() {
 
   return (
     <ProjectHome
+      billing={billing}
       personalProjects={personalProjects}
       publicProjects={publicProjects}
       userEmail={user.email ?? "Signed in"}
+      userName={
+        typeof user.user_metadata?.display_name === "string"
+          ? user.user_metadata.display_name
+          : null
+      }
     />
   );
 }

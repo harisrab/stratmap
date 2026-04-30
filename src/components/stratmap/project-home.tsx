@@ -25,16 +25,20 @@ import {
   AlertCircleIcon,
   CheckIcon,
   CopyIcon,
+  CreditCardIcon,
+  CrownIcon,
   Globe2Icon,
   Loader2Icon,
   LogOutIcon,
   MoreHorizontalIcon,
   PlusIcon,
   Trash2Icon,
+  UserCircleIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
+import type { BillingProfile } from "@/lib/billing-types";
 
 // Mirrors the primary/ghost button styling from the marketing landing page so
 // the dashboard's main affordances feel like the rest of the brand. Sizing is
@@ -49,9 +53,11 @@ const landingBtnGhost =
   `${landingBtnBase} border border-white/[0.13] bg-transparent font-medium text-white/65 hover:bg-white/[0.055] hover:text-white/85`;
 
 type ProjectHomeProps = {
+  billing: BillingProfile;
   personalProjects: Project[];
   publicProjects: PublicProjectListing[];
   userEmail: string;
+  userName: string | null;
 };
 
 function formatShortDate(iso: string) {
@@ -398,12 +404,34 @@ function EmptyState({ onCreateClick }: { onCreateClick: () => void }) {
   );
 }
 
-export function ProjectHome({ personalProjects, publicProjects, userEmail }: ProjectHomeProps) {
+function planLabel(billing: BillingProfile) {
+  if (billing.isPro) return billing.cancelAtPeriodEnd ? "Pro ending" : "Pro";
+  return "Free";
+}
+
+async function redirectFromBillingEndpoint(endpoint: "/api/stripe/checkout" | "/api/stripe/portal") {
+  const response = await fetch(endpoint, { method: "POST" });
+  const payload = (await response.json()) as { error?: string; url?: string };
+  if (!response.ok || !payload.url) {
+    throw new Error(payload.error ?? "Unable to open Stripe.");
+  }
+  window.location.href = payload.url;
+}
+
+export function ProjectHome({
+  billing,
+  personalProjects,
+  publicProjects,
+  userEmail,
+  userName,
+}: ProjectHomeProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [isCreating, setIsCreating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [billingError, setBillingError] = useState<string | null>(null);
+  const [isOpeningBilling, setIsOpeningBilling] = useState(false);
   const router = useRouter();
 
   const today = new Date().toLocaleDateString("en-US", {
@@ -456,6 +484,18 @@ export function ProjectHome({ personalProjects, publicProjects, userEmail }: Pro
     router.refresh();
   }
 
+  async function openBilling(endpoint: "/api/stripe/checkout" | "/api/stripe/portal") {
+    if (isOpeningBilling) return;
+    setIsOpeningBilling(true);
+    setBillingError(null);
+    try {
+      await redirectFromBillingEndpoint(endpoint);
+    } catch (billingErr) {
+      setBillingError(billingErr instanceof Error ? billingErr.message : "Unable to open Stripe.");
+      setIsOpeningBilling(false);
+    }
+  }
+
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#04060b] text-white">
       <div className="relative z-10 flex min-h-screen flex-col">
@@ -469,29 +509,87 @@ export function ProjectHome({ personalProjects, publicProjects, userEmail }: Pro
             <Wordmark size="lg" />
           </Link>
 
-          <div className="flex items-center gap-4">
-            <span className="hidden max-w-[14rem] truncate text-[11px] text-white/35 md:block">
-              {userEmail}
-            </span>
+          <div className="flex items-center gap-3">
             <time className="hidden font-mono text-[10.5px] tracking-wide text-white/25 sm:block">
               {today}
             </time>
+            {!billing.isPro ? (
+              <button
+                className={landingBtnPrimary}
+                disabled={isOpeningBilling}
+                onClick={() => void openBilling("/api/stripe/checkout")}
+                type="button"
+              >
+                {isOpeningBilling ? (
+                  <Loader2Icon className="size-3.5 animate-spin" />
+                ) : (
+                  <CrownIcon className="size-3.5" />
+                )}
+                Upgrade to Pro
+              </button>
+            ) : null}
             <button className={landingBtnPrimary} onClick={openDialog} type="button">
               <PlusIcon className="size-3.5" />
               New stratbook
             </button>
-            <button
-              className={landingBtnGhost}
-              onClick={() => {
-                void handleSignOut();
-              }}
-              type="button"
-            >
-              <LogOutIcon className="size-3.5" />
-              Log out
-            </button>
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                className="inline-flex size-[42px] items-center justify-center rounded-[7px] border border-white/[0.13] bg-transparent text-white/65 transition-all hover:bg-white/[0.055] hover:text-white/85"
+                aria-label="Open user menu"
+              >
+                <UserCircleIcon className="size-5" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                className="w-72 border border-white/10 bg-[#071018] p-2 text-white shadow-[0_18px_60px_rgba(0,0,0,0.45)]"
+              >
+                <div className="px-2 py-2.5">
+                  <p className="truncate text-[13px] font-medium text-white/90">
+                    {userName || "Stratbook user"}
+                  </p>
+                  <p className="mt-0.5 truncate text-[11px] text-white/42">{userEmail}</p>
+                  <span className="mt-2 inline-flex items-center gap-1.5 rounded-md border border-teal-300/15 bg-teal-300/8 px-2 py-1 font-mono text-[9.5px] uppercase tracking-[0.16em] text-teal-100/70">
+                    <CrownIcon className="size-3" />
+                    {planLabel(billing)}
+                  </span>
+                </div>
+                <DropdownMenuSeparator className="bg-white/8" />
+                {billing.stripeCustomerId ? (
+                  <DropdownMenuItem
+                    className="cursor-pointer px-2 py-2 text-[12px] text-white/72 focus:bg-white/8 focus:text-white"
+                    onClick={() => void openBilling("/api/stripe/portal")}
+                  >
+                    <CreditCardIcon className="size-3.5" />
+                    Manage payments
+                  </DropdownMenuItem>
+                ) : (
+                  <DropdownMenuItem
+                    className="cursor-pointer px-2 py-2 text-[12px] text-white/72 focus:bg-white/8 focus:text-white"
+                    onClick={() => void openBilling("/api/stripe/checkout")}
+                  >
+                    <CrownIcon className="size-3.5" />
+                    Upgrade to Pro
+                  </DropdownMenuItem>
+                )}
+                <DropdownMenuItem
+                  className="cursor-pointer px-2 py-2 text-[12px] text-white/72 focus:bg-white/8 focus:text-white"
+                  onClick={() => {
+                    void handleSignOut();
+                  }}
+                >
+                  <LogOutIcon className="size-3.5" />
+                  Log out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </nav>
+
+        {billingError ? (
+          <div className="mx-[52px] mt-4 rounded-lg border border-rose-400/18 bg-rose-500/8 px-3 py-2 text-xs text-rose-200/80 max-md:mx-5">
+            {billingError}
+          </div>
+        ) : null}
 
         {/* ── Page content ── */}
         <div className="flex-1 px-[52px] py-8 max-md:px-5">
