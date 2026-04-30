@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import type { MapBaseThemeId } from "@/lib/stratmap/constants";
 import { humanizeFilename } from "@/lib/stratmap/humanize";
 import { cn } from "@/lib/utils";
 import type {
@@ -40,6 +41,7 @@ import {
   PencilIcon,
   SearchIcon,
   Share2Icon,
+  SparklesIcon,
   Trash2Icon,
   XIcon,
 } from "lucide-react";
@@ -78,6 +80,15 @@ function stripFrontmatter(content: string): string {
   return content.startsWith("---")
     ? content.replace(/^---[\s\S]*?---\r?\n?/, "").trimStart()
     : content;
+}
+
+function noteHasBodyContent(content: string) {
+  return stripFrontmatter(content)
+    .split(/\r?\n/)
+    .some((line) => {
+      const trimmed = line.trim();
+      return trimmed.length > 0 && !/^#{1,6}\s+/.test(trimmed);
+    });
 }
 
 function slugifyMarkerTitle(title: string) {
@@ -122,6 +133,42 @@ function formatFileContent(file: WorkspaceFile) {
       </pre>
     );
   }
+}
+
+function EmptyNotePlaceholder({
+  onEdit,
+  readOnly,
+}: {
+  onEdit: () => void;
+  readOnly: boolean;
+}) {
+  return (
+    <div className="overflow-hidden rounded-xl border border-dashed border-teal-300/20 bg-[radial-gradient(circle_at_top_left,rgba(45,212,191,0.12),transparent_42%),rgba(255,255,255,0.025)] p-4">
+      <div className="flex items-start gap-3">
+        <div className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-teal-300/20 bg-teal-300/10 text-teal-200/80">
+          <SparklesIcon className="size-4" />
+        </div>
+        <div className="min-w-0">
+          <p className="text-[12px] font-medium leading-relaxed text-white/78">
+            This note has a title. Give it a little substance.
+          </p>
+          <p className="mt-1 text-[11px] leading-relaxed text-white/42">
+            Add observations here, or ask the Strategist to turn this marker into a first pass.
+          </p>
+          {!readOnly ? (
+            <button
+              className="mt-3 inline-flex items-center gap-1.5 rounded-md border border-teal-300/18 bg-teal-300/10 px-2.5 py-1.5 text-[11px] font-medium text-teal-100/80 transition-colors hover:border-teal-300/34 hover:bg-teal-300/16 hover:text-teal-50"
+              onClick={onEdit}
+              type="button"
+            >
+              <PencilIcon className="size-3" />
+              Add content
+            </button>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export function StratMapShell({
@@ -666,6 +713,24 @@ export function StratMapShell({
     }
   }
 
+  async function updateMapTheme(mapThemeId: MapBaseThemeId) {
+    if (!requestWriteAccess()) return;
+    setCurrentProject((current) => ({ ...current, mapThemeId }));
+    try {
+      const payload = await requestJson<{ project: Project }>(
+        `/api/projects/${encodeURIComponent(projectId)}`,
+        {
+          body: JSON.stringify({ mapThemeId }),
+          headers: { "Content-Type": "application/json" },
+          method: "PATCH",
+        }
+      );
+      setCurrentProject(payload.project);
+    } catch (error) {
+      setWorkspaceError(error instanceof Error ? error.message : "Unable to save map theme.");
+    }
+  }
+
   return (
     <main
       className="bg-[#081018] text-white"
@@ -675,6 +740,7 @@ export function StratMapShell({
       <MapCanvas
         activeLayerTool={activeLayerTool}
         layers={index.layers ?? []}
+        mapThemeId={currentProject.mapThemeId}
         onAddMarker={(coords, title) => { void handleAddMarker(coords, title); }}
         onBeginLayerTool={beginLayerTool}
         onCancelLayerTool={() => setActiveLayerTool(null)}
@@ -683,6 +749,7 @@ export function StratMapShell({
         onDeleteMarker={(filePath) => {
           void deleteFile(filePath);
         }}
+        onMapThemeChange={isOwnerMode ? (themeId) => { void updateMapTheme(themeId); } : undefined}
         onSelectLayer={selectLayer}
         onSelect={(filePath) => { void loadFile(filePath); }}
         onUpdateLayer={updateLayer}
@@ -973,7 +1040,18 @@ export function StratMapShell({
                       />
                     ) : (
                       <div className="prose-shell text-xs text-white/78">
-                        {formatFileContent(selectedFile)}
+                        {noteHasBodyContent(selectedFile.content) ? (
+                          formatFileContent(selectedFile)
+                        ) : (
+                          <EmptyNotePlaceholder
+                            onEdit={() => {
+                              if (!requestWriteAccess()) return;
+                              setDraftContent(stripFrontmatter(selectedFile.content));
+                              setIsEditingNote(true);
+                            }}
+                            readOnly={!isOwnerMode}
+                          />
+                        )}
                       </div>
                     )}
                   </div>

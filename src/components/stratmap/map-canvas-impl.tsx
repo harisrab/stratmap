@@ -1,6 +1,12 @@
 "use client";
 
 import { humanizeFilename } from "@/lib/stratmap/humanize";
+import {
+  DEFAULT_MAP_BASE_THEME_ID,
+  MAP_BASE_THEMES,
+  resolveMapBaseTheme,
+  type MapBaseThemeId,
+} from "@/lib/stratmap/constants";
 import type { LngLat, StratMapLayer, WorkspaceMapPoint } from "@/lib/stratmap/types";
 import type mapboxgl from "mapbox-gl";
 import {
@@ -29,16 +35,6 @@ type MapboxGL = (typeof import("mapbox-gl"))["default"];
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN ?? "";
 
-type MapTheme = { id: string; label: string; style: string; dot: string };
-
-const MAP_THEMES: MapTheme[] = [
-  { id: "dark", label: "Dark", style: "mapbox://styles/mapbox/dark-v11", dot: "#0d1824" },
-  { id: "light", label: "Light", style: "mapbox://styles/mapbox/light-v11", dot: "#dce4ec" },
-  { id: "satellite", label: "Satellite", style: "mapbox://styles/mapbox/satellite-v9", dot: "#1c3a1e" },
-  { id: "hybrid", label: "Hybrid", style: "mapbox://styles/mapbox/satellite-streets-v12", dot: "#253d26" },
-  { id: "outdoors", label: "Outdoors", style: "mapbox://styles/mapbox/outdoors-v12", dot: "#8cba7a" },
-];
-
 type ContextMenuTarget =
   | { layerId: string; type: "layer" }
   | { filePath: string; title: string; type: "marker" };
@@ -61,11 +57,13 @@ type MapCanvasProps = {
   onCreateLayer?: (layer: StratMapLayer) => void;
   onDeleteLayer?: (layerId: string) => void;
   onDeleteMarker?: (filePath: string) => void;
+  onMapThemeChange?: (themeId: MapBaseThemeId) => void;
   onSelectLayer?: (layerId: string | null) => void;
   onUpdateLayer?: (layer: StratMapLayer) => void;
   onSelect?: (path: string) => void;
   points?: WorkspaceMapPoint[];
   searchAction?: ReactNode;
+  mapThemeId?: MapBaseThemeId;
   selectedLayerFocusKey?: number;
   selectedLayerId?: string | null;
   selectedMarkerFocusKey?: number;
@@ -468,12 +466,14 @@ export function MapCanvasImpl({
   activeLayerTool = null,
   decorative = false,
   layers = [],
+  mapThemeId = DEFAULT_MAP_BASE_THEME_ID,
   onAddMarker,
   onBeginLayerTool,
   onCancelLayerTool,
   onCreateLayer,
   onDeleteLayer,
   onDeleteMarker,
+  onMapThemeChange,
   onSelectLayer,
   onUpdateLayer,
   onSelect,
@@ -502,7 +502,7 @@ export function MapCanvasImpl({
     MAPBOX_TOKEN ? null : "NEXT_PUBLIC_MAPBOX_TOKEN is not set."
   );
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
-  const [activeStyleId, setActiveStyleId] = useState("dark");
+  const [activeStyleId, setActiveStyleId] = useState<MapBaseThemeId>(mapThemeId);
   const [showThemes, setShowThemes] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isNamingMarker, setIsNamingMarker] = useState(false);
@@ -533,7 +533,7 @@ export function MapCanvasImpl({
 
   useEffect(() => {
     activeLayerToolRef.current = activeLayerTool;
-    if (activeLayerTool) setPinMode(false);
+    if (activeLayerTool) queueMicrotask(() => setPinMode(false));
   }, [activeLayerTool]);
 
   useEffect(() => {
@@ -602,8 +602,8 @@ export function MapCanvasImpl({
           projection: "globe",
           renderWorldCopies: false,
           style: decorative
-            ? "mapbox://styles/mapbox/satellite-streets-v12"
-            : "mapbox://styles/mapbox/dark-v11",
+            ? resolveMapBaseTheme("hybrid").style
+            : resolveMapBaseTheme(mapThemeId).style,
           zoom: decorative ? 2.6 : 1.6,
         });
 
@@ -1185,9 +1185,10 @@ export function MapCanvasImpl({
     map.flyTo({ center: pt.coordinates, duration: 1200, essential: true, zoom: Math.max(map.getZoom(), 3.2) });
   }, [points, ready, selectedMarkerFocusKey, selectedPath]);
 
-  function changeStyle(theme: MapTheme) {
+  function applyStyle(themeId: MapBaseThemeId) {
     const map = mapRef.current;
     if (!map) return;
+    const theme = resolveMapBaseTheme(themeId);
     map.setStyle(theme.style);
     map.once("style.load", () => {
       applyGlobe(map);
@@ -1195,7 +1196,12 @@ export function MapCanvasImpl({
       const source = map.getSource(LAYER_SOURCE_ID) as mapboxgl.GeoJSONSource | undefined;
       source?.setData(layerFeatureCollection(visibleLayers) as GeoJSON.FeatureCollection);
     });
-    setActiveStyleId(theme.id);
+    setActiveStyleId(themeId);
+  }
+
+  function changeStyle(themeId: MapBaseThemeId) {
+    applyStyle(themeId);
+    onMapThemeChange?.(themeId);
     setContextMenu(null);
     setShowThemes(false);
   }
@@ -1334,11 +1340,11 @@ export function MapCanvasImpl({
 
               {showThemes && (
                 <div className="mt-0.5 space-y-0.5 pb-0.5 pl-1.5">
-                  {MAP_THEMES.map((theme) => (
+                  {MAP_BASE_THEMES.map((theme) => (
                     <button
                       key={theme.id}
                       className="flex w-full items-center gap-2.5 rounded-md px-2 py-1.5 text-left text-[11px] text-white/60 transition-colors hover:bg-white/7 hover:text-white/90"
-                      onClick={() => changeStyle(theme)}
+                      onClick={() => changeStyle(theme.id)}
                       type="button"
                     >
                       <span

@@ -8,7 +8,13 @@ import { nanoid } from "nanoid";
 import { createHash } from "node:crypto";
 import path from "node:path";
 
-import { MAX_PROJECT_NAME_LENGTH } from "./constants";
+import {
+  DEFAULT_MAP_BASE_THEME_ID,
+  MAP_BASE_THEMES,
+  MAX_PROJECT_NAME_LENGTH,
+  resolveMapBaseTheme,
+  type MapBaseThemeId,
+} from "./constants";
 import { renderCoverImage } from "./cover-image";
 import {
   EXAMPLE_PUBLIC_OWNER_ID,
@@ -57,7 +63,7 @@ const DEFAULT_FILE_NAME = "notes/welcome.md";
 const LAYERS_FILE_NAME = "layers/stratbook-layers.json";
 const COVER_IMAGE_HEIGHT = 630;
 const COVER_IMAGE_WIDTH = 1200;
-const COVER_IMAGE_STYLE_VERSION = "image-response-dark-scrim-v4";
+const COVER_IMAGE_STYLE_VERSION = "image-response-themed-base-v5";
 const SHARE_MANIFEST_PREFIX = "_public/shares";
 export const STRATEGIST_MONTHLY_MESSAGE_LIMIT = 500;
 
@@ -77,6 +83,14 @@ function validateOwnerId(id: string): void {
   if (!id || !/^[a-zA-Z0-9_-]{1,128}$/.test(id)) {
     throw new Error("Invalid owner ID.");
   }
+}
+
+function validateMapThemeId(id: unknown): MapBaseThemeId | undefined {
+  if (id === undefined) return undefined;
+  if (typeof id !== "string" || !MAP_BASE_THEMES.some((theme) => theme.id === id)) {
+    throw new Error("Invalid map theme.");
+  }
+  return id as MapBaseThemeId;
 }
 
 function validateProjectName(name: string): string {
@@ -356,11 +370,16 @@ function buildLayerCoverFeatures(layers: StratMapLayer[]) {
   return features;
 }
 
-function buildMapboxCoverUrl(points: WorkspaceMapPoint[], layers: StratMapLayer[]) {
+function buildMapboxCoverUrl(
+  points: WorkspaceMapPoint[],
+  layers: StratMapLayer[],
+  mapThemeId: string | undefined
+) {
   const token = getMapboxToken();
   if (!token) throw new Error("Missing MAPBOX_TOKEN or NEXT_PUBLIC_MAPBOX_TOKEN.");
 
-  const base = "https://api.mapbox.com/styles/v1/mapbox/dark-v11/static";
+  const style = resolveMapBaseTheme(mapThemeId).style.replace("mapbox://styles/", "");
+  const base = `https://api.mapbox.com/styles/v1/${style}/static`;
   const size = `${COVER_IMAGE_WIDTH}x${COVER_IMAGE_HEIGHT}`;
   const params = new URLSearchParams({
     access_token: token,
@@ -776,6 +795,7 @@ async function seedExampleProject(
     description: example.description,
     exampleVersion: getExampleVersion(example),
     id: example.id,
+    mapThemeId: DEFAULT_MAP_BASE_THEME_ID,
     name: example.title,
     onboardingComplete: true,
     updatedAt: now,
@@ -892,6 +912,7 @@ export async function createProject(input: {
   const project: Project = {
     createdAt: now,
     id: nanoid(10),
+    mapThemeId: DEFAULT_MAP_BASE_THEME_ID,
     name: validateProjectName(input.name),
     description: input.description?.trim() || undefined,
     onboardingComplete: false,
@@ -927,7 +948,7 @@ export async function createProject(input: {
 export async function updateProject(
   ownerId: string,
   projectId: string,
-  updates: Partial<Pick<Project, "onboardingComplete" | "name" | "description">>
+  updates: Partial<Pick<Project, "onboardingComplete" | "name" | "description" | "mapThemeId">>
 ): Promise<Project> {
   if (!hasSupabaseStorageConfig()) throw new SupabaseNotConfiguredError();
   validateProjectId(projectId);
@@ -935,6 +956,9 @@ export async function updateProject(
   const sanitized: typeof updates = { ...updates };
   if (typeof sanitized.name === "string") {
     sanitized.name = validateProjectName(sanitized.name);
+  }
+  if ("mapThemeId" in sanitized) {
+    sanitized.mapThemeId = validateMapThemeId(sanitized.mapThemeId);
   }
   const updated: Project = { ...current, ...sanitized, updatedAt: new Date().toISOString() };
   await writeProjectJson(ownerId, updated);
@@ -953,13 +977,14 @@ export async function generateProjectCoverImage(
     readProjectJson(ownerId, projectId),
     buildWorkspaceIndex(ownerId, projectId),
   ]);
-  const markerHash = `${COVER_IMAGE_STYLE_VERSION}:${getMapPointHash(index.mapPoints, index.layers)}:${getCoverTitleHash(current.name)}`;
+  const mapThemeId = current.mapThemeId ?? DEFAULT_MAP_BASE_THEME_ID;
+  const markerHash = `${COVER_IMAGE_STYLE_VERSION}:${mapThemeId}:${getMapPointHash(index.mapPoints, index.layers)}:${getCoverTitleHash(current.name)}`;
 
   if (current.coverImage?.markerHash === markerHash) {
     return current;
   }
 
-  const mapboxUrl = buildMapboxCoverUrl(index.mapPoints, index.layers);
+  const mapboxUrl = buildMapboxCoverUrl(index.mapPoints, index.layers, mapThemeId);
   const response = await fetch(mapboxUrl);
   if (!response.ok) {
     throw new Error(`Map cover generation failed (${response.status}).`);
@@ -1375,6 +1400,7 @@ export async function forkSharedProject(
       shareId,
     },
     id: nanoid(10),
+    mapThemeId: sourceProject.mapThemeId ?? DEFAULT_MAP_BASE_THEME_ID,
     name: `${sourceProject.name} (Fork)`,
     onboardingComplete: true,
     updatedAt: now,

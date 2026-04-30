@@ -1,6 +1,7 @@
 "use client";
 
 import type { StratMapLayer, WorkspaceMapPoint } from "@/lib/stratmap/types";
+import type { MapBaseThemeId } from "@/lib/stratmap/constants";
 import dynamic from "next/dynamic";
 import type { ReactNode } from "react";
 
@@ -14,11 +15,13 @@ export type MapCanvasProps = {
   onCreateLayer?: (layer: StratMapLayer) => void;
   onDeleteLayer?: (layerId: string) => void;
   onDeleteMarker?: (filePath: string) => void;
+  onMapThemeChange?: (themeId: MapBaseThemeId) => void;
   onSelectLayer?: (layerId: string | null) => void;
   onUpdateLayer?: (layer: StratMapLayer) => void;
   onSelect?: (path: string) => void;
   points?: WorkspaceMapPoint[];
   searchAction?: ReactNode;
+  mapThemeId?: MapBaseThemeId;
   selectedLayerFocusKey?: number;
   selectedLayerId?: string | null;
   selectedMarkerFocusKey?: number;

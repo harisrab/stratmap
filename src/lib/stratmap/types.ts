@@ -1,3 +1,5 @@
+import type { MapBaseThemeId } from "./constants";
+
 export type WorkspaceSource = "supabase";
 
 export interface Project {
@@ -11,6 +13,7 @@ export interface Project {
   updatedAt?: string;
   sharing?: ProjectSharing;
   forkedFrom?: ProjectForkSource;
+  mapThemeId?: MapBaseThemeId;
 }
 
 export interface ProjectCoverImage {

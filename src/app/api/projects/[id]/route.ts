@@ -1,5 +1,6 @@
 import { getCurrentUser } from "@/lib/auth";
 import { deleteProject, updateProject } from "@/lib/stratmap/workspace";
+import type { Project } from "@/lib/stratmap/types";
 
 export async function PATCH(
   request: Request,
@@ -14,6 +15,7 @@ export async function PATCH(
       onboardingComplete: boolean;
       name: string;
       description: string;
+      mapThemeId: Project["mapThemeId"];
     }>;
     const project = await updateProject(user.id, id, body);
     return Response.json({ project });
