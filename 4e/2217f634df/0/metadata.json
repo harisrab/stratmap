@@ -1,0 +1,171 @@
+{
+  "cli_version": "0.5.6",
+  "checkpoint_id": "4e2217f634df",
+  "session_id": "f3bc6e27-69e6-47e3-a270-d2b788628bbc",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-30T12:35:06.523017Z",
+  "branch": "main",
+  "checkpoints_count": 11,
+  "files_touched": [
+    "src/app/api/projects/[id]/share/route.ts",
+    "src/components/stratmap/app-shell.tsx",
+    "src/components/stratmap/map-canvas-impl.tsx",
+    "src/components/stratmap/project-home.tsx",
+    "src/lib/stratmap/workspace.ts"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-sonnet-4-6",
+  "turn_id": "9e28132f29a1",
+  "token_usage": {
+    "input_tokens": 494,
+    "cache_creation_tokens": 1023929,
+    "cache_read_tokens": 46587148,
+    "output_tokens": 237236,
+    "api_call_count": 342
+  },
+  "session_metrics": {
+    "turn_count": 11
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-30T12:35:06.235182Z",
+    "agent_lines": 312,
+    "agent_removed": 173,
+    "human_added": 0,
+    "human_modified": 18,
+    "human_removed": 15,
+    "total_committed": 317,
+    "total_lines_changed": 518,
+    "agent_percentage": 93.62934362934364,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 15,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 15
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 30,
+      "user_lines_removed": 11,
+      "agent_lines_added": 73,
+      "agent_lines_removed": 57,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 15,
+        "src/components/stratmap/app-shell.tsx": 15
+      },
+      "user_removed_per_file": {
+        "src/components/stratmap/app-shell.tsx": 11
+      }
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 15,
+      "user_lines_removed": 0,
+      "agent_lines_added": 77,
+      "agent_lines_removed": 57,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 15
+      }
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 15,
+      "user_lines_removed": 0,
+      "agent_lines_added": 76,
+      "agent_lines_removed": 57,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 15
+      }
+    },
+    {
+      "checkpoint_number": 5,
+      "user_lines_added": 15,
+      "user_lines_removed": 0,
+      "agent_lines_added": 128,
+      "agent_lines_removed": 90,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 15
+      }
+    },
+    {
+      "checkpoint_number": 6,
+      "user_lines_added": 15,
+      "user_lines_removed": 0,
+      "agent_lines_added": 129,
+      "agent_lines_removed": 90,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 15
+      }
+    },
+    {
+      "checkpoint_number": 7,
+      "user_lines_added": 15,
+      "user_lines_removed": 0,
+      "agent_lines_added": 129,
+      "agent_lines_removed": 90,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 15
+      }
+    },
+    {
+      "checkpoint_number": 8,
+      "user_lines_added": 15,
+      "user_lines_removed": 0,
+      "agent_lines_added": 129,
+      "agent_lines_removed": 90,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 15
+      }
+    },
+    {
+      "checkpoint_number": 9,
+      "user_lines_added": 15,
+      "user_lines_removed": 0,
+      "agent_lines_added": 134,
+      "agent_lines_removed": 92,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 15
+      }
+    },
+    {
+      "checkpoint_number": 10,
+      "user_lines_added": 17,
+      "user_lines_removed": 9,
+      "agent_lines_added": 138,
+      "agent_lines_removed": 106,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 15,
+        "src/components/stratmap/map-canvas-impl.tsx": 2
+      },
+      "user_removed_per_file": {
+        "src/components/stratmap/map-canvas-impl.tsx": 9
+      }
+    },
+    {
+      "checkpoint_number": 11,
+      "user_lines_added": 15,
+      "user_lines_removed": 0,
+      "agent_lines_added": 289,
+      "agent_lines_removed": 157,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 15
+      }
+    },
+    {
+      "checkpoint_number": 12,
+      "user_lines_added": 15,
+      "user_lines_removed": 0,
+      "agent_lines_added": 349,
+      "agent_lines_removed": 193,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 15
+      }
+    }
+  ]
+}

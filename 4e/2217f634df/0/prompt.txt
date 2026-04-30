@@ -1,0 +1,53 @@
+You could just forget about what you were doing before, and focus on improving this aspect of the app where the chat window, I want that to be collapsible so that it's hiding into a button. Called strategist, and somebody can click it and open it. And by default, it should not be visible. And then and the button for it should be should be should should stand out. And upgrade to pro button also be there, and the user button should also be there. And when you open the strategist, it should show the rest of the icons are at the top right. So that what that means is the height the strategist window will be a little bit shorter. And these buttons will be in line with the search function and the share function. And kindly move the share button alongside the rest of the buttons like upgrade pro and the user button, and strategies expand button. Like, they should be collocated in one place. For consistency purposes. This way, the search bar can also
+
+---
+
+This looks bad. What are you doing?
+
+---
+
+I think the icons on the right side would need to be aligned with the search bar. Right now, they are the the the vertical padding needs to increase a little bit. And secondly, the strategist button needs to be nontransparent background. Like, it needs to be some other a solid color. So that it's more visible. And the status button could come on the left side. Like, first could be the user button, on the rightmost side and then the share button and then the strategist button.
+
+---
+
+keep going.
+
+---
+
+S the user is not subscribed to the pro plan, the button at the top right for strategist should say activate strategist or activate pro plan is
+
+---
+
+Can you please redesign the u, user button drop down? It looks fucking ugly. It needs to be redesigned.
+
+---
+
+Why are the hover states so fucking awful? Like, the color of the icon is black when I'm hovering. It's not visible. And, also, like, same with the logout button, it's, like, kinda overdone. And, also, I think there should be, like, some more spacing It's kinda coming on top of the other buttons, which looks fucking bad. Also, the sizing between the strategist button and the share button is is different. Should be consistent.
+
+---
+
+Can you please see the problem? When I hover the button, the manage billing button, the icon turns black. It's invisible. It looks fucking bad, and same with logout. And when hovering on it, there is, like, the the the the highlight is sort of, like, rounded and it looks so bad. What are you doing? Kindly use your front end design skills for this.
+
+---
+
+Bro, what's with the fucking icon? Can't you turn it white or something when I hover on it?
+
+---
+
+For god's sake, use an icon from a library or something. You are fucking it up completely. You're overengineering it.
+
+---
+
+When I load the app for the first time, I can see that there is a left sidebar, and something in the middle shows that's that that says loading globe or something like that. Which is which looks kinda invasive. It shouldn't show, like, a a separate dev on top of it. Like, the background where the map is gonna show, that itself could just show that it's loading. Instead of showing a, like, dev on top of it, which looks bad.
+
+---
+
+When I click on share, I can create a public link but I would like to be able to toggle this. And I want to redesign this model so I can toggle if it's public or not, And when it's public, I can copy the link easily. And, also, the button should be the same as the one we are we showing in other models. So, for example, when the model when we create when you create a Stratbook, we can make the, create public link similar buttons. Square buttons like we have elsewhere on the website. Because right now, this kinda looks foreign.
+
+---
+
+It seems like the user button drop down we designed for what we have inside the app didn't really transfer over to rest of the website. So right now, in the project home, when I click on the drop down, it's still the old one.
+
+---
+
+keeep going.

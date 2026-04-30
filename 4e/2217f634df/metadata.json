@@ -1,0 +1,29 @@
+{
+  "cli_version": "0.5.6",
+  "checkpoint_id": "4e2217f634df",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 11,
+  "files_touched": [
+    "src/app/api/projects/[id]/share/route.ts",
+    "src/components/stratmap/app-shell.tsx",
+    "src/components/stratmap/map-canvas-impl.tsx",
+    "src/components/stratmap/project-home.tsx",
+    "src/lib/stratmap/workspace.ts"
+  ],
+  "sessions": [
+    {
+      "metadata": "/4e/2217f634df/0/metadata.json",
+      "transcript": "/4e/2217f634df/0/full.jsonl",
+      "content_hash": "/4e/2217f634df/0/content_hash.txt",
+      "prompt": "/4e/2217f634df/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 494,
+    "cache_creation_tokens": 1023929,
+    "cache_read_tokens": 46587148,
+    "output_tokens": 237236,
+    "api_call_count": 342
+  }
+}
