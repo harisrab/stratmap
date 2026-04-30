@@ -39,6 +39,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import type { BillingProfile } from "@/lib/billing-types";
+import { cn } from "@/lib/utils";
 
 // Mirrors the primary/ghost button styling from the marketing landing page so
 // the dashboard's main affordances feel like the rest of the brand. Sizing is
@@ -541,45 +542,68 @@ export function ProjectHome({
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="end"
-                className="w-72 border border-white/10 bg-[#071018] p-2 text-white shadow-[0_18px_60px_rgba(0,0,0,0.45)]"
+                sideOffset={10}
+                className="w-56 overflow-hidden rounded-xl border border-white/[0.09] bg-[#060c13] p-0 text-white shadow-[0_28px_80px_-10px_rgba(0,0,0,0.8)] backdrop-blur-2xl"
               >
-                <div className="px-2 py-2.5">
-                  <p className="truncate text-[13px] font-medium text-white/90">
-                    {userName || "Stratbook user"}
-                  </p>
-                  <p className="mt-0.5 truncate text-[11px] text-white/42">{userEmail}</p>
-                  <span className="mt-2 inline-flex items-center gap-1.5 rounded-md border border-teal-300/15 bg-teal-300/8 px-2 py-1 font-mono text-[9.5px] uppercase tracking-[0.16em] text-teal-100/70">
-                    <CrownIcon className="size-3" />
-                    {planLabel(billing)}
-                  </span>
+                {/* Profile header */}
+                <div className="relative overflow-hidden px-4 pb-3.5 pt-4">
+                  <div className="pointer-events-none absolute -top-10 -left-10 size-40 rounded-full bg-teal-400/8 blur-3xl" />
+                  <div className="relative flex items-center gap-3">
+                    <div className="flex size-9 shrink-0 items-center justify-center rounded-full border border-teal-300/22 bg-gradient-to-br from-teal-400/20 to-sky-500/10 text-[13px] font-bold text-teal-200/90">
+                      {(userName ?? userEmail ?? "S").charAt(0).toUpperCase()}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="truncate text-[13px] font-semibold leading-tight text-white/92">
+                        {userName || "Stratbook user"}
+                      </p>
+                      <p className="mt-0.5 truncate text-[11px] leading-tight text-white/36">
+                        {userEmail || "Signed in"}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-3">
+                    <span className={cn(
+                      "inline-flex items-center gap-1.5 rounded-full px-2.5 py-[3px] text-[10px] font-semibold uppercase tracking-[0.13em]",
+                      billing.isPro
+                        ? "border border-teal-300/28 bg-teal-300/10 text-teal-100/85"
+                        : "border border-white/10 bg-white/[0.045] text-white/38"
+                    )}>
+                      <CrownIcon className={cn("size-2.5", billing.isPro ? "text-teal-300/80" : "text-white/30")} />
+                      {billing.isPro ? (billing.cancelAtPeriodEnd ? "Pro · Ending soon" : "Pro") : "Free plan"}
+                    </span>
+                  </div>
                 </div>
-                <DropdownMenuSeparator className="bg-white/8" />
-                {billing.stripeCustomerId ? (
-                  <DropdownMenuItem
-                    className="cursor-pointer px-2 py-2 text-[12px] text-white/72 focus:bg-white/8 focus:text-white"
-                    onClick={() => void openBilling("/api/stripe/portal")}
+
+                <div className="border-t border-white/[0.07] py-1">
+                  {billing.stripeCustomerId ? (
+                    <button
+                      className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-[12px] text-white/60 transition-colors hover:bg-white/[0.05] hover:text-white"
+                      onClick={() => void openBilling("/api/stripe/portal")}
+                      type="button"
+                    >
+                      <CreditCardIcon className="size-3.5 shrink-0" />
+                      Manage billing
+                    </button>
+                  ) : (
+                    <button
+                      className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-[12px] text-teal-100/80 transition-colors hover:bg-teal-300/10 hover:text-teal-50"
+                      onClick={() => void openBilling("/api/stripe/checkout")}
+                      type="button"
+                    >
+                      <CrownIcon className="size-3.5 shrink-0" />
+                      Upgrade to Pro
+                    </button>
+                  )}
+                  <div className="my-1 h-px bg-white/[0.05]" />
+                  <button
+                    className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-[12px] text-white/45 transition-colors hover:bg-white/[0.04] hover:text-white/80"
+                    onClick={() => { void handleSignOut(); }}
+                    type="button"
                   >
-                    <CreditCardIcon className="size-3.5" />
-                    Manage payments
-                  </DropdownMenuItem>
-                ) : (
-                  <DropdownMenuItem
-                    className="cursor-pointer px-2 py-2 text-[12px] text-white/72 focus:bg-white/8 focus:text-white"
-                    onClick={() => void openBilling("/api/stripe/checkout")}
-                  >
-                    <CrownIcon className="size-3.5" />
-                    Upgrade to Pro
-                  </DropdownMenuItem>
-                )}
-                <DropdownMenuItem
-                  className="cursor-pointer px-2 py-2 text-[12px] text-white/72 focus:bg-white/8 focus:text-white"
-                  onClick={() => {
-                    void handleSignOut();
-                  }}
-                >
-                  <LogOutIcon className="size-3.5" />
-                  Log out
-                </DropdownMenuItem>
+                    <LogOutIcon className="size-3.5 shrink-0" />
+                    Log out
+                  </button>
+                </div>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

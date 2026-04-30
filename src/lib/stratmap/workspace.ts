@@ -1058,6 +1058,27 @@ export async function createProjectShare(ownerId: string, projectId: string): Pr
   return { manifest, project: projectWithCover };
 }
 
+export async function disableProjectShare(ownerId: string, projectId: string): Promise<Project> {
+  if (!hasSupabaseStorageConfig()) throw new SupabaseNotConfiguredError();
+  validateOwnerId(ownerId);
+  validateProjectId(projectId);
+
+  const current = await readProjectJson(ownerId, projectId);
+  if (!current.sharing?.isPublic) return current;
+  const now = new Date().toISOString();
+  const updated: Project = {
+    ...current,
+    sharing: {
+      ...current.sharing,
+      isPublic: false,
+      updatedAt: now,
+    },
+    updatedAt: now,
+  };
+  await writeProjectJson(ownerId, updated);
+  return updated;
+}
+
 export async function deleteProject(ownerId: string, projectId: string): Promise<void> {
   if (!hasSupabaseStorageConfig()) throw new SupabaseNotConfiguredError();
   validateOwnerId(ownerId);

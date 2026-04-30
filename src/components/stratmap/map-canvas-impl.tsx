@@ -1469,20 +1469,10 @@ export function MapCanvasImpl({
       )}
 
       {!ready && !error && (
-        // Scope the loading veil to the visible globe area between the two
-        // floating panels. Decorative mode has no panels, so it covers the
-        // full viewport. Editor mode insets to match the panel layout
-        // (21rem left + 26rem right, with 0.75rem padding + 0.75rem gap on
-        // each side → 22.5rem / 27.5rem). z-10 keeps it below the panel
-        // overlay (which sits in normal stacking order above this).
-        <div
-          className={
-            decorative
-              ? "pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[#080e16]"
-              : "pointer-events-none absolute top-3 bottom-3 right-[27.5rem] flex flex-col items-center justify-center gap-3 rounded-xl border border-white/8 bg-[rgba(8,14,22,0.78)] backdrop-blur-xl"
-          }
-          style={decorative ? undefined : { left: sidebarOffset }}
-        >
+        // Loading state IS the map background — no card, no border, no blur.
+        // The floating panels (sidebar + chat) sit above this via their own
+        // stacking, so the spinner naturally appears only over the visible map.
+        <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[#080e16]">
           <Loader2Icon className="size-7 animate-spin text-teal-300/70" />
           <p className="text-[10px] uppercase tracking-[0.32em] text-white/35">
             Loading globe
@@ -1623,7 +1613,7 @@ function LocationSearch({
             <div className="mr-2 flex shrink-0 items-center gap-1.5">
               {loading ? (
                 <Loader2Icon className="size-4 animate-spin text-teal-300/70" />
-              ) : query ? (
+              ) : query && (
                 <button
                   aria-label="Clear search"
                   className="flex size-6 items-center justify-center rounded-md text-white/45 transition-colors hover:bg-white/10 hover:text-white"
@@ -1632,15 +1622,8 @@ function LocationSearch({
                 >
                   <XIcon className="size-3.5" />
                 </button>
-              ) : (
-                <span
-                  className="hidden h-5 select-none items-center gap-1 rounded-md border border-white/10 bg-white/5 px-1.5 text-[9px] font-medium uppercase tracking-[0.14em] text-white/45 sm:inline-flex"
-                  title="Press Enter to search"
-                >
-                  <CornerDownLeftIcon className="size-2.5" />
-                  Enter
-                </span>
               )}
+              
             </div>
           </div>
         </div>

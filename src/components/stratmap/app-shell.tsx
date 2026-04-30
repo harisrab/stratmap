@@ -35,6 +35,7 @@ import type {
   WorkspaceMapPoint,
 } from "@/lib/stratmap/types";
 import {
+  AlertCircleIcon,
   CheckIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -242,6 +243,7 @@ export function StratMapShell({
   const [layerEditorOpen, setLayerEditorOpen] = useState(false);
   const [billingError, setBillingError] = useState<string | null>(null);
   const [isOpeningBilling, setIsOpeningBilling] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
   const router = useRouter();
   const isOwnerMode = accessMode === "owner";
   const isPro = Boolean(billing?.isPro);
@@ -747,6 +749,24 @@ export function StratMapShell({
     window.setTimeout(() => setCopiedShareUrl(false), 1400);
   }
 
+  async function handleDisableShare() {
+    if (!isOwnerMode || !currentProject.sharing?.isPublic) return;
+    setShareError(null);
+    setIsCreatingShare(true);
+    try {
+      const payload = await requestJson<{ project: Project }>(
+        `/api/projects/${encodeURIComponent(projectId)}/share`,
+        { method: "DELETE" }
+      );
+      setCurrentProject(payload.project);
+      setShareUrl("");
+    } catch (error) {
+      setShareError(error instanceof Error ? error.message : "Unable to disable share link.");
+    } finally {
+      setIsCreatingShare(false);
+    }
+  }
+
   async function handleForkSharedProject() {
     if (!shareId) return;
     setIsForking(true);
@@ -803,29 +823,7 @@ export function StratMapShell({
         onSelect={(filePath) => { void loadFile(filePath); }}
         onUpdateLayer={updateLayer}
         points={mapPoints}
-        searchAction={
-          isOwnerMode ? (
-            <button
-              className="inline-flex h-11 items-center gap-2 rounded-2xl border border-teal-300/24 bg-[rgba(12,49,46,0.82)] px-4 text-sm font-semibold text-teal-50 shadow-[0_22px_60px_-24px_rgba(45,212,191,0.45)] backdrop-blur-2xl transition-colors hover:border-teal-300/45 hover:bg-[rgba(14,67,62,0.9)]"
-              onClick={openShareDialog}
-              title="Create shareable link"
-              type="button"
-            >
-              <Share2Icon className="size-4" />
-              Share
-            </button>
-          ) : (
-            <button
-              className="inline-flex h-11 items-center gap-2 rounded-2xl border border-white/12 bg-[rgba(12,18,28,0.82)] px-4 text-sm font-semibold text-white/68 shadow-[0_22px_60px_-24px_rgba(0,0,0,0.7)] backdrop-blur-2xl transition-colors hover:border-teal-300/30 hover:bg-[rgba(14,35,38,0.88)] hover:text-teal-50"
-              onClick={() => setGateDialogOpen(true)}
-              title={gateMode === "sign-in" ? "Sign up to fork" : "Fork this notebook"}
-              type="button"
-            >
-              {gateMode === "sign-in" ? <LockIcon className="size-4" /> : <GitForkIcon className="size-4" />}
-              {gateMode === "sign-in" ? "Read-only" : "Fork"}
-            </button>
-          )
-        }
+        searchAction={null}
         selectedLayerId={spatialFocus === "layer" ? selectedLayerId : null}
         selectedLayerFocusKey={selectedLayerFocusKey}
         selectedMarkerFocusKey={selectedMarkerFocusKey}
@@ -835,31 +833,58 @@ export function StratMapShell({
 
       {/* Floating panels overlay — only panels are pointer-interactive */}
       <div className="pointer-events-none absolute inset-0 flex gap-3 p-3">
-        {isOwnerMode ? (
-          <div
-            className="pointer-events-auto absolute top-3 z-50 flex items-center gap-2"
-            style={{ right: "calc(26rem + 1.5rem)" }}
-          >
-            {billingError ? (
-              <div className="max-w-xs rounded-lg border border-rose-400/18 bg-rose-500/12 px-3 py-2 text-xs text-rose-100/90 shadow-[0_18px_48px_rgba(0,0,0,0.35)] backdrop-blur-xl">
-                {billingError}
-              </div>
-            ) : null}
-            {!isPro ? (
-              <button
-                className="inline-flex h-9 items-center gap-2 rounded-lg bg-teal-300 px-3 text-[12px] font-semibold text-slate-950 shadow-[0_14px_36px_-16px_rgba(94,234,212,0.8)] transition hover:bg-teal-200 disabled:opacity-60"
-                disabled={isOpeningBilling}
-                onClick={() => void openBilling("/api/stripe/checkout")}
-                type="button"
-              >
-                {isOpeningBilling ? (
-                  <Loader2Icon className="size-3.5 animate-spin" />
-                ) : (
-                  <CrownIcon className="size-3.5" />
-                )}
-                Upgrade to Pro
-              </button>
-            ) : null}
+        {/* ── Top-right utility cluster — always visible, last button toggles chat ── */}
+        <div className="pointer-events-auto absolute top-6 right-3 z-50 flex items-center gap-2">
+          {billingError ? (
+            <div className="max-w-xs rounded-lg border border-rose-400/18 bg-rose-500/12 px-3 py-2 text-xs text-rose-100/90 shadow-[0_18px_48px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+              {billingError}
+            </div>
+          ) : null}
+          {/* Strategist toggle — leftmost; CTA variant when not yet pro */}
+          {chatOpen ? (
+            <button
+              aria-label="Hide Strategist"
+              className="inline-flex size-9 items-center justify-center rounded-lg border border-white/10 bg-[rgba(6,11,17,0.88)] text-white/50 shadow-[0_18px_48px_rgba(0,0,0,0.35)] backdrop-blur-xl transition hover:bg-white/8 hover:text-white/80"
+              onClick={() => setChatOpen(false)}
+              type="button"
+            >
+              <ChevronRightIcon className="size-4" />
+            </button>
+          ) : isOwnerMode && !isPro ? (
+            <button
+              className="inline-flex h-9 items-center gap-2 rounded-lg bg-teal-300 px-3.5 text-[12.5px] font-semibold text-slate-950 shadow-[0_8px_24px_-6px_rgba(94,234,212,0.55)] transition hover:bg-teal-200 disabled:opacity-60"
+              disabled={isOpeningBilling}
+              onClick={() => void openBilling("/api/stripe/checkout")}
+              type="button"
+            >
+              {isOpeningBilling ? (
+                <Loader2Icon className="size-3.5 animate-spin" />
+              ) : (
+                <CrownIcon className="size-3.5" />
+              )}
+              Activate Strategist
+            </button>
+          ) : (
+            <button
+              className="inline-flex h-9 items-center gap-2 rounded-lg bg-teal-500 px-3.5 text-[12.5px] font-semibold text-white shadow-[0_8px_24px_-6px_rgba(20,184,166,0.55)] transition hover:bg-teal-400"
+              onClick={() => setChatOpen(true)}
+              type="button"
+            >
+              <SparklesIcon className="size-3.5" />
+              Strategist
+            </button>
+          )}
+          {isOwnerMode ? (
+            <button
+              className="inline-flex h-9 items-center gap-2 rounded-lg border border-white/10 bg-[rgba(6,11,17,0.88)] px-3.5 text-[12.5px] font-medium text-white/60 shadow-[0_18px_48px_rgba(0,0,0,0.35)] backdrop-blur-xl transition hover:bg-white/8 hover:text-white"
+              onClick={openShareDialog}
+              type="button"
+            >
+              <Share2Icon className="size-3.5" />
+              Share
+            </button>
+          ) : null}
+          {isOwnerMode ? (
             <DropdownMenu>
               <DropdownMenuTrigger
                 aria-label="Open user menu"
@@ -869,51 +894,72 @@ export function StratMapShell({
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="end"
-                className="w-72 border border-white/10 bg-[#071018] p-2 text-white shadow-[0_18px_60px_rgba(0,0,0,0.45)]"
+                sideOffset={10}
+                className="w-56 overflow-hidden rounded-xl border border-white/[0.09] bg-[#060c13] p-0 text-white shadow-[0_28px_80px_-10px_rgba(0,0,0,0.8)] backdrop-blur-2xl"
               >
-                <div className="px-2 py-2.5">
-                  <p className="truncate text-[13px] font-medium text-white/90">
-                    {user?.name || "Stratbook user"}
-                  </p>
-                  <p className="mt-0.5 truncate text-[11px] text-white/42">
-                    {user?.email || "Signed in"}
-                  </p>
-                  <span className="mt-2 inline-flex items-center gap-1.5 rounded-md border border-teal-300/15 bg-teal-300/8 px-2 py-1 font-mono text-[9.5px] uppercase tracking-[0.16em] text-teal-100/70">
-                    <CrownIcon className="size-3" />
-                    {isPro ? (billing?.cancelAtPeriodEnd ? "Pro ending" : "Pro") : "Free"}
-                  </span>
+                {/* Profile header */}
+                <div className="relative overflow-hidden px-4 pb-3.5 pt-4">
+                  <div className="pointer-events-none absolute -top-10 -left-10 size-40 rounded-full bg-teal-400/8 blur-3xl" />
+                  <div className="relative flex items-center gap-3">
+                    <div className="flex size-9 shrink-0 items-center justify-center rounded-full border border-teal-300/22 bg-gradient-to-br from-teal-400/20 to-sky-500/10 text-[13px] font-bold text-teal-200/90">
+                      {(user?.name ?? user?.email ?? "S").charAt(0).toUpperCase()}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="truncate text-[13px] font-semibold leading-tight text-white/92">
+                        {user?.name || "Stratbook user"}
+                      </p>
+                      <p className="mt-0.5 truncate text-[11px] leading-tight text-white/36">
+                        {user?.email || "Signed in"}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-3">
+                    <span className={cn(
+                      "inline-flex items-center gap-1.5 rounded-full px-2.5 py-[3px] text-[10px] font-semibold uppercase tracking-[0.13em]",
+                      isPro
+                        ? "border border-teal-300/28 bg-teal-300/10 text-teal-100/85"
+                        : "border border-white/10 bg-white/[0.045] text-white/38"
+                    )}>
+                      <CrownIcon className={cn("size-2.5", isPro ? "text-teal-300/80" : "text-white/30")} />
+                      {isPro ? (billing?.cancelAtPeriodEnd ? "Pro · Ending soon" : "Pro") : "Free plan"}
+                    </span>
+                  </div>
                 </div>
-                <DropdownMenuSeparator className="bg-white/8" />
-                {billing?.stripeCustomerId ? (
-                  <DropdownMenuItem
-                    className="cursor-pointer px-2 py-2 text-[12px] text-white/72 focus:bg-white/8 focus:text-white"
-                    onClick={() => void openBilling("/api/stripe/portal")}
+
+                <div className="border-t border-white/[0.07] py-1">
+                  {billing?.stripeCustomerId ? (
+                    <button
+                      className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-[12px] text-white/60 transition-colors hover:bg-white/[0.05] hover:text-white"
+                      onClick={() => void openBilling("/api/stripe/portal")}
+                      type="button"
+                    >
+                      <CreditCardIcon className="size-3.5 shrink-0" />
+                      Manage billing
+                    </button>
+                  ) : (
+                    <button
+                      className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-[12px] text-teal-100/80 transition-colors hover:bg-teal-300/10 hover:text-teal-50"
+                      onClick={() => void openBilling("/api/stripe/checkout")}
+                      type="button"
+                    >
+                      <CrownIcon className="size-3.5 shrink-0" />
+                      Upgrade to Pro
+                    </button>
+                  )}
+                  <div className="my-1 h-px bg-white/[0.05]" />
+                  <button
+                    className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-[12px] text-white/45 transition-colors hover:bg-white/[0.04] hover:text-white/80"
+                    onClick={() => { void handleSignOut(); }}
+                    type="button"
                   >
-                    <CreditCardIcon className="size-3.5" />
-                    Manage payments
-                  </DropdownMenuItem>
-                ) : (
-                  <DropdownMenuItem
-                    className="cursor-pointer px-2 py-2 text-[12px] text-white/72 focus:bg-white/8 focus:text-white"
-                    onClick={() => void openBilling("/api/stripe/checkout")}
-                  >
-                    <CrownIcon className="size-3.5" />
-                    Upgrade to Pro
-                  </DropdownMenuItem>
-                )}
-                <DropdownMenuItem
-                  className="cursor-pointer px-2 py-2 text-[12px] text-white/72 focus:bg-white/8 focus:text-white"
-                  onClick={() => {
-                    void handleSignOut();
-                  }}
-                >
-                  <LogOutIcon className="size-3.5" />
-                  Log out
-                </DropdownMenuItem>
+                    <LogOutIcon className="size-3.5 shrink-0" />
+                    Log out
+                  </button>
+                </div>
               </DropdownMenuContent>
             </DropdownMenu>
-          </div>
-        ) : null}
+          ) : null}
+        </div>
 
         {/* ── Left: Workspace panel ── */}
         <aside
@@ -1440,22 +1486,25 @@ export function StratMapShell({
         {/* ── Middle: transparent — map shows through ── */}
         <div className="flex-1" />
 
-        {/* ── Right: Strategist panel ── fixed width so the chat input/messages
-             can never push the panel wider than its slot. */}
-        <div className="pointer-events-auto flex h-full w-[26rem] shrink-0">
-          <ChatPanel
-            accessMode={accessMode}
-            isPro={isPro}
-            onBlockedChat={() => setGateDialogOpen(true)}
-            onUpgrade={() => void openBilling("/api/stripe/checkout")}
-            onSelectFile={(path) => {
-              void loadFile(path);
-            }}
-            onWorkspaceRefresh={refreshWorkspace}
-            projectId={projectId}
-            selectedPath={selectedFile.path}
-          />
-        </div>
+        {/* ── Right: Strategist panel — shown only when toggled open ── */}
+        {chatOpen ? (
+          <div className="pointer-events-auto flex h-full w-[26rem] shrink-0 flex-col gap-1.5">
+            {/* Spacer: cluster is top-6 (24px) + h-9 (36px) = 60px; panel starts at p-3 (12px) → 48px offset */}
+            <div className="h-12 shrink-0" />
+            <div className="min-h-0 flex-1">
+              <ChatPanel
+                accessMode={accessMode}
+                isPro={isPro}
+                onBlockedChat={() => setGateDialogOpen(true)}
+                onUpgrade={() => void openBilling("/api/stripe/checkout")}
+                onSelectFile={(path) => { void loadFile(path); }}
+                onWorkspaceRefresh={refreshWorkspace}
+                projectId={projectId}
+                selectedPath={selectedFile.path}
+              />
+            </div>
+          </div>
+        ) : null}
       </div>
 
       {isOwnerMode && !currentProject.onboardingComplete ? (
@@ -1467,53 +1516,103 @@ export function StratMapShell({
       ) : null}
 
       <Dialog open={shareDialogOpen} onOpenChange={setShareDialogOpen}>
-        <DialogContent className="border border-white/12 bg-[#071018] text-white shadow-[0_28px_90px_rgba(0,0,0,0.55)]">
+        <DialogContent className="max-w-md rounded-[10px] border-white/12 bg-[oklch(0.11_0.015_231)] p-7 text-white shadow-[0_32px_100px_rgba(0,0,0,0.6)]">
           <DialogHeader>
-            <DialogTitle>Share this stratbook</DialogTitle>
-            <DialogDescription className="text-white/45">
-              Anyone with the link can browse the map and files. Editing and chat stay locked until
-              they sign up and fork their own copy.
+            <DialogTitle className="text-[16px] font-semibold tracking-tight text-white/92">
+              Share this stratbook
+            </DialogTitle>
+            <DialogDescription className="text-[12.5px] leading-relaxed text-white/45">
+              Anyone with the link can browse the map and files. Editing and chat stay locked until they fork their own copy.
             </DialogDescription>
           </DialogHeader>
 
-          {shareUrl ? (
-            <div className="rounded-xl border border-white/10 bg-white/[0.04] p-2">
-              <p className="truncate font-mono text-xs text-white/70">{shareUrl}</p>
-            </div>
-          ) : (
-            <div className="rounded-xl border border-dashed border-white/12 bg-white/[0.03] p-4 text-xs leading-relaxed text-white/45">
-              Create a public read-only link for this notebook.
-            </div>
-          )}
+          {(() => {
+            const isPublic = Boolean(currentProject.sharing?.isPublic);
+            return (
+              <>
+                {/* Public/Private toggle row */}
+                <div className="mt-5 flex items-center justify-between rounded-[7px] border border-white/12 bg-white/[0.03] px-4 py-3.5">
+                  <div className="min-w-0">
+                    <p className="text-[13px] font-medium text-white/88">
+                      {isPublic ? "Public link is on" : "Private"}
+                    </p>
+                    <p className="mt-0.5 text-[11.5px] leading-relaxed text-white/42">
+                      {isPublic
+                        ? "Anyone with the link can view this stratbook."
+                        : "Only you can access this stratbook."}
+                    </p>
+                  </div>
+                  <button
+                    aria-checked={isPublic}
+                    aria-label="Toggle public sharing"
+                    className={cn(
+                      "relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors disabled:opacity-60",
+                      isPublic ? "bg-teal-400" : "bg-white/15"
+                    )}
+                    disabled={isCreatingShare}
+                    onClick={() => void (isPublic ? handleDisableShare() : handleCreateShare())}
+                    role="switch"
+                    type="button"
+                  >
+                    <span
+                      className={cn(
+                        "inline-block size-5 rounded-full bg-white shadow-[0_2px_6px_rgba(0,0,0,0.25)] transition-transform",
+                        isPublic ? "translate-x-[1.375rem]" : "translate-x-0.5"
+                      )}
+                    />
+                  </button>
+                </div>
 
-          {shareError ? (
-            <p className="rounded-lg border border-rose-400/18 bg-rose-500/8 px-3 py-2 text-xs text-rose-200/80">
-              {shareError}
-            </p>
-          ) : null}
+                {/* Link readout — only when public and we have a URL */}
+                {isPublic && shareUrl ? (
+                  <div className="mt-3 flex items-center gap-2 rounded-[7px] border border-white/12 bg-white/[0.04] py-2 pl-3 pr-2">
+                    <p className="min-w-0 flex-1 truncate font-mono text-[12px] text-white/72">
+                      {shareUrl}
+                    </p>
+                    <button
+                      className="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-[6px] bg-white/[0.08] px-2.5 text-[11.5px] font-medium text-white/85 transition-colors hover:bg-white/[0.14]"
+                      onClick={() => void handleCopyShareUrl()}
+                      type="button"
+                    >
+                      {copiedShareUrl ? (
+                        <CheckIcon className="size-3.5 text-teal-300" />
+                      ) : (
+                        <CopyIcon className="size-3.5" />
+                      )}
+                      {copiedShareUrl ? "Copied" : "Copy"}
+                    </button>
+                  </div>
+                ) : null}
 
-          <DialogFooter className="border-white/8 bg-white/[0.03]">
-            {shareUrl ? (
-              <Button
-                className="bg-white text-slate-950 hover:bg-white/90"
-                onClick={() => void handleCopyShareUrl()}
-                type="button"
-              >
-                <CopyIcon className="size-3.5" />
-                {copiedShareUrl ? "Copied" : "Copy link"}
-              </Button>
-            ) : (
-              <Button
-                className="bg-teal-300 text-slate-950 hover:bg-teal-200"
-                disabled={isCreatingShare}
-                onClick={() => void handleCreateShare()}
-                type="button"
-              >
-                {isCreatingShare ? <Loader2Icon className="size-3.5 animate-spin" /> : <Share2Icon className="size-3.5" />}
-                Create public link
-              </Button>
-            )}
-          </DialogFooter>
+                {shareError ? (
+                  <div className="mt-3 flex items-start gap-2 rounded-[7px] border border-rose-400/18 bg-rose-500/8 px-3 py-2.5 text-[12px] text-rose-100/85">
+                    <AlertCircleIcon className="mt-0.5 size-3.5 shrink-0" />
+                    {shareError}
+                  </div>
+                ) : null}
+
+                <DialogFooter className="-mx-0 -mb-0 mt-6 gap-2 border-none bg-transparent p-0 sm:flex-row sm:justify-end">
+                  <button
+                    className="inline-flex h-[42px] items-center justify-center gap-2 rounded-[7px] border border-white/[0.13] bg-transparent px-5 text-[13.5px] font-medium tracking-[0.01em] text-white/65 transition-all duration-150 hover:bg-white/[0.055] hover:text-white/85"
+                    onClick={() => setShareDialogOpen(false)}
+                    type="button"
+                  >
+                    Done
+                  </button>
+                  {isPublic && shareUrl ? (
+                    <button
+                      className="inline-flex h-[42px] items-center justify-center gap-2 rounded-[7px] bg-[#5eead4] px-5 text-[13.5px] font-semibold tracking-[0.01em] text-[#04060b] transition-all duration-150 hover:-translate-y-px hover:bg-[#99f6e4] hover:shadow-[0_10px_28px_-8px_rgba(94,234,212,0.33)] disabled:cursor-not-allowed disabled:opacity-60"
+                      onClick={() => void handleCopyShareUrl()}
+                      type="button"
+                    >
+                      {copiedShareUrl ? <CheckIcon className="size-4" /> : <CopyIcon className="size-4" />}
+                      {copiedShareUrl ? "Copied" : "Copy link"}
+                    </button>
+                  ) : null}
+                </DialogFooter>
+              </>
+            );
+          })()}
         </DialogContent>
       </Dialog>
 
