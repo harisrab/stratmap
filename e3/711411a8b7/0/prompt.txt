@@ -1,0 +1,11 @@
+After the note is created, or the marker is created, usually, creates a note and, usually, the note is empty. And if the is empty, you should show something, like a placeholder text, in the left sidebar for it. Not like a text, but like, some nice thing. That encourage the encourage the encourages the user to ask question in the strategist or asks the user to edit it. To add content.
+
+Secondly, in a map, I can change the base map. So the base map theme, I can change it to any of the other colors, and when I change that, it should persist that about the, it should persist that for that particular notebook, and when the user generates the cover, it should remember what base image was used or the theme was used, and it should use that theme when generating the cover as well.
+
+---
+
+When I say the note is empty, it might just have a heading, but no content. In that case, I want to have like a placeholder.
+
+---
+
+The map theme is not persisting. I change the theme and I reload the page, it comes back to the same one.
