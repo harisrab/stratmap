@@ -1,0 +1,25 @@
+{
+  "cli_version": "0.5.6",
+  "checkpoint_id": "7880f3f9a27c",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "src/app/favicon.ico"
+  ],
+  "sessions": [
+    {
+      "metadata": "/78/80f3f9a27c/0/metadata.json",
+      "transcript": "/78/80f3f9a27c/0/full.jsonl",
+      "content_hash": "/78/80f3f9a27c/0/content_hash.txt",
+      "prompt": ""
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 0,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "output_tokens": 0,
+    "api_call_count": 0
+  }
+}
