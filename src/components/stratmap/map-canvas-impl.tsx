@@ -87,6 +87,38 @@ function newLayerId() {
   return globalThis.crypto?.randomUUID?.() ?? `layer-${Date.now()}`;
 }
 
+function NavBtn({
+  active,
+  children,
+  label,
+  onClick,
+}: {
+  active?: boolean;
+  children: React.ReactNode;
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <div className="group relative">
+      <button
+        aria-label={label}
+        className={`flex size-9 items-center justify-center rounded-full border backdrop-blur-xl transition-colors ${
+          active
+            ? "border-teal-300/40 bg-teal-300/18 text-teal-50"
+            : "border-white/10 bg-[rgba(8,14,22,0.78)] text-white/70 hover:bg-[rgba(14,22,32,0.92)] hover:text-white"
+        }`}
+        onClick={onClick}
+        type="button"
+      >
+        {children}
+      </button>
+      <span className="pointer-events-none absolute left-11 top-1/2 z-50 -translate-y-1/2 whitespace-nowrap rounded-md border border-white/10 bg-[rgba(5,9,14,0.94)] px-2.5 py-1.5 text-[11px] text-white/80 opacity-0 shadow-lg backdrop-blur-xl transition-opacity delay-[60ms] group-hover:opacity-100">
+        {label}
+      </span>
+    </div>
+  );
+}
+
 function createMarkerElement(isSelected: boolean, isPending: boolean, label: string) {
   // Wrap pin + label in a flex container so the label sits beside the pin
   // rather than overlapping it. The pin keeps its existing 1.4rem size; the
@@ -477,6 +509,8 @@ export function MapCanvasImpl({
   const [markerTitle, setMarkerTitle] = useState("");
   const [draftLayer, setDraftLayer] = useState<StratMapLayer | null>(null);
   const [editPreviewLayer, setEditPreviewLayer] = useState<StratMapLayer | null>(null);
+  const [pinMode, setPinMode] = useState(false);
+  const pinModeRef = useRef(false);
   const sidebarOffset = sidebarWidth + 24;
   const visibleLayers = useMemo(
     () => {
@@ -499,11 +533,16 @@ export function MapCanvasImpl({
 
   useEffect(() => {
     activeLayerToolRef.current = activeLayerTool;
+    if (activeLayerTool) setPinMode(false);
   }, [activeLayerTool]);
 
   useEffect(() => {
     draftLayerRef.current = draftLayer;
   }, [draftLayer]);
+
+  useEffect(() => {
+    pinModeRef.current = pinMode;
+  }, [pinMode]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -616,7 +655,7 @@ export function MapCanvasImpl({
             setCopied(false);
           });
 
-          map.on("click", () => setContextMenu(null));
+          map.on("click", () => { if (!pinModeRef.current) setContextMenu(null); });
           map.on("drag", () => setContextMenu(null));
           map.on("zoom", () => setContextMenu(null));
         }
@@ -883,6 +922,36 @@ export function MapCanvasImpl({
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [activeLayerTool, decorative, onCancelLayerTool, onCreateLayer, ready]);
+
+  // ── pin placement mode ──────────────────────────────────────────────────────
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !ready || decorative || !pinMode) return;
+
+    const canvas = map.getCanvas();
+    const previousCursor = canvas.style.cursor;
+    canvas.style.cursor = "crosshair";
+
+    const handleClick = (e: mapboxgl.MapMouseEvent) => {
+      setContextMenu({ lat: e.lngLat.lat, lng: e.lngLat.lng, x: e.point.x, y: e.point.y });
+      setIsNamingMarker(true);
+      setMarkerTitle("");
+      setShowThemes(false);
+      setCopied(false);
+    };
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setPinMode(false);
+    };
+
+    map.on("click", handleClick);
+    window.addEventListener("keydown", handleKey);
+
+    return () => {
+      canvas.style.cursor = previousCursor;
+      map.off("click", handleClick);
+      window.removeEventListener("keydown", handleKey);
+    };
+  }, [pinMode, ready, decorative]);
 
   // ── editable layer handles ──────────────────────────────────────────────────
   useEffect(() => {
@@ -1191,73 +1260,32 @@ export function MapCanvasImpl({
         >
           {onBeginLayerTool ? (
             <>
-              <button
-                aria-label="Draw polygon"
-                className={`flex size-9 items-center justify-center rounded-full border backdrop-blur-xl transition-colors ${
-                  activeLayerTool === "polygon"
-                    ? "border-teal-300/40 bg-teal-300/18 text-teal-50"
-                    : "border-white/10 bg-[rgba(8,14,22,0.78)] text-white/70 hover:bg-[rgba(14,22,32,0.92)] hover:text-white"
-                }`}
-                onClick={() => onBeginLayerTool("polygon")}
-                title="Draw polygon"
-                type="button"
-              >
+              <NavBtn active={activeLayerTool === "polygon"} label="Draw polygon" onClick={() => { onBeginLayerTool("polygon"); setPinMode(false); }}>
                 <PentagonIcon className="size-4" />
-              </button>
-              <button
-                aria-label="Draw line"
-                className={`flex size-9 items-center justify-center rounded-full border backdrop-blur-xl transition-colors ${
-                  activeLayerTool === "line"
-                    ? "border-teal-300/40 bg-teal-300/18 text-teal-50"
-                    : "border-white/10 bg-[rgba(8,14,22,0.78)] text-white/70 hover:bg-[rgba(14,22,32,0.92)] hover:text-white"
-                }`}
-                onClick={() => onBeginLayerTool("line")}
-                title="Draw line"
-                type="button"
-              >
+              </NavBtn>
+              <NavBtn active={activeLayerTool === "line"} label="Draw line" onClick={() => { onBeginLayerTool("line"); setPinMode(false); }}>
                 <RouteIcon className="size-4" />
-              </button>
-              <button
-                aria-label="Draw range ring"
-                className={`flex size-9 items-center justify-center rounded-full border backdrop-blur-xl transition-colors ${
-                  activeLayerTool === "range-ring"
-                    ? "border-teal-300/40 bg-teal-300/18 text-teal-50"
-                    : "border-white/10 bg-[rgba(8,14,22,0.78)] text-white/70 hover:bg-[rgba(14,22,32,0.92)] hover:text-white"
-                }`}
-                onClick={() => onBeginLayerTool("range-ring")}
-                title="Draw range ring"
-                type="button"
-              >
+              </NavBtn>
+              <NavBtn active={activeLayerTool === "range-ring"} label="Draw range ring" onClick={() => { onBeginLayerTool("range-ring"); setPinMode(false); }}>
                 <CircleDotDashedIcon className="size-4" />
-              </button>
+              </NavBtn>
+              {onAddMarker ? (
+                <NavBtn active={pinMode} label="Place marker" onClick={() => { setPinMode((p) => !p); onCancelLayerTool?.(); }}>
+                  <MapPinIcon className="size-4" />
+                </NavBtn>
+              ) : null}
               <div className="my-1 h-px w-9 bg-white/12" />
             </>
           ) : null}
-          <button
-            aria-label="Zoom in"
-            className="flex size-9 items-center justify-center rounded-full border border-white/10 bg-[rgba(8,14,22,0.78)] text-white/70 backdrop-blur-xl transition-colors hover:bg-[rgba(14,22,32,0.92)] hover:text-white"
-            onClick={navZoomIn}
-            type="button"
-          >
+          <NavBtn label="Zoom in" onClick={navZoomIn}>
             <PlusIcon className="size-4" />
-          </button>
-          <button
-            aria-label="Zoom out"
-            className="flex size-9 items-center justify-center rounded-full border border-white/10 bg-[rgba(8,14,22,0.78)] text-white/70 backdrop-blur-xl transition-colors hover:bg-[rgba(14,22,32,0.92)] hover:text-white"
-            onClick={navZoomOut}
-            type="button"
-          >
+          </NavBtn>
+          <NavBtn label="Zoom out" onClick={navZoomOut}>
             <MinusIcon className="size-4" />
-          </button>
-          <button
-            aria-label="Reset orientation"
-            className="flex size-9 items-center justify-center rounded-full border border-white/10 bg-[rgba(8,14,22,0.78)] text-white/70 backdrop-blur-xl transition-colors hover:bg-[rgba(14,22,32,0.92)] hover:text-white"
-            onClick={navResetNorth}
-            title="Reset to north"
-            type="button"
-          >
+          </NavBtn>
+          <NavBtn label="Reset north" onClick={navResetNorth}>
             <CompassIcon className="size-4" />
-          </button>
+          </NavBtn>
         </div>
       )}
 
