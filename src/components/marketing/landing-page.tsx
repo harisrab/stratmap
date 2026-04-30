@@ -872,11 +872,11 @@ function ExCard({ accent: cardAccent, ex, i }: { accent: string; ex: (typeof exa
         borderRadius: 10,
         display: "block",
         overflow: "hidden",
-        transform: hovered ? "translateY(-2px)" : "none",
+        // transform: hovered ? "translateY(-2px)" : "none",
         transition: "all 0.18s",
       }}
     >
-      <div style={{ aspectRatio: "16/9", background: "rgba(255,255,255,0.035)", overflow: "hidden", position: "relative" }}>
+      <div style={{ aspectRatio: "16/8.5", background: "rgba(255,255,255,0.035)", overflow: "hidden", position: "relative" }}>
         {/* eslint-disable-next-line @next/next/no-img-element -- Public generated cover endpoint; plain img keeps landing component dependency-free. */}
         <img
           alt={`${ex.title} map cover`}

@@ -178,7 +178,7 @@ function ProjectCard({ project, onChange }: { project: Project; onChange: () => 
       tabIndex={0}
     >
       {/* Cover image */}
-      <div className="relative aspect-[16/8] overflow-hidden bg-[#050a10]">
+      <div className="relative aspect-[16/8.5] overflow-hidden bg-[#050a10]">
         {coverFailed ? (
           <div className="size-full bg-[radial-gradient(ellipse_at_35%_40%,rgba(94,234,212,0.09),transparent_55%),linear-gradient(145deg,#07111a,#03060c)] bg-[size:44px_44px,auto] [background-image:radial-gradient(ellipse_at_35%_40%,rgba(94,234,212,0.09),transparent_55%),repeating-linear-gradient(90deg,rgba(255,255,255,0.028)_0px,rgba(255,255,255,0.028)_1px,transparent_1px,transparent_44px),repeating-linear-gradient(0deg,rgba(255,255,255,0.028)_0px,rgba(255,255,255,0.028)_1px,transparent_1px,transparent_44px),linear-gradient(145deg,#07111a,#03060c)]" />
         ) : (
@@ -335,7 +335,7 @@ function PublicCard({ listing }: { listing: PublicProjectListing }) {
       role="button"
       tabIndex={0}
     >
-      <div className="relative aspect-[16/8] overflow-hidden bg-[#050a10]">
+      <div className="relative aspect-[16/8.5] overflow-hidden bg-[#050a10]">
         {coverFailed ? (
           <div className="size-full bg-[radial-gradient(ellipse_at_35%_40%,rgba(94,234,212,0.09),transparent_55%),linear-gradient(145deg,#07111a,#03060c)]" />
         ) : (
@@ -529,7 +529,7 @@ export function ProjectHome({ personalProjects, publicProjects, userEmail }: Pro
 
                 {/* "New stratbook" ghost card */}
                 <button
-                  className="flex min-h-[15rem] flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-white/[0.085] bg-white/[0.01] py-8 text-white/24 transition-all hover:border-white/[0.18] hover:bg-white/[0.025] hover:text-teal-200/70"
+                  className="flex min-h-[15rem] flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-white/[0.085] bg-white/[0.01] py-8 text-white/24 transition-all hover:border-white/[0.18] hover:bg-white/[0.025] hover:text-teal-200/70"
                   onClick={openDialog}
                   type="button"
                 >
