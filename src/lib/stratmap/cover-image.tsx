@@ -42,7 +42,7 @@ function wrapCoverTitle(title: string) {
   let currentLine = "";
   for (const word of words) {
     const nextLine = currentLine ? `${currentLine} ${word}` : word;
-    if (nextLine.length > 22 && currentLine) {
+    if (nextLine.length > 27 && currentLine) {
       lines.push(currentLine);
       currentLine = word;
       continue;
@@ -96,7 +96,7 @@ export async function renderCoverImage({ height, image, title, width }: CoverIma
         <div
           style={{
             background:
-              "linear-gradient(90deg, rgba(2,6,10,0.9) 0%, rgba(2,6,10,0.4) 48%, rgba(2,6,10,0) 100%)",
+              "linear-gradient(90deg, rgba(2,6,10,0.78) 0%, rgba(2,6,10,0.28) 46%, rgba(2,6,10,0) 100%)",
             height: "100%",
             left: 0,
             position: "absolute",
@@ -107,7 +107,7 @@ export async function renderCoverImage({ height, image, title, width }: CoverIma
         <div
           style={{
             background:
-              "linear-gradient(180deg, rgba(2,6,10,0) 0%, rgba(2,6,10,0.3) 62%, rgba(2,6,10,0.74) 100%)",
+              "linear-gradient(180deg, rgba(2,6,10,0) 0%, rgba(2,6,10,0.16) 64%, rgba(2,6,10,0.52) 100%)",
             height: "100%",
             left: 0,
             position: "absolute",
@@ -118,7 +118,7 @@ export async function renderCoverImage({ height, image, title, width }: CoverIma
         <div
           style={{
             background:
-              "radial-gradient(circle at 50% 42%, rgba(2,6,10,0) 46%, rgba(2,6,10,0.56) 100%)",
+              "radial-gradient(circle at 50% 42%, rgba(2,6,10,0) 48%, rgba(2,6,10,0.36) 100%)",
             height: "100%",
             left: 0,
             position: "absolute",
@@ -140,14 +140,37 @@ export async function renderCoverImage({ height, image, title, width }: CoverIma
             style={{
               display: "flex",
               fontFamily: "Geist",
-              fontSize: 25,
+              fontSize: 26,
               fontWeight: 700,
+              height: 28,
               lineHeight: 1,
+              position: "relative",
               textShadow: "0 1px 10px rgba(2, 6, 10, 0.64)",
+              width: 130,
             }}
           >
-            <span style={{ color: "#5eead4" }}>Strat</span>
-            <span>book</span>
+            <div
+              style={{
+                color: "#f8fafc",
+                display: "flex",
+                left: 0,
+                position: "absolute",
+                top: 0,
+              }}
+            >
+              Stratbook
+            </div>
+            <div
+              style={{
+                color: "#5eead4",
+                display: "flex",
+                left: 0,
+                position: "absolute",
+                top: 0,
+              }}
+            >
+              Strat
+            </div>
           </div>
           <div
             style={{
@@ -158,8 +181,8 @@ export async function renderCoverImage({ height, image, title, width }: CoverIma
               fontWeight: 400,
               gap: 8,
               lineHeight: 1,
-              marginTop: 38,
-              maxWidth: 650,
+              marginTop: 32,
+              maxWidth: 740,
               textShadow: "0 2px 18px rgba(2, 6, 10, 0.58)",
             }}
           >
