@@ -7,6 +7,8 @@ import Image from "next/image";
 const accent = "#5eead4";
 const ctaLabel = "Create your map";
 const authHref = "/auth";
+const dashboardHref = "/app";
+const dashboardLabel = "Go to dashboard";
 
 type AccentProps = { accent?: string };
 
@@ -260,7 +262,15 @@ function MapScene({ accent: sceneAccent = accent }: AccentProps) {
   );
 }
 
-function Nav({ accent: navAccent, ctaLabel: navCtaLabel }: { accent: string; ctaLabel: string }) {
+function Nav({
+  accent: navAccent,
+  ctaLabel: navCtaLabel,
+  isAuthenticated = false,
+}: {
+  accent: string;
+  ctaLabel: string;
+  isAuthenticated?: boolean;
+}) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -317,31 +327,40 @@ function Nav({ accent: navAccent, ctaLabel: navCtaLabel }: { accent: string; cta
           </a>
         ))}
         <div style={{ background: "rgba(255,255,255,0.1)", height: 18, margin: "0 6px", width: 1 }} />
-        <a
-          href={authHref}
-          onMouseEnter={(event) => {
-            event.currentTarget.style.color = "rgba(255,255,255,0.85)";
-          }}
-          onMouseLeave={(event) => {
-            event.currentTarget.style.color = "rgba(255,255,255,0.48)";
-          }}
-          style={{
-            alignItems: "center",
-            borderRadius: 6,
-            color: "rgba(255,255,255,0.48)",
-            display: "inline-flex",
-            fontSize: 13,
-            height: 36,
-            padding: "0 14px",
-            transition: "color 0.15s",
-          }}
-        >
-          Sign in
-        </a>
-        <Btn accent={navAccent} href={authHref}>
-          <span className="landing-nav-cta-full">{navCtaLabel} →</span>
-          <span className="landing-nav-cta-short">Create →</span>
-        </Btn>
+        {isAuthenticated ? (
+          <Btn accent={navAccent} href={dashboardHref}>
+            <span className="landing-nav-cta-full">{dashboardLabel} →</span>
+            <span className="landing-nav-cta-short">Dashboard →</span>
+          </Btn>
+        ) : (
+          <>
+            <a
+              href={authHref}
+              onMouseEnter={(event) => {
+                event.currentTarget.style.color = "rgba(255,255,255,0.85)";
+              }}
+              onMouseLeave={(event) => {
+                event.currentTarget.style.color = "rgba(255,255,255,0.48)";
+              }}
+              style={{
+                alignItems: "center",
+                borderRadius: 6,
+                color: "rgba(255,255,255,0.48)",
+                display: "inline-flex",
+                fontSize: 13,
+                height: 36,
+                padding: "0 14px",
+                transition: "color 0.15s",
+              }}
+            >
+              Sign in
+            </a>
+            <Btn accent={navAccent} href={authHref}>
+              <span className="landing-nav-cta-full">{navCtaLabel} →</span>
+              <span className="landing-nav-cta-short">Create →</span>
+            </Btn>
+          </>
+        )}
       </div>
     </nav>
   );
@@ -815,47 +834,24 @@ const examples = exampleStratbooks;
 function Examples({ accent: examplesAccent }: { accent: string }) {
   return (
     <section className="landing-section" id="examples" style={{ padding: "110px 52px" }}>
-      <div style={{ margin: "0 auto", maxWidth: 1100 }}>
+      <div style={{ margin: "0 auto", maxWidth: 1280 }}>
         <div style={{ alignItems: "flex-end", display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "space-between", marginBottom: 44 }}>
           <div className="reveal">
             <p style={{ color: `${examplesAccent}88`, fontFamily: "monospace", fontSize: 10, letterSpacing: "0.26em", marginBottom: 14, textTransform: "uppercase" }}>Example stratbooks</p>
             <h2 style={{ color: "rgba(255,255,255,0.92)", fontFamily: "'EB Garamond',serif", fontSize: "clamp(28px,3.5vw,46px)", fontWeight: 400, letterSpacing: "-0.015em", lineHeight: 1.05 }}>
               Three live notebooks,
               <br />
-              <em style={{ color: `${examplesAccent}ee` }}>ready to fork.</em>
+              <em style={{ color: `${examplesAccent}ee` }}>ready to open.</em>
             </h2>
           </div>
           <Btn accent={examplesAccent} href={authHref} variant="ghost">
             Browse all →
           </Btn>
         </div>
-        <div className="landing-examples-grid" style={{ display: "grid", gap: 10, gridTemplateColumns: "repeat(3,1fr)" }}>
+        <div className="landing-examples-grid" style={{ display: "grid", gap: 18, gridTemplateColumns: "repeat(3,1fr)" }}>
           {examples.map((example, index) => (
             <ExCard accent={examplesAccent} ex={example} i={index} key={example.index} />
           ))}
-        </div>
-        <div
-          className="reveal d4"
-          style={{
-            alignItems: "center",
-            background: "linear-gradient(90deg,rgba(255,255,255,0.055),rgba(255,255,255,0.018))",
-            border: "1px solid rgba(255,255,255,0.08)",
-            borderRadius: 10,
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 16,
-            justifyContent: "space-between",
-            marginTop: 14,
-            padding: "18px 20px",
-          }}
-        >
-          <p style={{ color: "rgba(255,255,255,0.62)", fontSize: 13.5, lineHeight: 1.5, margin: 0 }}>
-            Start with a live notebook, fork it into your workspace, then ask the Strategist
-            what matters next.
-          </p>
-          <Btn accent={examplesAccent} href={authHref}>
-            Fork an example →
-          </Btn>
         </div>
       </div>
     </section>
@@ -873,7 +869,7 @@ function ExCard({ accent: cardAccent, ex, i }: { accent: string; ex: (typeof exa
       style={{
         background: hovered ? "rgba(255,255,255,0.025)" : "rgba(255,255,255,0.01)",
         border: `1px solid ${hovered ? "rgba(255,255,255,0.11)" : "rgba(255,255,255,0.06)"}`,
-        borderRadius: 8,
+        borderRadius: 10,
         display: "block",
         overflow: "hidden",
         transform: hovered ? "translateY(-2px)" : "none",
@@ -885,26 +881,26 @@ function ExCard({ accent: cardAccent, ex, i }: { accent: string; ex: (typeof exa
         <img
           alt={`${ex.title} map cover`}
           src={`/api/shares/${ex.shareId}/cover?v=${getExampleVersion(ex)}`}
-          style={{ height: "100%", objectFit: "cover", opacity: 0.86, width: "100%" }}
+          style={{ height: "100%", objectFit: "cover", opacity: 0.92, width: "100%" }}
         />
-        <div style={{ background: "linear-gradient(180deg,transparent,rgba(4,6,11,0.62))", inset: 0, position: "absolute" }} />
+        <div style={{ background: "linear-gradient(180deg,transparent 55%,rgba(4,6,11,0.72))", inset: 0, position: "absolute" }} />
       </div>
-      <div style={{ padding: "18px 20px" }}>
-        <div style={{ display: "flex", gap: 5, marginBottom: 10 }}>
+      <div style={{ padding: "20px 22px 18px" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 12 }}>
           {ex.tags.map((tag) => (
             <span key={tag} style={{ border: "1px solid rgba(255,255,255,0.07)", borderRadius: 4, color: "rgba(255,255,255,0.35)", fontSize: 10, letterSpacing: "0.04em", padding: "2px 7px" }}>
               {tag}
             </span>
           ))}
         </div>
-        <div style={{ alignItems: "center", display: "flex", gap: 8, marginBottom: 6 }}>
+        <div style={{ alignItems: "center", display: "flex", gap: 8, marginBottom: 8 }}>
           <span style={{ background: ex.dot, borderRadius: "50%", boxShadow: `0 0 5px ${ex.dot}80`, flexShrink: 0, height: 5, width: 5 }} />
-          <h3 style={{ color: "rgba(255,255,255,0.78)", fontSize: 13.5, fontWeight: 500 }}>{ex.title}</h3>
+          <h3 style={{ color: "rgba(255,255,255,0.82)", fontSize: 14.5, fontWeight: 500 }}>{ex.title}</h3>
         </div>
-        <p style={{ color: "rgba(255,255,255,0.28)", fontSize: 12, lineHeight: 1.55, marginBottom: 12 }}>{ex.blurb}</p>
-        <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", justifyContent: "space-between", paddingTop: 10 }}>
-          <span style={{ color: "rgba(255,255,255,0.22)", fontFamily: "monospace", fontSize: 10 }}>{ex.pins} pins · markdown</span>
-          <span style={{ color: `${cardAccent}bb`, fontSize: 12, fontWeight: 500 }}>Open →</span>
+        <p style={{ color: "rgba(255,255,255,0.32)", fontSize: 12.5, lineHeight: 1.55, marginBottom: 14 }}>{ex.blurb}</p>
+        <div style={{ alignItems: "center", borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", justifyContent: "space-between", paddingTop: 12 }}>
+          <span style={{ color: "rgba(255,255,255,0.24)", fontFamily: "monospace", fontSize: 10 }}>{ex.pins} pins · markdown</span>
+          <span style={{ color: `${cardAccent}cc`, fontSize: 12, fontWeight: 500 }}>Open →</span>
         </div>
       </div>
     </a>
@@ -1132,12 +1128,12 @@ function Footer({ accent: footerAccent }: { accent: string }) {
   );
 }
 
-export function LandingPage() {
+export function LandingPage({ isAuthenticated = false }: { isAuthenticated?: boolean }) {
   useReveal();
 
   return (
     <main className="stratbook-landing" style={{ background: "#04060b", color: "rgba(255,255,255,0.85)", minHeight: "100vh", overflowX: "hidden" }}>
-      <Nav accent={accent} ctaLabel={ctaLabel} />
+      <Nav accent={accent} ctaLabel={ctaLabel} isAuthenticated={isAuthenticated} />
       <Hero accent={accent} ctaLabel={ctaLabel} />
       <ProofStrip accent={accent} />
       <Features accent={accent} />

@@ -5,7 +5,7 @@ type WordmarkProps = {
 
 export function Wordmark({ className = "", size = "md" }: WordmarkProps) {
   const textSize =
-    size === "sm" ? "text-[15px]" : size === "lg" ? "text-[22px]" : "text-[17px]";
+    size === "sm" ? "text-[15px]" : size === "lg" ? "text-[20px]" : "text-[17px]";
 
   return (
     <span className={`${textSize} font-bold leading-none tracking-tight ${className}`}>

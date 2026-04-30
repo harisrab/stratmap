@@ -24,17 +24,27 @@ export async function generateMetadata({
     const proto = headersList.get("x-forwarded-proto") ?? "http";
     const host = headersList.get("x-forwarded-host") ?? headersList.get("host") ?? "localhost:3000";
     const origin = `${proto}://${host}`;
-    const imageUrl = `${origin}/api/shares/${encodeURIComponent(shareId)}/cover?v=ir-title-v2`;
+    const shareUrl = `${origin}/s/${encodeURIComponent(shareId)}`;
+    const imageUrl = `${origin}/api/shares/${encodeURIComponent(shareId)}/cover?v=ir-light-title-v3`;
     const title = `${project.name} | Stratbook`;
     const description = project.description || "A public map-first stratbook.";
 
     return {
+      alternates: {
+        canonical: shareUrl,
+      },
       description,
       openGraph: {
         description,
         images: [{ height: 630, url: imageUrl, width: 1200 }],
+        siteName: "Stratbook",
         title,
         type: "article",
+        url: shareUrl,
+      },
+      robots: {
+        follow: true,
+        index: true,
       },
       title,
       twitter: {

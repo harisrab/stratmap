@@ -2,9 +2,12 @@ import { ProjectHome } from "@/components/stratmap/project-home";
 import { MapCanvas } from "@/components/stratmap/map-canvas";
 import { getCurrentUser } from "@/lib/auth";
 import { hasSupabaseStorageConfig } from "@/lib/env";
-import { ensureExampleStratbooks, ensurePublicExampleStratbooks, listProjects } from "@/lib/stratmap/workspace";
+import { exampleStratbooks } from "@/lib/stratmap/example-stratbooks";
+import { ensurePublicExampleStratbooks, listProjects, listPublicProjects } from "@/lib/stratmap/workspace";
 import { DatabaseZapIcon } from "lucide-react";
 import { redirect } from "next/navigation";
+
+const exampleProjectIds = new Set(exampleStratbooks.map((example) => example.id));
 
 function SupabaseSetupScreen() {
   return (
@@ -55,16 +58,29 @@ export default async function AppHome() {
     redirect("/auth");
   }
 
-  let projects;
+  let personalProjects;
+  let publicProjects;
   try {
-    await Promise.all([
-      ensureExampleStratbooks(user.id),
-      ensurePublicExampleStratbooks(),
+    await ensurePublicExampleStratbooks();
+    const [allUserProjects, allPublic] = await Promise.all([
+      listProjects(user.id),
+      listPublicProjects(),
     ]);
-    projects = await listProjects(user.id);
+    // Filter legacy seeded examples out of the user's library — examples now
+    // live in the community pool.
+    personalProjects = allUserProjects.filter((project) => !exampleProjectIds.has(project.id));
+    // A user's own public notebooks already appear above with a Public badge;
+    // don't double-list them in Community.
+    publicProjects = allPublic.filter((listing) => listing.ownerId !== user.id);
   } catch {
     return <SupabaseSetupScreen />;
   }
 
-  return <ProjectHome projects={projects} userEmail={user.email ?? "Signed in"} />;
+  return (
+    <ProjectHome
+      personalProjects={personalProjects}
+      publicProjects={publicProjects}
+      userEmail={user.email ?? "Signed in"}
+    />
+  );
 }

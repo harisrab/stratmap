@@ -8,6 +8,7 @@ import { nanoid } from "nanoid";
 import { createHash } from "node:crypto";
 import path from "node:path";
 
+import { MAX_PROJECT_NAME_LENGTH } from "./constants";
 import { renderCoverImage } from "./cover-image";
 import {
   EXAMPLE_PUBLIC_OWNER_ID,
@@ -56,7 +57,7 @@ const DEFAULT_FILE_NAME = "notes/welcome.md";
 const LAYERS_FILE_NAME = "layers/stratbook-layers.json";
 const COVER_IMAGE_HEIGHT = 630;
 const COVER_IMAGE_WIDTH = 1200;
-const COVER_IMAGE_STYLE_VERSION = "image-response-title-v1";
+const COVER_IMAGE_STYLE_VERSION = "image-response-dark-scrim-v4";
 const SHARE_MANIFEST_PREFIX = "_public/shares";
 export const STRATEGIST_MONTHLY_MESSAGE_LIMIT = 500;
 
@@ -76,6 +77,17 @@ function validateOwnerId(id: string): void {
   if (!id || !/^[a-zA-Z0-9_-]{1,128}$/.test(id)) {
     throw new Error("Invalid owner ID.");
   }
+}
+
+function validateProjectName(name: string): string {
+  const trimmed = name.trim();
+  if (!trimmed) throw new Error("Project name is required.");
+  if (trimmed.length > MAX_PROJECT_NAME_LENGTH) {
+    throw new Error(
+      `Project name must be ${MAX_PROJECT_NAME_LENGTH} characters or fewer.`
+    );
+  }
+  return trimmed;
 }
 
 function projectStoragePrefix(ownerId: string, projectId?: string) {
@@ -502,6 +514,11 @@ async function writeProjectJson(ownerId: string, project: Project): Promise<void
   );
 }
 
+async function touchProjectUpdatedAt(ownerId: string, projectId: string): Promise<void> {
+  const project = await readProjectJson(ownerId, projectId);
+  await writeProjectJson(ownerId, { ...project, updatedAt: new Date().toISOString() });
+}
+
 export interface ChatUsageSnapshot {
   count: number;
   limit: number;
@@ -761,6 +778,7 @@ async function seedExampleProject(
     id: example.id,
     name: example.title,
     onboardingComplete: true,
+    updatedAt: now,
     ...(options.publicShare
       ? {
           sharing: {
@@ -870,12 +888,14 @@ export async function createProject(input: {
   if (!hasSupabaseStorageConfig()) throw new SupabaseNotConfiguredError();
   validateOwnerId(input.ownerId);
 
+  const now = new Date().toISOString();
   const project: Project = {
+    createdAt: now,
     id: nanoid(10),
-    name: input.name.trim(),
+    name: validateProjectName(input.name),
     description: input.description?.trim() || undefined,
-    createdAt: new Date().toISOString(),
     onboardingComplete: false,
+    updatedAt: now,
   };
 
   await writeProjectJson(input.ownerId, project);
@@ -912,7 +932,11 @@ export async function updateProject(
   if (!hasSupabaseStorageConfig()) throw new SupabaseNotConfiguredError();
   validateProjectId(projectId);
   const current = await readProjectJson(ownerId, projectId);
-  const updated: Project = { ...current, ...updates };
+  const sanitized: typeof updates = { ...updates };
+  if (typeof sanitized.name === "string") {
+    sanitized.name = validateProjectName(sanitized.name);
+  }
+  const updated: Project = { ...current, ...sanitized, updatedAt: new Date().toISOString() };
   await writeProjectJson(ownerId, updated);
   return updated;
 }
@@ -1001,11 +1025,94 @@ export async function createProjectShare(ownerId: string, projectId: string): Pr
       createdAt: current.sharing?.createdAt ?? now,
       updatedAt: now,
     },
+    updatedAt: now,
   };
 
   await Promise.all([writeProjectJson(ownerId, updated), writeShareManifestJson(manifest)]);
   const projectWithCover = await generateProjectCoverImage(ownerId, projectId);
   return { manifest, project: projectWithCover };
+}
+
+export async function deleteProject(ownerId: string, projectId: string): Promise<void> {
+  if (!hasSupabaseStorageConfig()) throw new SupabaseNotConfiguredError();
+  validateOwnerId(ownerId);
+  validateProjectId(projectId);
+
+  const supabase = getSupabaseClient();
+  const { bucket } = getSupabaseConfig();
+
+  // Read the project first so we can revoke the share manifest if needed.
+  // If project.json itself is missing, treat the delete as already done rather
+  // than failing — partial-state cleanup shouldn't leave a card in the UI.
+  let shareId: string | undefined;
+  try {
+    const project = await readProjectJson(ownerId, projectId);
+    shareId = project.sharing?.shareId;
+  } catch {
+    // ignore — proceed with storage cleanup
+  }
+
+  const prefix = projectStoragePrefix(ownerId, projectId);
+  const entries = await storageListRecursive(prefix);
+  const paths = entries.map((entry) => entry.path);
+  if (paths.length > 0) {
+    // Supabase caps each remove() call at 1000 paths. Project file counts
+    // are well under that today, but chunk defensively.
+    for (let index = 0; index < paths.length; index += 500) {
+      const batch = paths.slice(index, index + 500);
+      const { error } = await supabase.storage.from(bucket).remove(batch);
+      if (error) throw error;
+    }
+  }
+
+  if (shareId) {
+    const { error } = await supabase.storage.from(bucket).remove([shareManifestPath(shareId)]);
+    if (error) throw error;
+  }
+}
+
+export interface PublicProjectListing {
+  ownerId: string;
+  project: Project;
+  shareId: string;
+}
+
+export async function listPublicProjects(): Promise<PublicProjectListing[]> {
+  if (!hasSupabaseStorageConfig()) throw new SupabaseNotConfiguredError();
+
+  const supabase = getSupabaseClient();
+  const { bucket } = getSupabaseConfig();
+  const { data, error } = await supabase.storage.from(bucket).list(SHARE_MANIFEST_PREFIX, {
+    limit: 1000,
+    sortBy: { column: "created_at", order: "desc" },
+  });
+  if (error) throw error;
+
+  const shareIds = (data ?? [])
+    .filter((entry) => entry.id !== null && entry.name.endsWith(".json"))
+    .map((entry) => entry.name.replace(/\.json$/, ""));
+
+  const results = await Promise.allSettled(
+    shareIds.map(async (shareId): Promise<PublicProjectListing | null> => {
+      const manifest = await readShareManifestJson(shareId);
+      if (manifest.revokedAt) return null;
+      const project = await readProjectJson(manifest.ownerId, manifest.projectId);
+      // The manifest is the source of truth for "is this share live"; the
+      // project flag tells us the owner hasn't unpublished it since.
+      if (!project.sharing?.isPublic || project.sharing.shareId !== shareId) return null;
+      return { ownerId: manifest.ownerId, project, shareId };
+    })
+  );
+
+  return results
+    .filter((r): r is PromiseFulfilledResult<PublicProjectListing | null> => r.status === "fulfilled")
+    .map((r) => r.value)
+    .filter((value): value is PublicProjectListing => value !== null)
+    .sort((a, b) => {
+      const aTime = new Date(a.project.updatedAt ?? a.project.createdAt).getTime();
+      const bTime = new Date(b.project.updatedAt ?? b.project.createdAt).getTime();
+      return bTime - aTime;
+    });
 }
 
 export async function getShareManifest(shareId: string): Promise<ShareManifest> {
@@ -1270,6 +1377,7 @@ export async function forkSharedProject(
     id: nanoid(10),
     name: `${sourceProject.name} (Fork)`,
     onboardingComplete: true,
+    updatedAt: now,
   };
 
   await writeProjectJson(targetOwnerId, forkedProject);
@@ -1299,6 +1407,7 @@ export async function writeWorkspaceFile(input: {
   validateOwnerId(input.ownerId);
   validateProjectId(input.projectId);
   await writeProjectFile(input.ownerId, input.projectId, input.path, input.content);
+  await touchProjectUpdatedAt(input.ownerId, input.projectId);
   return readWorkspaceFile(input.ownerId, input.projectId, input.path);
 }
 
@@ -1317,6 +1426,7 @@ export async function saveFileLocation(input: {
     ? setMarkdownGeo(existing, input.location)
     : setJsonGeo(existing, input.location);
   await writeProjectFile(input.ownerId, input.projectId, normalized, updated);
+  await touchProjectUpdatedAt(input.ownerId, input.projectId);
   return readWorkspaceFile(input.ownerId, input.projectId, normalized);
 }
 
@@ -1330,6 +1440,7 @@ export async function createWorkspaceFolder(
   validateProjectId(projectId);
   const normalized = normalizeWorkspacePath(folderPath);
   await storageUpload(`${projectStoragePrefix(ownerId, projectId)}/${normalized}/.gitkeep`, "", "text/plain; charset=utf-8");
+  await touchProjectUpdatedAt(ownerId, projectId);
 }
 
 export async function deleteWorkspaceFile(
@@ -1347,6 +1458,7 @@ export async function deleteWorkspaceFile(
     .from(bucket)
     .remove([`${projectStoragePrefix(ownerId, projectId)}/${normalized}`]);
   if (error) throw error;
+  await touchProjectUpdatedAt(ownerId, projectId);
 }
 
 export async function moveWorkspaceFile(input: {

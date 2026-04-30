@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, EB_Garamond } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { absoluteUrl, siteConfig } from "@/lib/site";
 import "./globals.css";
 // Imported here so it's guaranteed to be in the page before any MapCanvas useEffect runs.
 // The import in map-canvas-impl.tsx is reliable with Turbopack; with webpack the dynamic
@@ -20,9 +21,62 @@ const ebGaramond = EB_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Stratbook",
-  description:
-    "Stratbook is a strategic notebook anchored to the world — notes, pins, and an on-call Strategist over Supabase-backed storage.",
+  metadataBase: new URL(siteConfig.url),
+  applicationName: siteConfig.name,
+  authors: [{ name: "Stratbook" }],
+  category: "productivity",
+  creator: "Stratbook",
+  description: siteConfig.description,
+  keywords: [
+    "AI research workspace",
+    "OSINT map",
+    "geospatial notes",
+    "map-first notebook",
+    "geopolitical analysis",
+    "intelligence analysis",
+    "defense planning",
+    "spatial research",
+    "AI briefing tool",
+    "strategic notebook",
+  ],
+  openGraph: {
+    description: siteConfig.description,
+    images: [
+      {
+        alt: "Stratbook map-first AI research workspace",
+        height: 868,
+        url: siteConfig.ogImage,
+        width: 991,
+      },
+    ],
+    locale: "en_US",
+    siteName: siteConfig.name,
+    title: "Stratbook | Map-first AI research workspace",
+    type: "website",
+    url: absoluteUrl("/"),
+  },
+  publisher: "Stratbook",
+  robots: {
+    follow: true,
+    googleBot: {
+      follow: true,
+      index: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+    index: true,
+  },
+  title: {
+    default: "Stratbook | Map-first AI research workspace",
+    template: "%s | Stratbook",
+  },
+  twitter: {
+    card: "summary_large_image",
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+    title: "Stratbook | Map-first AI research workspace",
+  },
 };
 
 export default function RootLayout({

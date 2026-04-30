@@ -8,6 +8,7 @@ export interface Project {
   coverImage?: ProjectCoverImage;
   exampleVersion?: string;
   onboardingComplete: boolean;
+  updatedAt?: string;
   sharing?: ProjectSharing;
   forkedFrom?: ProjectForkSource;
 }

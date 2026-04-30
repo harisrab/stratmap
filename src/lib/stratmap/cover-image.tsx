@@ -42,7 +42,7 @@ function wrapCoverTitle(title: string) {
   let currentLine = "";
   for (const word of words) {
     const nextLine = currentLine ? `${currentLine} ${word}` : word;
-    if (nextLine.length > 27 && currentLine) {
+    if (nextLine.length > 34 && currentLine) {
       lines.push(currentLine);
       currentLine = word;
       continue;
@@ -93,10 +93,12 @@ export async function renderCoverImage({ height, image, title, width }: CoverIma
             width: "100%",
           }}
         />
+        {/* Top-down black scrim — strongest where the title sits, fully
+            transparent in the lower half so the map remains visible. */}
         <div
           style={{
             background:
-              "linear-gradient(90deg, rgba(2,6,10,0.78) 0%, rgba(2,6,10,0.28) 46%, rgba(2,6,10,0) 100%)",
+              "linear-gradient(180deg, rgba(2,6,10,0.82) 0%, rgba(2,6,10,0.55) 28%, rgba(2,6,10,0.18) 55%, rgba(2,6,10,0) 75%)",
             height: "100%",
             left: 0,
             position: "absolute",
@@ -104,10 +106,12 @@ export async function renderCoverImage({ height, image, title, width }: CoverIma
             width: "100%",
           }}
         />
+        {/* Left-to-right scrim — anchors the title side without darkening
+            the whole frame. */}
         <div
           style={{
             background:
-              "linear-gradient(180deg, rgba(2,6,10,0) 0%, rgba(2,6,10,0.16) 64%, rgba(2,6,10,0.52) 100%)",
+              "linear-gradient(90deg, rgba(2,6,10,0.45) 0%, rgba(2,6,10,0.18) 40%, rgba(2,6,10,0) 72%)",
             height: "100%",
             left: 0,
             position: "absolute",
@@ -115,10 +119,11 @@ export async function renderCoverImage({ height, image, title, width }: CoverIma
             width: "100%",
           }}
         />
+        {/* Subtle radial vignette to polish the edges. */}
         <div
           style={{
             background:
-              "radial-gradient(circle at 50% 42%, rgba(2,6,10,0) 48%, rgba(2,6,10,0.36) 100%)",
+              "radial-gradient(circle at 54% 44%, rgba(2,6,10,0) 58%, rgba(2,6,10,0.18) 100%)",
             height: "100%",
             left: 0,
             position: "absolute",
@@ -141,35 +146,19 @@ export async function renderCoverImage({ height, image, title, width }: CoverIma
               display: "flex",
               fontFamily: "Geist",
               fontSize: 26,
-              fontWeight: 700,
+              fontWeight: 800,
               height: 28,
               lineHeight: 1,
-              position: "relative",
               textShadow: "0 1px 10px rgba(2, 6, 10, 0.64)",
-              width: 130,
             }}
           >
             <div
               style={{
-                color: "#f8fafc",
                 display: "flex",
-                left: 0,
-                position: "absolute",
-                top: 0,
               }}
             >
-              Stratbook
-            </div>
-            <div
-              style={{
-                color: "#5eead4",
-                display: "flex",
-                left: 0,
-                position: "absolute",
-                top: 0,
-              }}
-            >
-              Strat
+              <span style={{ color: "#5eead4" }}>Strat</span>
+              <span style={{ color: "#f8fafc" }}>book</span>
             </div>
           </div>
           <div
@@ -181,8 +170,8 @@ export async function renderCoverImage({ height, image, title, width }: CoverIma
               fontWeight: 400,
               gap: 8,
               lineHeight: 1,
-              marginTop: 32,
-              maxWidth: 740,
+              marginTop: 24,
+              maxWidth: 820,
               textShadow: "0 2px 18px rgba(2, 6, 10, 0.58)",
             }}
           >

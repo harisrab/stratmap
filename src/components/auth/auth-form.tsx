@@ -366,7 +366,7 @@ function LeftPanel() {
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(4,6,11,0.55)_0%,transparent_30%,transparent_55%,rgba(4,6,11,0.88)_100%)]" />
 
       <Link className="absolute top-9 left-10 z-10" href="/">
-        <Wordmark />
+        <Wordmark size="lg" />
       </Link>
 
       <div className="absolute right-10 bottom-9 left-10 z-10">
@@ -631,7 +631,7 @@ export function AuthForm() {
           <div className="w-full max-w-[340px]">
             <div className="mb-8 flex items-center justify-between lg:hidden">
               <Link href="/">
-                <Wordmark />
+                <Wordmark size="lg" />
               </Link>
             </div>
 
