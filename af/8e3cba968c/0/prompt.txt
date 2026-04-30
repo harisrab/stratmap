@@ -1,0 +1,1 @@
+After cancelling the subscription, I still see that it's subscribed to the pro plan. In that case, I would like to, if someone cancels, it should cancel the subscription. It should not keep it active till the end of the month. That's not what should happen. It should just cancel it.
