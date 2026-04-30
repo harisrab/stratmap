@@ -7,6 +7,8 @@ import "./globals.css";
 // The import in map-canvas-impl.tsx is reliable with Turbopack; with webpack the dynamic
 // chunk's CSS can arrive after the effect fires, leaving the canvas with no dimensions.
 import "mapbox-gl/dist/mapbox-gl.css";
+import { Analytics } from "@vercel/analytics/next"
+
 
 const dmSans = DM_Sans({
   display: "swap",
@@ -88,6 +90,7 @@ export default function RootLayout({
     <html lang="en" className={`${dmSans.variable} ${ebGaramond.variable} h-full antialiased`}>
       <body className="min-h-full bg-[#04060b]">
         <TooltipProvider>{children}</TooltipProvider>
+        <Analytics />
       </body>
     </html>
   );
