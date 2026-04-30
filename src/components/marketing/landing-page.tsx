@@ -414,7 +414,7 @@ function Hero({ accent: heroAccent, ctaLabel: heroCtaLabel }: { accent: string; 
           </span>
         </div>
         <h1
-          className="reveal visible d1"
+          className="reveal visible d1 landing-hero-title"
           style={{
             color: "rgba(255,255,255,0.96)",
             fontFamily: "'EB Garamond',serif",
@@ -948,7 +948,7 @@ function Pricing({ accent: pricingAccent }: { accent: string; ctaLabel: string }
       <div style={{ background: "radial-gradient(ellipse 520px 250px at 50% 35%,rgba(255,255,255,0.13),rgba(255,255,255,0.035) 38%,transparent 72%)", height: 520, left: "50%", pointerEvents: "none", position: "absolute", top: 80, transform: "translateX(-50%)", width: 920 }} />
       <div style={{ margin: "0 auto", maxWidth: 1040, position: "relative", zIndex: 1 }}>
         <div className="reveal" style={{ margin: "0 auto 46px", maxWidth: 720, textAlign: "center" }}>
-          <h2 style={{ color: "rgba(255,255,255,0.96)", fontFamily: "'DM Sans',sans-serif", fontSize: "clamp(40px,5vw,64px)", fontWeight: 650, letterSpacing: "-0.055em", lineHeight: 1.04, marginBottom: 16 }}>
+          <h2 className="landing-pricing-title" style={{ color: "rgba(255,255,255,0.96)", fontFamily: "'DM Sans',sans-serif", fontSize: "clamp(40px,5vw,64px)", fontWeight: 650, letterSpacing: "-0.055em", lineHeight: 1.04, marginBottom: 16 }}>
             Simple and Affordable
             <br />
             Pricing Plans

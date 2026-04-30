@@ -634,6 +634,14 @@
     .stratbook-landing .landing-footer-grid {
       grid-template-columns: 1fr !important;
     }
+
+    .stratbook-landing .landing-hero-title {
+      font-size: 36px !important;
+    }
+
+    .stratbook-landing .landing-pricing-title {
+      font-size: 28px !important;
+    }
   }
 
   .mapboxgl-ctrl-attrib {
