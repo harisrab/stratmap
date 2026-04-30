@@ -1,0 +1,10 @@
+{
+  "type": "StratMap-Scenario",
+  "version": "1.0.0",
+  "id": "sudan-chad-displacement",
+  "name": "Sudan-Chad Displacement Corridor 2023-2024",
+  "description": "A displacement notebook tracing how violence in Darfur pushed civilians toward Chad, where border towns and camps became the key humanitarian geography.",
+  "assessment": "Humanitarian and disaster analysis",
+  "note": "notes/sudan-chad-displacement/overview.md",
+  "dataFile": "data/sudan-chad-displacement.json"
+}

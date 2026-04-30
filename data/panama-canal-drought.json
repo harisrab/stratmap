@@ -1,0 +1,445 @@
+{
+  "id": "demo-panama-canal-drought",
+  "type": "ORBAT-mapper",
+  "version": "2.5.0",
+  "meta": {
+    "createdDate": "2026-03-22T00:00:00.000Z",
+    "lastModifiedDate": "2026-03-22T00:00:00.000Z"
+  },
+  "name": "Panama Canal Drought 2023-2024",
+  "description": "An infrastructure notebook showing how drought conditions in Panama constrained canal transits, changed ship scheduling, and made the watershed itself part of the shipping story.",
+  "startTime": "2023-06-01T12:00:00.000Z",
+  "timeZone": "America/Panama",
+  "symbologyStandard": "app6",
+  "sides": [
+    {
+      "id": "canal-system",
+      "name": "Canal and watershed system",
+      "standardIdentity": "3",
+      "description": "The canal operator and watershed are inseparable in a drought year because water management becomes the core operational question.",
+      "groups": [
+        {
+          "id": "canal-authority",
+          "name": "Canal operator and water system",
+          "subUnits": [
+            {
+              "id": "panama-canal-authority",
+              "name": "Panama Canal Authority",
+              "shortName": "ACP",
+              "sidc": "10031000181216000000",
+              "description": "The authority had to translate low water into draft limits, transit caps, booking rules, and public guidance for global shipping.\n- Role: Water-constrained transit manager\n- Geographic anchor: Centered on the canal corridor itself, with special operational attention on Gatun Lake and the lock system.\n- Why it matters: It was the actor turning climate stress into operational limits that shippers could not ignore.\n- What to watch: Lake levels, transit caps, booking changes, and water-saving measures.",
+              "externalUrl": "https://pancanal.com/en/maritime-services/important-advisories/",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "panama-canal-authority-state-1",
+                  "t": "2023-06-01T12:00:00.000Z",
+                  "location": [
+                    -79.59,
+                    8.99
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "gatun-watershed",
+              "name": "Gatun Lake watershed system",
+              "shortName": "Gatun system",
+              "sidc": "10031000181216000000",
+              "description": "The watershed and lake levels determined how much water could be used for ship lockages and, by extension, how much transit capacity remained.\n- Role: Hydrologic constraint\n- Geographic anchor: Focused on Gatun Lake and the broader catchment feeding the canal.\n- Why it matters: It is the environmental engine behind every operational restriction described in the notebook.\n- What to watch: Rainfall deficits, lake elevation, and how water-saving measures change daily operations.",
+              "externalUrl": "https://pancanal.com/en/maritime-services/important-advisories/",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "gatun-watershed-state-1",
+                  "t": "2023-06-01T12:00:00.000Z",
+                  "location": [
+                    -79.92,
+                    9.2
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "shipping-demand",
+      "name": "Shipping demand",
+      "standardIdentity": "0",
+      "description": "Ships did not simply disappear when restrictions tightened; they queued, bid for slots, rerouted, or turned toward intermodal workarounds.",
+      "groups": [
+        {
+          "id": "carriers-and-exporters",
+          "name": "Ships and cargo owners",
+          "subUnits": [
+            {
+              "id": "container-carriers",
+              "name": "Container carriers",
+              "shortName": "Container carriers",
+              "sidc": "10031000171211000000",
+              "description": "Container lines needed schedule reliability, making them highly sensitive to queue length and slot uncertainty.\n- Role: Schedule-sensitive canal demand\n- Geographic anchor: Visible in Atlantic and Pacific queue areas and in the booking competition for restricted slots.\n- Why it matters: Carrier behavior is the clearest operational signal that canal restrictions have crossed into a network disruption story.\n- What to watch: Queue tolerance, slot bidding, and intermodal substitution.",
+              "externalUrl": "https://www.reuters.com/world/americas/panama-canal-drought-forces-authorities-reduce-ship-traffic-2023-08-30/",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "container-carriers-state-1",
+                  "t": "2023-08-30T12:00:00.000Z",
+                  "location": [
+                    -79.95,
+                    9.42
+                  ]
+                },
+                {
+                  "id": "container-carriers-state-2",
+                  "t": "2023-11-15T12:00:00.000Z",
+                  "location": [
+                    -79.6,
+                    8.78
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "energy-bulk-shippers",
+              "name": "Energy and bulk shippers",
+              "shortName": "Bulk / LNG",
+              "sidc": "10031000171211000000",
+              "description": "Bulk and energy cargoes faced their own decisions about draft, slot availability, and whether alternate routes would be more predictable.\n- Role: Draft-sensitive canal demand\n- Geographic anchor: Concentrated in queue areas and in the wider route calculations shaped by limited daily transits.\n- Why it matters: They make clear that the canal's drought is not just a container story but a broader commodity-routing problem.\n- What to watch: Draft limits, waiting cost, and alternative routes or terminals.",
+              "externalUrl": "https://www.reuters.com/world/americas/panama-canal-drought-forces-authorities-reduce-ship-traffic-2023-08-30/",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "energy-bulk-shippers-state-1",
+                  "t": "2023-11-15T12:00:00.000Z",
+                  "location": [
+                    -79.95,
+                    9.42
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "dry-season-warning",
+      "startTime": "2023-06-01T12:00:00.000Z",
+      "title": "Low-water concerns move from forecast to operations",
+      "description": "By early summer, reduced rainfall and reservoir stress had become an operational concern rather than a purely hydrologic warning.",
+      "externalUrl": "https://pancanal.com/en/maritime-services/important-advisories/",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -79.92,
+            9.2
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "draft-restrictions",
+      "startTime": "2023-07-25T12:00:00.000Z",
+      "title": "Draft restrictions tighten",
+      "description": "Restrictions on draft signaled that water scarcity was directly affecting the types of ships and loads the canal could efficiently handle.",
+      "externalUrl": "https://pancanal.com/en/maritime-services/important-advisories/",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -79.59,
+            8.99
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "transit-caps",
+      "startTime": "2023-08-30T12:00:00.000Z",
+      "title": "Transit caps draw global attention",
+      "description": "Limits on daily ship transits made the drought visible to global shipping markets and pushed carriers to reassess slot competition and queue tolerance.",
+      "externalUrl": "https://www.reuters.com/world/americas/panama-canal-drought-forces-authorities-reduce-ship-traffic-2023-08-30/",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -79.95,
+            9.42
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "queue-peak",
+      "startTime": "2023-11-15T12:00:00.000Z",
+      "title": "Queues and booking competition peak",
+      "description": "By late 2023, slot scarcity and queue build-up had turned the canal into a scheduling and bidding story as much as an infrastructure one.",
+      "externalUrl": "https://www.reuters.com/world/americas/panama-canal-drought-forces-authorities-reduce-ship-traffic-2023-08-30/",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -79.95,
+            9.42
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "water-saving",
+      "startTime": "2024-01-15T12:00:00.000Z",
+      "title": "Water-saving and booking adjustments continue",
+      "description": "Operational changes continued into 2024 as the authority tried to match transit demand to a still-constrained water system.",
+      "externalUrl": "https://pancanal.com/en/maritime-services/important-advisories/",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -79.59,
+            8.99
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "rains-improve",
+      "startTime": "2024-05-15T12:00:00.000Z",
+      "title": "Improving rains begin to ease the tightest restrictions",
+      "description": "As water conditions improved, some pressure on the system eased, but the drought had already demonstrated how exposed global shipping is to the canal's freshwater balance.",
+      "externalUrl": "https://pancanal.com/en/maritime-services/important-advisories/",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -79.92,
+            9.2
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    }
+  ],
+  "layers": [
+    {
+      "id": "panama-canal-drought-reference",
+      "name": "Reference picture",
+      "features": [
+        {
+          "type": "Feature",
+          "id": "gatun-lake",
+          "properties": {
+            "note": "notes/panama-canal-drought/features/gatun-lake.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -79.92,
+              9.2
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Gatun Lake",
+            "description": "The lake whose water level directly influences how many ships the canal can handle and under what draft limits.",
+            "externalUrl": "https://pancanal.com/en/maritime-services/important-advisories/"
+          },
+          "style": {
+            "marker-color": "#2563eb",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "miraflores-locks",
+          "properties": {
+            "note": "notes/panama-canal-drought/features/miraflores-locks.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -79.59,
+              8.99
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Miraflores and Pedro Miguel locks",
+            "description": "The Pacific-side lock complex where water use and ship movement become physically visible to anyone reading the canal as infrastructure.",
+            "externalUrl": "https://pancanal.com/en/maritime-services/important-advisories/"
+          },
+          "style": {
+            "marker-color": "#0f766e",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "atlantic-queue",
+          "properties": {
+            "note": "notes/panama-canal-drought/features/atlantic-queue.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -79.95,
+              9.42
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Atlantic queue area",
+            "description": "Holding area for ships waiting to enter from the Atlantic side of the canal system.",
+            "externalUrl": "https://www.reuters.com/world/americas/panama-canal-drought-forces-authorities-reduce-ship-traffic-2023-08-30/"
+          },
+          "style": {
+            "marker-color": "#b91c1c",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "pacific-queue",
+          "properties": {
+            "note": "notes/panama-canal-drought/features/pacific-queue.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -79.6,
+              8.78
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Pacific queue area",
+            "description": "Holding area for ships waiting to enter from the Pacific side.",
+            "externalUrl": "https://www.reuters.com/world/americas/panama-canal-drought-forces-authorities-reduce-ship-traffic-2023-08-30/"
+          },
+          "style": {
+            "marker-color": "#ca8a04",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "isthmus-alternative",
+          "properties": {
+            "note": "notes/panama-canal-drought/features/isthmus-alternative.md"
+          },
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.95,
+                9.42
+              ],
+              [
+                -79.62,
+                9.05
+              ],
+              [
+                -79.55,
+                8.95
+              ]
+            ]
+          },
+          "meta": {
+            "type": "LineString",
+            "name": "Isthmus intermodal alternative",
+            "description": "Simplified line representing Panama's short intermodal alternatives that gain relevance when canal slots become harder to secure.",
+            "externalUrl": "https://pancanal.com/en/maritime-services/important-advisories/"
+          },
+          "style": {
+            "stroke": "#7c3aed",
+            "stroke-width": 4,
+            "stroke-opacity": 0.9
+          }
+        }
+      ]
+    }
+  ],
+  "mapLayers": [],
+  "settings": {
+    "rangeRingGroups": [],
+    "statuses": [],
+    "supplyClasses": [
+      {
+        "name": "Class I"
+      },
+      {
+        "name": "Class II"
+      },
+      {
+        "name": "Class III"
+      },
+      {
+        "name": "Class IV"
+      },
+      {
+        "name": "Class V"
+      }
+    ],
+    "supplyUoMs": [
+      {
+        "name": "Kilogram",
+        "code": "KG",
+        "type": "weight"
+      },
+      {
+        "name": "Liter",
+        "code": "LI",
+        "type": "volume"
+      },
+      {
+        "name": "Each",
+        "code": "EA",
+        "type": "quantity"
+      },
+      {
+        "name": "Meter",
+        "code": "MR",
+        "type": "distance"
+      },
+      {
+        "name": "Gallon",
+        "code": "GL",
+        "type": "volume"
+      }
+    ],
+    "symbolFillColors": [],
+    "map": {
+      "baseMapId": "osm",
+      "center": [
+        -79.75,
+        9.15
+      ],
+      "zoom": 9.2
+    }
+  }
+}

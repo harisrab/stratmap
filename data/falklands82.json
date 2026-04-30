@@ -1,0 +1,465 @@
+{
+  "id": "demo-falklands82",
+  "type": "ORBAT-mapper",
+  "version": "2.5.0",
+  "meta": {
+    "createdDate": "2026-03-22T00:00:00.000Z",
+    "lastModifiedDate": "2026-03-22T00:00:00.000Z"
+  },
+  "name": "Falklands War 1982",
+  "description": "A map-first notebook of the 1982 Falklands campaign, showing how sea control, air reach, and narrow landing geography shaped the British recovery of the islands.",
+  "startTime": "1982-04-02T06:00:00.000Z",
+  "timeZone": "Atlantic/Stanley",
+  "symbologyStandard": "app6",
+  "sides": [
+    {
+      "id": "uk",
+      "name": "United Kingdom",
+      "standardIdentity": "3",
+      "description": "British forces had to combine political signaling, sea control, amphibious lift, and a final ground advance over austere terrain.",
+      "groups": [
+        {
+          "id": "uk-sea",
+          "name": "Task force and landing force",
+          "description": "The British campaign depended on a carrier-centered fleet, the staging network behind it, and the brigade that would eventually come ashore.",
+          "subUnits": [
+            {
+              "id": "uk-task-force-317",
+              "name": "Task Force 317",
+              "shortName": "TF 317",
+              "sidc": "10033000001200000000",
+              "description": "Carrier-led expeditionary force built to recover the islands and establish sea and air access long enough for an amphibious landing.\n- Role: Long-range maritime strike and command force\n- Geographic anchor: Moved from the North Atlantic staging chain through Ascension Island into waters east of the Falklands.\n- Why it matters: It linked politics to action; without it there was no credible way to isolate the islands or protect the landing force.\n- What to watch: Carrier aircraft availability, submarine effects, and vulnerability while massed around the landing area.",
+              "externalUrl": "https://en.wikipedia.org/wiki/British_naval_forces_in_the_Falklands_War",
+              "media": [
+                {
+                  "url": "/example-images/falklands82.jpg",
+                  "caption": "HMS Hermes and HMS Broadsword during the South Atlantic campaign.",
+                  "credits": "Imperial War Museums / Wikimedia Commons",
+                  "creditsUrl": "https://commons.wikimedia.org/wiki/File:HMS_Broadsword_and_Hermes,_1982_(IWM).jpg"
+                }
+              ],
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "uk-task-force-317-state-1",
+                  "t": "1982-04-02T06:00:00.000Z",
+                  "location": [
+                    -14.4,
+                    -7.95
+                  ]
+                },
+                {
+                  "id": "uk-task-force-317-state-2",
+                  "t": "1982-04-25T12:00:00.000Z",
+                  "location": [
+                    -32.5,
+                    -25.3
+                  ]
+                },
+                {
+                  "id": "uk-task-force-317-state-3",
+                  "t": "1982-05-20T12:00:00.000Z",
+                  "location": [
+                    -57.6,
+                    -51.8
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "uk-3-commando",
+              "name": "3 Commando Brigade",
+              "shortName": "3 Cdo Bde",
+              "sidc": "10031000171211000000",
+              "description": "The brigade that translated British sea access into a land campaign, first through the San Carlos landing and then by pushing east toward Stanley.\n- Role: Amphibious and light infantry ground force\n- Geographic anchor: Concentrated around San Carlos Water and later moved along the East Falkland ridgelines toward the capital.\n- Why it matters: Its movement from beachhead to high ground turned an amphibious lodgment into a campaign with a clear end state.\n- What to watch: How the beachhead, helicopter lift, and terrain combined to set the tempo of the final approach.",
+              "externalUrl": "https://en.wikipedia.org/wiki/3_Commando_Brigade",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "uk-3-commando-state-1",
+                  "t": "1982-05-21T08:00:00.000Z",
+                  "location": [
+                    -59.08,
+                    -51.56
+                  ]
+                },
+                {
+                  "id": "uk-3-commando-state-2",
+                  "t": "1982-06-11T12:00:00.000Z",
+                  "location": [
+                    -57.95,
+                    -51.73
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "argentina",
+      "name": "Argentina",
+      "standardIdentity": "6",
+      "description": "Argentina held the islands but had to defend a distant garrison under growing maritime isolation while sustaining air attack from the mainland.",
+      "groups": [
+        {
+          "id": "arg-islands",
+          "name": "Island garrison and mainland air arm",
+          "subUnits": [
+            {
+              "id": "arg-falklands-garrison",
+              "name": "Argentine Falklands Garrison",
+              "shortName": "Stanley Garrison",
+              "sidc": "10031000171211000000",
+              "description": "The island defense centered on Port Stanley, local positions, and the need to absorb British pressure from the beachhead inward.\n- Role: Fixed defense and local maneuver force\n- Geographic anchor: Anchored on Stanley and the ridgelines west of the town, with limited freedom to reposition under British artillery and air pressure.\n- Why it matters: Once the British landed, the garrison became a race between defensive cohesion and encirclement.\n- What to watch: Ground held, mobility available, and whether mainland support could still change the balance.",
+              "externalUrl": "https://en.wikipedia.org/wiki/Battle_of_Stanley",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "arg-falklands-garrison-state-1",
+                  "t": "1982-04-02T08:00:00.000Z",
+                  "location": [
+                    -57.85,
+                    -51.69
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "arg-rio-grande-air",
+              "name": "Rio Grande Strike Wing",
+              "shortName": "Rio Grande",
+              "sidc": "10032000001200000000",
+              "description": "Mainland air power gave Argentina its sharpest operational reach, but the distance to the islands narrowed loiter time and made every sortie count.\n- Role: Strike aircraft staging and launch network\n- Geographic anchor: Based around Rio Grande in Tierra del Fuego and projected west-to-east toward shipping off East Falkland.\n- Why it matters: Its attacks forced the British fleet to disperse, improvise air defense, and accept risk around the landing area.\n- What to watch: Sortie density, weapon effectiveness, and how distance compressed tactical options.",
+              "externalUrl": "https://en.wikipedia.org/wiki/Rio_Grande,_Tierra_del_Fuego",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "arg-rio-grande-air-state-1",
+                  "t": "1982-04-02T08:00:00.000Z",
+                  "location": [
+                    -67.75,
+                    -53.78
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "argentina-seizes-islands",
+      "startTime": "1982-04-02T08:00:00.000Z",
+      "title": "Argentina seizes the Falklands",
+      "description": "Argentine forces landed and took control of the islands, forcing London to decide whether it could assemble and sustain a recovery campaign across the South Atlantic.",
+      "externalUrl": "https://www.britannica.com/event/Falkland-Islands-War",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -57.85,
+            -51.69
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "exclusion-zone",
+      "startTime": "1982-04-12T00:00:00.000Z",
+      "title": "Britain declares a maritime exclusion zone",
+      "description": "The exclusion zone was a military and political signal. It narrowed the legal and operational space around the islands and set the stage for submarine-led pressure on Argentine naval movement.",
+      "externalUrl": "https://en.wikipedia.org/wiki/Total_Exclusion_Zone",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -59.44,
+            -51.74
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "belgrano-sunk",
+      "startTime": "1982-05-02T19:00:00.000Z",
+      "title": "ARA General Belgrano is sunk",
+      "description": "The sinking helped push Argentina's surface fleet back toward port and made the maritime contest increasingly about air attack and British fleet protection.",
+      "externalUrl": "https://en.wikipedia.org/wiki/ARA_General_Belgrano",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.2,
+            -55.2
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "san-carlos-landings",
+      "startTime": "1982-05-21T08:00:00.000Z",
+      "title": "British land at San Carlos Water",
+      "description": "The landing transformed the campaign. From this point onward the British challenge was to hold the beachhead under air attack and build a ground line of advance toward Stanley.",
+      "externalUrl": "https://en.wikipedia.org/wiki/Landing_at_San_Carlos",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -59.08,
+            -51.56
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "goose-green",
+      "startTime": "1982-05-29T12:00:00.000Z",
+      "title": "Goose Green confirms British momentum",
+      "description": "The fight at Goose Green mattered beyond its scale. It signaled that the British could move inland, fight set-piece battles, and hold the initiative under difficult logistics.",
+      "externalUrl": "https://en.wikipedia.org/wiki/Battle_of_Goose_Green",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -57.88,
+            -51.82
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "stanley-surrenders",
+      "startTime": "1982-06-14T20:00:00.000Z",
+      "title": "Argentine forces surrender at Stanley",
+      "description": "After the British advance onto the heights west of town, the campaign ended with the surrender of Argentine forces in Stanley and the reestablishment of British control.",
+      "externalUrl": "https://www.iwm.org.uk/history/what-you-need-to-know-about-the-falklands-war",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -57.85,
+            -51.69
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    }
+  ],
+  "layers": [
+    {
+      "id": "falklands82-reference",
+      "name": "Reference picture",
+      "features": [
+        {
+          "type": "Feature",
+          "id": "ascension-island",
+          "properties": {
+            "note": "notes/falklands82/features/ascension-island.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -14.4,
+              -7.95
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Ascension Island staging node",
+            "description": "The island was the critical intermediate base that connected Britain to the South Atlantic theater.",
+            "externalUrl": "https://en.wikipedia.org/wiki/RAF_Ascension_Island"
+          },
+          "style": {
+            "marker-color": "#2563eb",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "total-exclusion-zone",
+          "properties": {
+            "note": "notes/falklands82/features/total-exclusion-zone.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -59.44,
+              -51.74
+            ]
+          },
+          "meta": {
+            "type": "Circle",
+            "name": "Total Exclusion Zone",
+            "description": "The 200-nautical-mile exclusion zone illustrated how a legal declaration could reshape operational behavior on the water.",
+            "externalUrl": "https://en.wikipedia.org/wiki/Total_Exclusion_Zone",
+            "radius": 370000,
+            "visibleFromT": "1982-04-12T00:00:00.000Z"
+          },
+          "style": {
+            "fill": "#b91c1c",
+            "fill-opacity": 0.14,
+            "stroke": "#b91c1c",
+            "stroke-width": 3,
+            "stroke-opacity": 0.55
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "san-carlos-water",
+          "properties": {
+            "note": "notes/falklands82/features/san-carlos-water.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -59.08,
+              -51.56
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "San Carlos Water",
+            "description": "A constricted landing area that gave the British a workable amphibious entry point while still exposing ships to intense air attack.",
+            "externalUrl": "https://en.wikipedia.org/wiki/Landing_at_San_Carlos",
+            "visibleFromT": "1982-05-21T08:00:00.000Z"
+          },
+          "style": {
+            "marker-color": "#0891b2",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "port-stanley",
+          "properties": {
+            "note": "notes/falklands82/features/port-stanley.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -57.85,
+              -51.69
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Port Stanley",
+            "description": "Stanley was the administrative and symbolic objective whose fall would close the campaign.",
+            "externalUrl": "https://en.wikipedia.org/wiki/Battle_of_Stanley"
+          },
+          "style": {
+            "marker-color": "#ca8a04",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "rio-grande-air-base",
+          "properties": {
+            "note": "notes/falklands82/features/rio-grande-air-base.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -67.75,
+              -53.78
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Rio Grande strike base",
+            "description": "Mainland launch point for Argentine air attacks that imposed continuing risk on British ships near the islands.",
+            "externalUrl": "https://en.wikipedia.org/wiki/Rio_Grande,_Tierra_del_Fuego"
+          },
+          "style": {
+            "marker-color": "#7c3aed",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        }
+      ]
+    }
+  ],
+  "mapLayers": [],
+  "settings": {
+    "rangeRingGroups": [],
+    "statuses": [],
+    "supplyClasses": [
+      {
+        "name": "Class I"
+      },
+      {
+        "name": "Class II"
+      },
+      {
+        "name": "Class III"
+      },
+      {
+        "name": "Class IV"
+      },
+      {
+        "name": "Class V"
+      }
+    ],
+    "supplyUoMs": [
+      {
+        "name": "Kilogram",
+        "code": "KG",
+        "type": "weight"
+      },
+      {
+        "name": "Liter",
+        "code": "LI",
+        "type": "volume"
+      },
+      {
+        "name": "Each",
+        "code": "EA",
+        "type": "quantity"
+      },
+      {
+        "name": "Meter",
+        "code": "MR",
+        "type": "distance"
+      },
+      {
+        "name": "Gallon",
+        "code": "GL",
+        "type": "volume"
+      }
+    ],
+    "symbolFillColors": [],
+    "map": {
+      "baseMapId": "osm",
+      "center": [
+        -58.4,
+        -51.7
+      ],
+      "zoom": 5.3
+    }
+  }
+}

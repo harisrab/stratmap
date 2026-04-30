@@ -1,0 +1,458 @@
+{
+  "id": "demo-suez-ever-given",
+  "type": "ORBAT-mapper",
+  "version": "2.5.0",
+  "meta": {
+    "createdDate": "2026-03-22T00:00:00.000Z",
+    "lastModifiedDate": "2026-03-22T00:00:00.000Z"
+  },
+  "name": "Suez Canal Blockage 2021",
+  "description": "A geography-driven notebook of the Ever Given blockage showing the grounding point, queue build-up, salvage timeline, and the alternate route around the Cape.",
+  "startTime": "2021-03-23T04:00:00.000Z",
+  "timeZone": "Africa/Cairo",
+  "symbologyStandard": "app6",
+  "sides": [
+    {
+      "id": "incident-core",
+      "name": "Incident core",
+      "standardIdentity": "0",
+      "description": "The grounding only became a global story because the ship, the canal authority, and the salvage effort each occupied different but interlocking roles in the response.",
+      "groups": [
+        {
+          "id": "ship-and-canal",
+          "name": "Ship, canal, and salvage",
+          "subUnits": [
+            {
+              "id": "ever-given",
+              "name": "Ever Given",
+              "shortName": "Ever Given",
+              "sidc": "10031000171211000000",
+              "description": "The ship whose grounding transformed a transit corridor into a global chokepoint failure.\n- Role: Physical blockage at the center of the story\n- Geographic anchor: Wedged across the canal south of the Great Bitter Lake with little room for bypass traffic.\n- Why it matters: The ship is the incident, but also the lens through which the fragility of the whole route became visible.\n- What to watch: Position, salvage progress, hull condition, and the timing of refloating.",
+              "externalUrl": "https://www.britannica.com/topic/Ever-Given",
+              "media": [
+                {
+                  "url": "/example-images/suez-ever-given.png",
+                  "caption": "Satellite view of Ever Given blocking the canal.",
+                  "credits": "European Space Agency / Wikimedia Commons",
+                  "creditsUrl": "https://commons.wikimedia.org/wiki/File:Ever_Given_ship_stuck_in_the_Suez_Canal_(51329719336).png"
+                }
+              ],
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "ever-given-state-1",
+                  "t": "2021-03-23T04:00:00.000Z",
+                  "location": [
+                    32.57,
+                    30.017
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "suez-canal-authority",
+              "name": "Suez Canal Authority",
+              "shortName": "SCA",
+              "sidc": "10031000181216000000",
+              "description": "The authority that managed traffic, coordinated the response, and then pursued the legal and financial aftermath.\n- Role: Traffic control and response authority\n- Geographic anchor: Managed the canal system from an Egyptian infrastructure and administrative network centered along the waterway.\n- Why it matters: It linked on-scene response to global communication, convoy planning, and post-incident canal governance.\n- What to watch: Salvage updates, convoy release sequencing, and institutional credibility after reopening.",
+              "externalUrl": "https://www.suezcanal.gov.eg/English/Pages/default.aspx",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "suez-canal-authority-state-1",
+                  "t": "2021-03-23T04:00:00.000Z",
+                  "location": [
+                    32.33,
+                    30.58
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "salvage-coalition",
+              "name": "Salvage coalition",
+              "shortName": "Salvage",
+              "sidc": "10031000181216000000",
+              "description": "Tugs, dredgers, pilots, and technical advisers whose progress became the key operational clock for the whole crisis.\n- Role: Refloating and channel clearance effort\n- Geographic anchor: Concentrated at the grounding site and around the Great Bitter Lake where released traffic would later be sequenced.\n- Why it matters: The salvage timeline drove every downstream decision by waiting ships and route planners.\n- What to watch: Dredging pace, tug effectiveness, tide windows, and whether the hull could be safely shifted.",
+              "externalUrl": "https://earthobservatory.nasa.gov/images/148324/ship-blocks-suez-canal",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "salvage-coalition-state-1",
+                  "t": "2021-03-27T10:00:00.000Z",
+                  "location": [
+                    32.57,
+                    30.02
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "network-effects",
+      "name": "Network effects",
+      "standardIdentity": "3",
+      "description": "The line between local incident and global disruption was crossed once waiting traffic and alternate routes had to be actively managed.",
+      "groups": [
+        {
+          "id": "global-operators",
+          "name": "Shipping and schedule response",
+          "subUnits": [
+            {
+              "id": "liner-networks",
+              "name": "Global liner networks",
+              "shortName": "Liner networks",
+              "sidc": "10031000171211000000",
+              "description": "Container lines and cargo planners that had to convert canal uncertainty into concrete schedule, fuel, and inventory decisions.\n- Role: Network adaptation and rerouting\n- Geographic anchor: Spread across both queues and the alternate Cape route, with effects extending far beyond Egypt.\n- Why it matters: This actor makes the incident global; without network delay, the grounding would remain a local engineering story.\n- What to watch: Queue tolerance, diversion triggers, downstream port congestion, and vessel sequencing after reopening.",
+              "externalUrl": "https://www.britannica.com/topic/Ever-Given",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "liner-networks-state-1",
+                  "t": "2021-03-23T12:00:00.000Z",
+                  "location": [
+                    32.33,
+                    31.27
+                  ]
+                },
+                {
+                  "id": "liner-networks-state-2",
+                  "t": "2021-03-27T12:00:00.000Z",
+                  "location": [
+                    20,
+                    -34
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "grounding",
+      "startTime": "2021-03-23T04:00:00.000Z",
+      "title": "Ever Given grounds across the canal",
+      "description": "A single grounding turned the canal into a complete blockage and instantly converted a local navigation incident into a global logistics shock.",
+      "externalUrl": "https://earthobservatory.nasa.gov/images/148324/ship-blocks-suez-canal",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            32.57,
+            30.017
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "queues-form",
+      "startTime": "2021-03-24T12:00:00.000Z",
+      "title": "North and south queues begin building",
+      "description": "Traffic waiting outside the canal turned the blockage into a visibly systemic disruption, with every delayed ship representing wider schedule and cargo effects.",
+      "externalUrl": "https://www.britannica.com/topic/Ever-Given",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            32.33,
+            31.27
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "salvage-intensifies",
+      "startTime": "2021-03-27T10:00:00.000Z",
+      "title": "Dredging and tug operations intensify",
+      "description": "The response shifted into a race between salvage progress and the economic pressure created by waiting traffic and early rerouting decisions.",
+      "externalUrl": "https://earthobservatory.nasa.gov/images/148324/ship-blocks-suez-canal",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            32.57,
+            30.02
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "refloated",
+      "startTime": "2021-03-29T12:00:00.000Z",
+      "title": "Ever Given is refloated",
+      "description": "The refloating ended the physical blockage but not the operational problem. Queued ships still had to be sequenced through the canal.",
+      "externalUrl": "https://www.britannica.com/topic/Ever-Given",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            32.57,
+            30.017
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "convoys-cleared",
+      "startTime": "2021-03-31T12:00:00.000Z",
+      "title": "Backlog clearance begins",
+      "description": "Convoy sequencing and catch-up operations became the next phase of the story as operators tried to understand how much of the network shock would persist downstream.",
+      "externalUrl": "https://www.britannica.com/topic/Ever-Given",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            32.34,
+            30.33
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "legal-aftermath",
+      "startTime": "2021-07-07T12:00:00.000Z",
+      "title": "Ship released after compensation dispute",
+      "description": "The incident moved from salvage into liability, compensation, and reputational questions about who bore the cost of the disruption.",
+      "externalUrl": "https://www.britannica.com/topic/Ever-Given",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            32.33,
+            30.58
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    }
+  ],
+  "layers": [
+    {
+      "id": "suez-ever-given-reference",
+      "name": "Reference picture",
+      "features": [
+        {
+          "type": "Feature",
+          "id": "grounding-site",
+          "properties": {
+            "note": "notes/suez-ever-given/features/grounding-site.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              32.57,
+              30.017
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Grounding site",
+            "description": "The location where the ship obstructed the full channel width and shut traffic in both directions.",
+            "externalUrl": "https://earthobservatory.nasa.gov/images/148324/ship-blocks-suez-canal"
+          },
+          "style": {
+            "marker-color": "#b91c1c",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "great-bitter-lake",
+          "properties": {
+            "note": "notes/suez-ever-given/features/great-bitter-lake.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              32.34,
+              30.33
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Great Bitter Lake",
+            "description": "Key internal holding area used during post-refloating traffic management and sequencing.",
+            "externalUrl": "https://www.britannica.com/topic/Ever-Given"
+          },
+          "style": {
+            "marker-color": "#2563eb",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "port-said-queue",
+          "properties": {
+            "note": "notes/suez-ever-given/features/port-said-queue.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              32.33,
+              31.27
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Port Said queue",
+            "description": "Anchor zone for ships waiting on the Mediterranean side of the canal.",
+            "externalUrl": "https://www.britannica.com/topic/Ever-Given"
+          },
+          "style": {
+            "marker-color": "#0f766e",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "suez-anchorage",
+          "properties": {
+            "note": "notes/suez-ever-given/features/suez-anchorage.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              32.55,
+              29.9
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Suez anchorage queue",
+            "description": "Anchor zone for ships waiting on the Red Sea side of the canal.",
+            "externalUrl": "https://www.britannica.com/topic/Ever-Given"
+          },
+          "style": {
+            "marker-color": "#ca8a04",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "cape-detour",
+          "properties": {
+            "note": "notes/suez-ever-given/features/cape-detour.md"
+          },
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                32.55,
+                29.9
+              ],
+              [
+                20,
+                -34
+              ],
+              [
+                18.7,
+                -33.9
+              ],
+              [
+                32.33,
+                31.27
+              ]
+            ]
+          },
+          "meta": {
+            "type": "LineString",
+            "name": "Cape of Good Hope detour",
+            "description": "A simplified diversion line showing the long alternate path that some ships considered or took while the canal remained blocked.",
+            "externalUrl": "https://earthobservatory.nasa.gov/images/148324/ship-blocks-suez-canal",
+            "visibleFromT": "2021-03-24T12:00:00.000Z"
+          },
+          "style": {
+            "stroke": "#7c3aed",
+            "stroke-width": 4,
+            "stroke-opacity": 0.9
+          }
+        }
+      ]
+    }
+  ],
+  "mapLayers": [],
+  "settings": {
+    "rangeRingGroups": [],
+    "statuses": [],
+    "supplyClasses": [
+      {
+        "name": "Class I"
+      },
+      {
+        "name": "Class II"
+      },
+      {
+        "name": "Class III"
+      },
+      {
+        "name": "Class IV"
+      },
+      {
+        "name": "Class V"
+      }
+    ],
+    "supplyUoMs": [
+      {
+        "name": "Kilogram",
+        "code": "KG",
+        "type": "weight"
+      },
+      {
+        "name": "Liter",
+        "code": "LI",
+        "type": "volume"
+      },
+      {
+        "name": "Each",
+        "code": "EA",
+        "type": "quantity"
+      },
+      {
+        "name": "Meter",
+        "code": "MR",
+        "type": "distance"
+      },
+      {
+        "name": "Gallon",
+        "code": "GL",
+        "type": "volume"
+      }
+    ],
+    "symbolFillColors": [],
+    "map": {
+      "baseMapId": "osm",
+      "center": [
+        32.45,
+        30.2
+      ],
+      "zoom": 8.1
+    }
+  }
+}

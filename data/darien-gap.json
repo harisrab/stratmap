@@ -1,0 +1,449 @@
+{
+  "id": "demo-darien-gap",
+  "type": "ORBAT-mapper",
+  "version": "2.5.0",
+  "meta": {
+    "createdDate": "2026-03-22T00:00:00.000Z",
+    "lastModifiedDate": "2026-03-22T00:00:00.000Z"
+  },
+  "name": "Darién Gap Migration Corridor 2023-2024",
+  "description": "A journalism notebook showing the route from Colombia into Panama through the Darién Gap, the reception sites that absorb arrivals, and the seasonal pressures on the corridor.",
+  "startTime": "2023-01-15T12:00:00.000Z",
+  "timeZone": "America/Panama",
+  "symbologyStandard": "app6",
+  "sides": [
+    {
+      "id": "movement",
+      "name": "Migratory movement",
+      "standardIdentity": "0",
+      "description": "The corridor is shaped by the movement of people, but also by the sequence of places that determine what the crossing actually feels like.",
+      "groups": [
+        {
+          "id": "route-actors",
+          "name": "People in motion",
+          "subUnits": [
+            {
+              "id": "northbound-migrant-flow",
+              "name": "Northbound migrant flow",
+              "shortName": "Movement",
+              "sidc": "10031000171211000000",
+              "description": "The population moving through the Darién is not a single group, but the corridor itself imposes a common geography of risk and delay.\n- Role: Human movement through the corridor\n- Geographic anchor: Runs from embarkation points near Necoclí and Capurganá through the jungle to Bajo Chiquito and onward to reception sites in Panama.\n- Why it matters: Everything else in the notebook is a response to or exploitation of this movement.\n- What to watch: Seasonality, family movement, injuries, and whether onward transport can absorb arrivals.",
+              "externalUrl": "https://www.iom.int/news/over-half-million-people-cross-darien-gap-2023",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "northbound-migrant-flow-state-1",
+                  "t": "2023-01-15T12:00:00.000Z",
+                  "location": [
+                    -77.35,
+                    8.62
+                  ]
+                },
+                {
+                  "id": "northbound-migrant-flow-state-2",
+                  "t": "2023-09-15T12:00:00.000Z",
+                  "location": [
+                    -77.71,
+                    8.15
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "smuggling-guides",
+              "name": "Route brokers and smuggling guides",
+              "shortName": "Route brokers",
+              "sidc": "10031000171211000000",
+              "description": "Smuggling and guide networks shape the practical route, the cost of transit, and the exposure of migrants to theft, extortion, and misinformation.\n- Role: Informal corridor management\n- Geographic anchor: Concentrated around embarkation zones and the first jungle segments where route knowledge is most valuable.\n- Why it matters: These actors influence flow volume and route selection even when they remain only partially visible.\n- What to watch: Pricing, route shifts, and reports of violence or coercion on the trail.",
+              "externalUrl": "https://www.msf.org/darien-gap-migrants-face-increasing-violence-panama",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "smuggling-guides-state-1",
+                  "t": "2023-01-15T12:00:00.000Z",
+                  "location": [
+                    -77.35,
+                    8.62
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "response",
+      "name": "Response and reception",
+      "standardIdentity": "3",
+      "description": "Panamanian authorities and humanitarian organizations transform the route from a jungle crossing into a camp, transport, and protection problem.",
+      "groups": [
+        {
+          "id": "panama-response",
+          "name": "Reception and humanitarian system",
+          "subUnits": [
+            {
+              "id": "panama-reception",
+              "name": "Panamanian reception network",
+              "shortName": "Reception network",
+              "sidc": "10031000171211000000",
+              "description": "The reception system in eastern Panama handles registration, temporary shelter, and the first organized services after the crossing.\n- Role: Reception and onward movement management\n- Geographic anchor: Centered on Bajo Chiquito, Lajas Blancas, and onward transport nodes deeper inside Panama.\n- Why it matters: It is the first place where state capacity becomes visible after the jungle crossing.\n- What to watch: Camp capacity, sanitation, onward transport speed, and child protection demand.",
+              "externalUrl": "https://www.unicef.org/lac/en/press-releases/record-number-children-crossed-dangerous-darien-gap-2023",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "panama-reception-state-1",
+                  "t": "2023-01-15T12:00:00.000Z",
+                  "location": [
+                    -77.83,
+                    8.4
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "humanitarian-field-teams",
+              "name": "Humanitarian field teams",
+              "shortName": "Field teams",
+              "sidc": "10031000171211000000",
+              "description": "UN and NGO responders work the corridor as a protection and public health emergency layered onto a border-management challenge.\n- Role: Protection, medical, and child-focused response\n- Geographic anchor: Most visible at reception sites and the first settlements reached after the crossing.\n- Why it matters: They reveal how quickly the route produces dehydration, injury, family separation, and protection incidents.\n- What to watch: Medical caseloads, vulnerable children, and how long arrivals remain in precarious conditions before onward movement.",
+              "externalUrl": "https://www.unicef.org/lac/en/press-releases/record-number-children-crossed-dangerous-darien-gap-2023",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "humanitarian-field-teams-state-1",
+                  "t": "2023-09-15T12:00:00.000Z",
+                  "location": [
+                    -77.71,
+                    8.15
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "flows-accelerate",
+      "startTime": "2023-01-15T12:00:00.000Z",
+      "title": "Crossings accelerate above prior-year pace",
+      "description": "The corridor entered 2023 with higher baseline movement, setting the stage for a year in which previous annual records would be overtaken.",
+      "externalUrl": "https://www.iom.int/news/over-half-million-people-cross-darien-gap-2023",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.35,
+            8.62
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "rainy-season-pressure",
+      "startTime": "2023-07-15T12:00:00.000Z",
+      "title": "Seasonal conditions compound route risks",
+      "description": "Heavy rain and terrain stress made the route even more dangerous while reception systems continued to absorb high numbers of arrivals.",
+      "externalUrl": "https://www.msf.org/darien-gap-migrants-face-increasing-violence-panama",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.6,
+            8.35
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "record-broken",
+      "startTime": "2023-09-15T12:00:00.000Z",
+      "title": "Annual crossing count surpasses the 2022 record",
+      "description": "By early autumn, the route had already exceeded the previous year's total, confirming that the movement was no longer episodic but structurally large.",
+      "externalUrl": "https://www.unicef.org/lac/en/press-releases/record-number-children-crossed-dangerous-darien-gap-2023",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.83,
+            8.4
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "half-million",
+      "startTime": "2023-12-20T12:00:00.000Z",
+      "title": "Crossings top half a million for the year",
+      "description": "The corridor closed 2023 as one of the hemisphere's defining migration routes, with more than 500,000 crossings recorded.",
+      "externalUrl": "https://www.iom.int/news/over-half-million-people-cross-darien-gap-2023",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.83,
+            8.4
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "route-controls",
+      "startTime": "2024-04-01T12:00:00.000Z",
+      "title": "New control measures alter the corridor conversation",
+      "description": "Panama and regional governments explored ways to reduce or redirect the flow, adding a policy layer to what had previously been read mostly as a humanitarian and reporting story.",
+      "externalUrl": "https://www.unicef.org/lac/en/press-releases/record-number-children-crossed-dangerous-darien-gap-2023",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.83,
+            8.4
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "continued-bottlenecks",
+      "startTime": "2024-07-01T12:00:00.000Z",
+      "title": "Reception bottlenecks remain the key operational question",
+      "description": "Even as route conditions and policy choices changed, the practical test remained whether eastern Panama's reception system could process arrivals safely and quickly.",
+      "externalUrl": "https://www.msf.org/darien-gap-migrants-face-increasing-violence-panama",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -77.83,
+            8.4
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    }
+  ],
+  "layers": [
+    {
+      "id": "darien-gap-reference",
+      "name": "Reference picture",
+      "features": [
+        {
+          "type": "Feature",
+          "id": "necocli",
+          "properties": {
+            "note": "notes/darien-gap/features/necocli.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -76.79,
+              8.43
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Necoclí embarkation zone",
+            "description": "One of the main Colombian-side departure areas feeding the corridor toward the Darién crossing.",
+            "externalUrl": "https://www.iom.int/news/over-half-million-people-cross-darien-gap-2023"
+          },
+          "style": {
+            "marker-color": "#2563eb",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "capurgana",
+          "properties": {
+            "note": "notes/darien-gap/features/capurgana.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -77.35,
+              8.62
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Capurganá and coastal launch area",
+            "description": "Coastal settlement and staging point from which migrants and guides move toward the interior crossing routes.",
+            "externalUrl": "https://www.msf.org/darien-gap-migrants-face-increasing-violence-panama"
+          },
+          "style": {
+            "marker-color": "#0f766e",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "jungle-route",
+          "properties": {
+            "note": "notes/darien-gap/features/jungle-route.md"
+          },
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -77.35,
+                8.62
+              ],
+              [
+                -77.5,
+                8.48
+              ],
+              [
+                -77.62,
+                8.28
+              ],
+              [
+                -77.71,
+                8.15
+              ]
+            ]
+          },
+          "meta": {
+            "type": "LineString",
+            "name": "Darién jungle route",
+            "description": "Simplified line of the jungle segment between the Colombian coastal departure area and the first Panamanian settlements.",
+            "externalUrl": "https://www.msf.org/darien-gap-migrants-face-increasing-violence-panama"
+          },
+          "style": {
+            "stroke": "#b91c1c",
+            "stroke-width": 4,
+            "stroke-opacity": 0.9
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "bajo-chiquito",
+          "properties": {
+            "note": "notes/darien-gap/features/bajo-chiquito.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -77.71,
+              8.15
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Bajo Chiquito",
+            "description": "One of the first villages reached in Panama after the crossing and a key point for immediate triage and aid.",
+            "externalUrl": "https://www.unicef.org/lac/en/press-releases/record-number-children-crossed-dangerous-darien-gap-2023"
+          },
+          "style": {
+            "marker-color": "#ca8a04",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "lajas-blancas",
+          "properties": {
+            "note": "notes/darien-gap/features/lajas-blancas.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -77.83,
+              8.4
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Lajas Blancas reception site",
+            "description": "Panama's major reception zone for arrivals emerging from the Darién route.",
+            "externalUrl": "https://www.iom.int/news/over-half-million-people-cross-darien-gap-2023"
+          },
+          "style": {
+            "marker-color": "#7c3aed",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        }
+      ]
+    }
+  ],
+  "mapLayers": [],
+  "settings": {
+    "rangeRingGroups": [],
+    "statuses": [],
+    "supplyClasses": [
+      {
+        "name": "Class I"
+      },
+      {
+        "name": "Class II"
+      },
+      {
+        "name": "Class III"
+      },
+      {
+        "name": "Class IV"
+      },
+      {
+        "name": "Class V"
+      }
+    ],
+    "supplyUoMs": [
+      {
+        "name": "Kilogram",
+        "code": "KG",
+        "type": "weight"
+      },
+      {
+        "name": "Liter",
+        "code": "LI",
+        "type": "volume"
+      },
+      {
+        "name": "Each",
+        "code": "EA",
+        "type": "quantity"
+      },
+      {
+        "name": "Meter",
+        "code": "MR",
+        "type": "distance"
+      },
+      {
+        "name": "Gallon",
+        "code": "GL",
+        "type": "volume"
+      }
+    ],
+    "symbolFillColors": [],
+    "map": {
+      "baseMapId": "osm",
+      "center": [
+        -77.55,
+        8.45
+      ],
+      "zoom": 7.3
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "StratMap-Scenario",
+  "version": "1.0.0",
+  "id": "amazon-drought",
+  "name": "Amazon Drought and Rio Negro Access Crisis 2023",
+  "description": "A climate and access notebook on low river levels near Manaus, isolated river communities, emergency dredging, and how drought turned the Amazon's waterways into a logistics emergency.",
+  "assessment": "Infrastructure and climate",
+  "note": "notes/amazon-drought/overview.md",
+  "dataFile": "data/amazon-drought.json"
+}

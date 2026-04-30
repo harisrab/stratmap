@@ -1,0 +1,444 @@
+{
+  "id": "demo-cuban-missile-crisis",
+  "type": "ORBAT-mapper",
+  "version": "2.5.0",
+  "meta": {
+    "createdDate": "2026-03-22T00:00:00.000Z",
+    "lastModifiedDate": "2026-03-22T00:00:00.000Z"
+  },
+  "name": "Cuban Missile Crisis 1962",
+  "description": "A crisis notebook showing how missile sites in Cuba, a naval quarantine line, and high-tempo decision-making converged in October 1962.",
+  "startTime": "1962-10-14T10:00:00.000Z",
+  "timeZone": "America/Havana",
+  "symbologyStandard": "app6",
+  "sides": [
+    {
+      "id": "soviet-cuban",
+      "name": "Soviet and Cuban missile complex",
+      "standardIdentity": "6",
+      "description": "Soviet deployments in Cuba altered the strategic map, while Cuban air defense and state control shaped what the U.S. could observe and threaten.",
+      "groups": [
+        {
+          "id": "missile-network",
+          "name": "Missile and air defense sites",
+          "subUnits": [
+            {
+              "id": "soviet-missile-regiments",
+              "name": "Soviet missile regiments in Cuba",
+              "shortName": "Missile regiments",
+              "sidc": "10031000171211000000",
+              "description": "The offensive missile deployment was the heart of the crisis and the reason every reconnaissance image mattered so much.\n- Role: Strategic missile deployment\n- Geographic anchor: Distributed across western and central Cuba, including the San Cristobal area and other launch complexes.\n- Why it matters: The sites transformed Cuba from a political problem into a nuclear warning-time problem.\n- What to watch: Construction status, missile readiness, and whether launch complexes remained under Soviet operational control.",
+              "externalUrl": "https://history.state.gov/milestones/1961-1968/cuban-missile-crisis",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "soviet-missile-regiments-state-1",
+                  "t": "1962-10-14T10:00:00.000Z",
+                  "location": [
+                    -83.1,
+                    22.7
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "cuban-air-defense",
+              "name": "Cuban air defense network",
+              "shortName": "Cuban AD",
+              "sidc": "10032000001200000000",
+              "description": "Cuban and Soviet-controlled air defense systems shaped reconnaissance risk and the danger of accidental escalation.\n- Role: Air defense and reconnaissance denial\n- Geographic anchor: Spread across Cuba with particular relevance near sensitive missile areas and key western approach routes.\n- Why it matters: Air defense mattered because the U.S. needed continuing intelligence, but each flight carried escalation risk.\n- What to watch: Rules of engagement, radar coverage, and the danger created by repeated overflights.",
+              "externalUrl": "https://www.jfklibrary.org/learn/about-jfk/jfk-in-history/cuban-missile-crisis",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "cuban-air-defense-state-1",
+                  "t": "1962-10-14T10:00:00.000Z",
+                  "location": [
+                    -79.97,
+                    22.41
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "us-response",
+      "name": "United States response",
+      "standardIdentity": "3",
+      "description": "American decision-making split across intelligence collection, naval quarantine operations, and broader strategic readiness.",
+      "groups": [
+        {
+          "id": "quarantine-and-policy",
+          "name": "Policy and maritime enforcement",
+          "subUnits": [
+            {
+              "id": "us-quarantine-force",
+              "name": "U.S. quarantine force",
+              "shortName": "Quarantine force",
+              "sidc": "10033000001200000000",
+              "description": "Naval power projected the U.S. response onto a visible line at sea, allowing coercion without immediate strikes on Cuba.\n- Role: Naval quarantine and interception force\n- Geographic anchor: Positioned north and east of Cuba to regulate the maritime approaches during the quarantine.\n- Why it matters: The quarantine created a physical line where resolve could be shown while preserving space for diplomacy.\n- What to watch: Boarding decisions, Soviet ship movements, and whether naval pressure remained proportional.",
+              "externalUrl": "https://history.state.gov/milestones/1961-1968/cuban-missile-crisis",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "us-quarantine-force-state-1",
+                  "t": "1962-10-24T10:00:00.000Z",
+                  "location": [
+                    -76.3,
+                    24.3
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "excomm-and-sac",
+              "name": "ExComm and strategic readiness system",
+              "shortName": "ExComm / SAC",
+              "sidc": "10032000001200000000",
+              "description": "Civilian and military crisis managers had to interpret intelligence, signal resolve, and avoid a sequence of moves that closed off diplomacy.\n- Role: Strategic command and crisis decision node\n- Geographic anchor: Centered on Washington and the wider U.S. strategic posture, but operationally tied to reconnaissance and the maritime quarantine around Cuba.\n- Why it matters: The crisis was governed as much from briefing rooms and command centers as from ships and launch complexes.\n- What to watch: Escalation control, intelligence confidence, and the handling of simultaneous military and diplomatic channels.",
+              "externalUrl": "https://www.jfklibrary.org/learn/about-jfk/jfk-in-history/cuban-missile-crisis",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "excomm-and-sac-state-1",
+                  "t": "1962-10-22T00:00:00.000Z",
+                  "location": [
+                    -80.2,
+                    25.8
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "u2-discovery",
+      "startTime": "1962-10-14T10:00:00.000Z",
+      "title": "U-2 imagery confirms missile deployment",
+      "description": "Reconnaissance photography revealed Soviet missile sites in Cuba, giving the U.S. leadership a concrete map of the emerging strategic threat.",
+      "externalUrl": "https://www.jfklibrary.org/learn/about-jfk/jfk-in-history/cuban-missile-crisis",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -83.1,
+            22.7
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "kennedy-address",
+      "startTime": "1962-10-22T23:00:00.000Z",
+      "title": "Kennedy announces the quarantine",
+      "description": "The televised address translated intelligence and policy into a public geographic frame: offensive weapons in Cuba and a quarantine line designed to block further escalation.",
+      "externalUrl": "https://www.jfklibrary.org/learn/about-jfk/jfk-in-history/cuban-missile-crisis",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -76.3,
+            24.3
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "quarantine-begins",
+      "startTime": "1962-10-24T10:00:00.000Z",
+      "title": "The quarantine line goes active",
+      "description": "With U.S. naval forces in position, the crisis moved from intelligence and speech into direct physical enforcement at sea.",
+      "externalUrl": "https://history.state.gov/milestones/1961-1968/cuban-missile-crisis",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -76.3,
+            24.3
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "black-saturday",
+      "startTime": "1962-10-27T12:00:00.000Z",
+      "title": "Black Saturday pushes the crisis to the edge",
+      "description": "The shootdown of a U-2 over Cuba and other simultaneous pressures made 27 October the most dangerous day of the crisis.",
+      "externalUrl": "https://www.jfklibrary.org/learn/about-jfk/jfk-in-history/cuban-missile-crisis",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -79.97,
+            22.41
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "settlement",
+      "startTime": "1962-10-28T15:00:00.000Z",
+      "title": "Khrushchev accepts a settlement",
+      "description": "Moscow agreed to remove the missiles from Cuba, allowing the crisis to shift from immediate confrontation to verification and rollback.",
+      "externalUrl": "https://history.state.gov/milestones/1961-1968/cuban-missile-crisis",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -83.1,
+            22.7
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "quarantine-lifted",
+      "startTime": "1962-11-20T12:00:00.000Z",
+      "title": "The quarantine is lifted",
+      "description": "With bombers and key offensive systems removed, the United States lifted the quarantine and the crisis moved into its post-mortem phase.",
+      "externalUrl": "https://www.jfklibrary.org/learn/about-jfk/jfk-in-history/cuban-missile-crisis",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -76.3,
+            24.3
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    }
+  ],
+  "layers": [
+    {
+      "id": "cuban-missile-crisis-reference",
+      "name": "Reference picture",
+      "features": [
+        {
+          "type": "Feature",
+          "id": "san-cristobal",
+          "properties": {
+            "note": "notes/cuban-missile-crisis/features/san-cristobal.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -83.1,
+              22.7
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "San Cristobal missile area",
+            "description": "Western Cuba site associated with the first widely cited reconnaissance images of Soviet missile deployment.",
+            "externalUrl": "https://history.state.gov/milestones/1961-1968/cuban-missile-crisis"
+          },
+          "style": {
+            "marker-color": "#b91c1c",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "sagua-la-grande",
+          "properties": {
+            "note": "notes/cuban-missile-crisis/features/sagua-la-grande.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -80.1,
+              22.81
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Central Cuba missile zone",
+            "description": "A second launch-zone reference point showing that the deployment was not isolated to a single site.",
+            "externalUrl": "https://history.state.gov/milestones/1961-1968/cuban-missile-crisis"
+          },
+          "style": {
+            "marker-color": "#dc2626",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "quarantine-line",
+          "properties": {
+            "note": "notes/cuban-missile-crisis/features/quarantine-line.md"
+          },
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -81,
+                25.1
+              ],
+              [
+                -78.5,
+                24.6
+              ],
+              [
+                -76,
+                24.2
+              ],
+              [
+                -74.4,
+                23.8
+              ]
+            ]
+          },
+          "meta": {
+            "type": "LineString",
+            "name": "Naval quarantine line",
+            "description": "An illustrative line representing where U.S. naval power met Soviet shipping and where the crisis became physically enforceable.",
+            "externalUrl": "https://www.jfklibrary.org/learn/about-jfk/jfk-in-history/cuban-missile-crisis"
+          },
+          "style": {
+            "stroke": "#2563eb",
+            "stroke-width": 4,
+            "stroke-opacity": 0.9
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "guantanamo",
+          "properties": {
+            "note": "notes/cuban-missile-crisis/features/guantanamo.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -75.15,
+              19.9
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Guantanamo Bay",
+            "description": "The U.S. base at Guantanamo was an important flank reference in any map of the crisis.",
+            "externalUrl": "https://www.britannica.com/place/Guantanamo-Bay"
+          },
+          "style": {
+            "marker-color": "#ca8a04",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "cuba-threat-radius",
+          "properties": {
+            "note": "notes/cuban-missile-crisis/features/cuba-threat-radius.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -80.1,
+              22.5
+            ]
+          },
+          "meta": {
+            "type": "Circle",
+            "name": "Perceived strategic threat radius",
+            "description": "Not a literal targeting diagram, but a visual reminder that the crisis was driven by the perceived compression of warning time from Cuban-based missiles.",
+            "externalUrl": "https://history.state.gov/milestones/1961-1968/cuban-missile-crisis",
+            "radius": 1700000
+          },
+          "style": {
+            "fill": "#7c3aed",
+            "fill-opacity": 0.14,
+            "stroke": "#7c3aed",
+            "stroke-width": 3,
+            "stroke-opacity": 0.8
+          }
+        }
+      ]
+    }
+  ],
+  "mapLayers": [],
+  "settings": {
+    "rangeRingGroups": [],
+    "statuses": [],
+    "supplyClasses": [
+      {
+        "name": "Class I"
+      },
+      {
+        "name": "Class II"
+      },
+      {
+        "name": "Class III"
+      },
+      {
+        "name": "Class IV"
+      },
+      {
+        "name": "Class V"
+      }
+    ],
+    "supplyUoMs": [
+      {
+        "name": "Kilogram",
+        "code": "KG",
+        "type": "weight"
+      },
+      {
+        "name": "Liter",
+        "code": "LI",
+        "type": "volume"
+      },
+      {
+        "name": "Each",
+        "code": "EA",
+        "type": "quantity"
+      },
+      {
+        "name": "Meter",
+        "code": "MR",
+        "type": "distance"
+      },
+      {
+        "name": "Gallon",
+        "code": "GL",
+        "type": "volume"
+      }
+    ],
+    "symbolFillColors": [],
+    "map": {
+      "baseMapId": "osm",
+      "center": [
+        -78.8,
+        22.2
+      ],
+      "zoom": 5.2
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "type": "StratMap-Config",
+  "version": "1.0.0",
+  "name": "Strat Notebook sample library",
+  "defaults": {
+    "center": [
+      15,
+      18
+    ],
+    "zoom": 2,
+    "baseLayer": "osm"
+  },
+  "categories": {},
+  "layers": []
+}

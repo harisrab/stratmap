@@ -1,0 +1,444 @@
+{
+  "id": "demo-amazon-drought",
+  "type": "ORBAT-mapper",
+  "version": "2.5.0",
+  "meta": {
+    "createdDate": "2026-03-22T00:00:00.000Z",
+    "lastModifiedDate": "2026-03-22T00:00:00.000Z"
+  },
+  "name": "Amazon Drought and Rio Negro Access Crisis 2023",
+  "description": "A river-access notebook focused on the 2023 Amazon drought, falling Rio Negro levels, disrupted transport, and the communities and institutions forced to adapt.",
+  "startTime": "2023-06-01T12:00:00.000Z",
+  "timeZone": "America/Manaus",
+  "symbologyStandard": "app6",
+  "sides": [
+    {
+      "id": "river-system",
+      "name": "River system and logistics",
+      "standardIdentity": "3",
+      "description": "The river network itself became a constraint on transport, making ports, gauges, and dredging operations central actors in the response.",
+      "groups": [
+        {
+          "id": "manaus-system",
+          "name": "Port and river management",
+          "subUnits": [
+            {
+              "id": "manaus-port-network",
+              "name": "Manaus port and logistics network",
+              "shortName": "Manaus logistics",
+              "sidc": "10031000181216000000",
+              "description": "Manaus concentrated port activity, river monitoring, and many of the downstream logistics decisions that followed the falling Rio Negro.\n- Role: Regional logistics control node\n- Geographic anchor: Centered on Manaus and the lower Rio Negro/Amazon confluence area.\n- Why it matters: The city provided the clearest operational readout of how far the drought had progressed.\n- What to watch: River gauge levels, queueing, dredging needs, and supply disruptions.",
+              "externalUrl": "https://earthobservatory.nasa.gov/images/151942/drought-strands-ships-on-the-amazon",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "manaus-port-network-state-1",
+                  "t": "2023-06-01T12:00:00.000Z",
+                  "location": [
+                    -60.02,
+                    -3.1
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "brazil-emergency-response",
+              "name": "Brazilian emergency river response",
+              "shortName": "Emergency response",
+              "sidc": "10031000171211000000",
+              "description": "Civil defense, the navy, and emergency logistics actors tried to maintain access, dredge channels, and deliver aid to isolated communities.\n- Role: Emergency access and relief support\n- Geographic anchor: Moved between Manaus, shallowing channels, and communities cut off by low water.\n- Why it matters: This actor shows the moment when monitoring a drought becomes actively engineering and supplying around it.\n- What to watch: Emergency dredging, aid distribution, and whether temporary access fixes keep pace with falling water.",
+              "externalUrl": "https://www.reuters.com/world/americas/record-amazon-drought-disrupts-transport-lives-brazil-2023-10-17/",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "brazil-emergency-response-state-1",
+                  "t": "2023-10-16T12:00:00.000Z",
+                  "location": [
+                    -58.44,
+                    -3.14
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "communities-and-health",
+      "name": "Communities and health impacts",
+      "standardIdentity": "0",
+      "description": "Low water translated quickly into isolation, heat stress, ecological loss, and difficult access to medicine and food.",
+      "groups": [
+        {
+          "id": "affected-communities",
+          "name": "Communities and local response",
+          "subUnits": [
+            {
+              "id": "river-communities",
+              "name": "River communities",
+              "shortName": "River communities",
+              "sidc": "10031000171211000000",
+              "description": "Communities dependent on river transport experienced the drought as isolation, rising costs, and delayed access to essential goods and services.\n- Role: Population exposed to access failure\n- Geographic anchor: Distributed along tributaries and river settlements whose links to Manaus and regional markets became fragile in low water.\n- Why it matters: They are the reason water-level graphs matter in human terms.\n- What to watch: Delivery delays, food prices, and access to health care and fuel.",
+              "externalUrl": "https://www.reuters.com/world/americas/record-amazon-drought-disrupts-transport-lives-brazil-2023-10-17/",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "river-communities-state-1",
+                  "t": "2023-10-16T12:00:00.000Z",
+                  "location": [
+                    -64.72,
+                    -3.35
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "health-environment-teams",
+              "name": "Health and environmental response teams",
+              "shortName": "Health / environment",
+              "sidc": "10031000171211000000",
+              "description": "Responders monitoring die-offs, heat stress, water quality, and community health impacts turned ecological signals into emergency indicators.\n- Role: Ecological and public health monitoring\n- Geographic anchor: Especially visible around Lake Tefé and other badly affected water bodies.\n- Why it matters: They connect the river-access story to environmental and health consequences that can worsen long after shipping slows.\n- What to watch: Heat anomalies, fish mortality, and the spread of health impacts from isolated communities.",
+              "externalUrl": "https://earthobservatory.nasa.gov/images/151942/drought-strands-ships-on-the-amazon",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "health-environment-teams-state-1",
+                  "t": "2023-09-30T12:00:00.000Z",
+                  "location": [
+                    -64.72,
+                    -3.35
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "water-falls",
+      "startTime": "2023-06-01T12:00:00.000Z",
+      "title": "River levels enter a worrying decline",
+      "description": "By early dry season, low water had become a visible operational concern for river transport and communities dependent on regular boat service.",
+      "externalUrl": "https://earthobservatory.nasa.gov/images/151942/drought-strands-ships-on-the-amazon",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -60.02,
+            -3.1
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "drought-intensifies",
+      "startTime": "2023-09-15T12:00:00.000Z",
+      "title": "Transport disruptions spread through the river network",
+      "description": "As channels shallowed, communities saw more delays, smaller loads, and less reliable movement of fuel, food, and medicine.",
+      "externalUrl": "https://www.reuters.com/world/americas/record-amazon-drought-disrupts-transport-lives-brazil-2023-10-17/",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61,
+            -3.2
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "record-low",
+      "startTime": "2023-10-16T12:00:00.000Z",
+      "title": "Rio Negro reaches record low levels near Manaus",
+      "description": "The record low crystallized the crisis and confirmed that the drought had become severe enough to alter routine logistics across the region.",
+      "externalUrl": "https://www.reuters.com/world/americas/record-amazon-drought-disrupts-transport-lives-brazil-2023-10-17/",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -60.02,
+            -3.1
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "lake-tefe-dieoff",
+      "startTime": "2023-09-30T12:00:00.000Z",
+      "title": "Fish die-offs signal ecological emergency at Lake Tefé",
+      "description": "The drought's ecological effects became impossible to ignore as extreme conditions around Lake Tefé produced major fish mortality and alarm over wider environmental stress.",
+      "externalUrl": "https://earthobservatory.nasa.gov/images/151942/drought-strands-ships-on-the-amazon",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -64.72,
+            -3.35
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "emergency-dredging",
+      "startTime": "2023-10-25T12:00:00.000Z",
+      "title": "Emergency dredging and aid delivery intensify",
+      "description": "Authorities and responders pushed to keep channels usable enough for essential goods and emergency movement as low water persisted.",
+      "externalUrl": "https://www.reuters.com/world/americas/record-amazon-drought-disrupts-transport-lives-brazil-2023-10-17/",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -58.44,
+            -3.14
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "gradual-recovery",
+      "startTime": "2023-12-15T12:00:00.000Z",
+      "title": "Conditions begin to improve but vulnerability remains",
+      "description": "Rains and higher water later eased the immediate crisis, yet the drought showed how quickly low water can turn the river system into a regional access emergency.",
+      "externalUrl": "https://earthobservatory.nasa.gov/images/151942/drought-strands-ships-on-the-amazon",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -60.02,
+            -3.1
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    }
+  ],
+  "layers": [
+    {
+      "id": "amazon-drought-reference",
+      "name": "Reference picture",
+      "features": [
+        {
+          "type": "Feature",
+          "id": "manaus",
+          "properties": {
+            "note": "notes/amazon-drought/features/manaus.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -60.02,
+              -3.1
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Manaus and Rio Negro gauge area",
+            "description": "Manaus is both a major logistics hub and the place where river level measurements became shorthand for the drought's severity.",
+            "externalUrl": "https://www.reuters.com/world/americas/record-amazon-drought-disrupts-transport-lives-brazil-2023-10-17/"
+          },
+          "style": {
+            "marker-color": "#2563eb",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "tefe",
+          "properties": {
+            "note": "notes/amazon-drought/features/tefe.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -64.72,
+              -3.35
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Lake Tefé",
+            "description": "Water body associated with severe heat and fish mortality during the drought emergency.",
+            "externalUrl": "https://earthobservatory.nasa.gov/images/151942/drought-strands-ships-on-the-amazon"
+          },
+          "style": {
+            "marker-color": "#b91c1c",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "supply-route",
+          "properties": {
+            "note": "notes/amazon-drought/features/supply-route.md"
+          },
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -60.02,
+                -3.1
+              ],
+              [
+                -61.6,
+                -3.2
+              ],
+              [
+                -63.2,
+                -3.3
+              ],
+              [
+                -64.72,
+                -3.35
+              ]
+            ]
+          },
+          "meta": {
+            "type": "LineString",
+            "name": "Amazon river supply route",
+            "description": "Simplified river route illustrating how communities depend on waterborne access for essential movement and supply.",
+            "externalUrl": "https://www.reuters.com/world/americas/record-amazon-drought-disrupts-transport-lives-brazil-2023-10-17/"
+          },
+          "style": {
+            "stroke": "#0f766e",
+            "stroke-width": 4,
+            "stroke-opacity": 0.9
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "dredging-zone",
+          "properties": {
+            "note": "notes/amazon-drought/features/dredging-zone.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -58.44,
+              -3.14
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Emergency dredging zone",
+            "description": "Representative location for emergency work aimed at maintaining navigability during the drought.",
+            "externalUrl": "https://www.reuters.com/world/americas/record-amazon-drought-disrupts-transport-lives-brazil-2023-10-17/"
+          },
+          "style": {
+            "marker-color": "#ca8a04",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "rio-negro-stress-basin",
+          "properties": {
+            "note": "notes/amazon-drought/features/rio-negro-stress-basin.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -61.5,
+              -3.3
+            ]
+          },
+          "meta": {
+            "type": "Circle",
+            "name": "Rio Negro low-water stress basin",
+            "description": "Illustrative basin showing the wider part of the river system where low water translated into access stress for transport and communities.",
+            "externalUrl": "https://earthobservatory.nasa.gov/images/151942/drought-strands-ships-on-the-amazon",
+            "radius": 280000
+          },
+          "style": {
+            "fill": "#7c3aed",
+            "fill-opacity": 0.14,
+            "stroke": "#7c3aed",
+            "stroke-width": 3,
+            "stroke-opacity": 0.8
+          }
+        }
+      ]
+    }
+  ],
+  "mapLayers": [],
+  "settings": {
+    "rangeRingGroups": [],
+    "statuses": [],
+    "supplyClasses": [
+      {
+        "name": "Class I"
+      },
+      {
+        "name": "Class II"
+      },
+      {
+        "name": "Class III"
+      },
+      {
+        "name": "Class IV"
+      },
+      {
+        "name": "Class V"
+      }
+    ],
+    "supplyUoMs": [
+      {
+        "name": "Kilogram",
+        "code": "KG",
+        "type": "weight"
+      },
+      {
+        "name": "Liter",
+        "code": "LI",
+        "type": "volume"
+      },
+      {
+        "name": "Each",
+        "code": "EA",
+        "type": "quantity"
+      },
+      {
+        "name": "Meter",
+        "code": "MR",
+        "type": "distance"
+      },
+      {
+        "name": "Gallon",
+        "code": "GL",
+        "type": "volume"
+      }
+    ],
+    "symbolFillColors": [],
+    "map": {
+      "baseMapId": "osm",
+      "center": [
+        -61.5,
+        -3.4
+      ],
+      "zoom": 6.3
+    }
+  }
+}

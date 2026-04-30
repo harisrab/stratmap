@@ -1,0 +1,10 @@
+{
+  "type": "StratMap-Scenario",
+  "version": "1.0.0",
+  "id": "darien-gap",
+  "name": "Darién Gap Migration Corridor 2023-2024",
+  "description": "A corridor notebook on migrant movement through the Darién, reception bottlenecks in Panama, and the geography that turns a remote jungle route into a major hemispheric story.",
+  "assessment": "Journalism and investigations",
+  "note": "notes/darien-gap/overview.md",
+  "dataFile": "data/darien-gap.json"
+}

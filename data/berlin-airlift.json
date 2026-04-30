@@ -1,0 +1,448 @@
+{
+  "id": "demo-berlin-airlift",
+  "type": "ORBAT-mapper",
+  "version": "2.5.0",
+  "meta": {
+    "createdDate": "2026-03-22T00:00:00.000Z",
+    "lastModifiedDate": "2026-03-22T00:00:00.000Z"
+  },
+  "name": "Berlin Airlift 1948-1949",
+  "description": "A history notebook on the Berlin Airlift showing how air corridors, runway capacity, and urban demand turned a political confrontation into a logistics contest.",
+  "startTime": "1948-06-24T06:00:00.000Z",
+  "timeZone": "Europe/Berlin",
+  "symbologyStandard": "app6",
+  "sides": [
+    {
+      "id": "western-allies",
+      "name": "Western Allies",
+      "standardIdentity": "3",
+      "description": "The U.S. and Britain built a logistics machine whose credibility depended on repetitive, disciplined air throughput rather than dramatic battlefield actions.",
+      "groups": [
+        {
+          "id": "airlift-groups",
+          "name": "Airlift system",
+          "subUnits": [
+            {
+              "id": "us-airlift-task-force",
+              "name": "U.S. Airlift Task Force",
+              "shortName": "US Airlift",
+              "sidc": "10032000001200000000",
+              "description": "American C-47 and C-54 operations formed the backbone of early and later high-volume airlift into Berlin.\n- Role: Heavy-lift air bridge\n- Geographic anchor: Centered on Tempelhof and corridor traffic into the U.S. sector of the city.\n- Why it matters: The U.S. contribution turned the blockade into a throughput competition rather than a surrender timetable.\n- What to watch: Aircraft availability, load discipline, weather, and turnaround tempo.",
+              "externalUrl": "https://history.state.gov/milestones/1945-1952/berlin-airlift",
+              "media": [
+                {
+                  "url": "/example-images/berlin-airlift.jpg",
+                  "caption": "Airlift aircraft landing at Tempelhof.",
+                  "credits": "Wikimedia Commons",
+                  "creditsUrl": "https://commons.wikimedia.org/wiki/File:C-54_landing_at_Tempelhof.jpg"
+                }
+              ],
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "us-airlift-task-force-state-1",
+                  "t": "1948-06-26T06:00:00.000Z",
+                  "location": [
+                    13.403,
+                    52.473
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "raf-berlin-airlift",
+              "name": "Royal Air Force Berlin Airlift",
+              "shortName": "RAF Airlift",
+              "sidc": "10032000001200000000",
+              "description": "British airlift activity concentrated on sustaining its sectors and sharing the burden of the corridor system.\n- Role: Sector sustainment and corridor traffic\n- Geographic anchor: Operated strongly through RAF Gatow and the British sector, while sharing the wider corridor rhythm of the lift.\n- Why it matters: The airlift only worked because multiple national systems accepted common discipline and timing.\n- What to watch: Weather resilience, interoperability, and night or winter operations.",
+              "externalUrl": "https://history.state.gov/milestones/1945-1952/berlin-airlift",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "raf-berlin-airlift-state-1",
+                  "t": "1948-06-28T06:00:00.000Z",
+                  "location": [
+                    13.151,
+                    52.483
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "west-berlin-admin",
+              "name": "West Berlin municipal administration",
+              "shortName": "West Berlin",
+              "sidc": "10031000171211000000",
+              "description": "City authorities were the demand manager of the crisis, translating aircraft arrivals into electricity, heat, and food for residents.\n- Role: Urban demand and distribution management\n- Geographic anchor: Centered on the city sectors and the urban network receiving supplies from the airfields.\n- Why it matters: The airlift's success depended on whether supplies reached citizens quickly enough to prevent political collapse.\n- What to watch: Coal distribution, civilian morale, and winter vulnerability.",
+              "externalUrl": "https://www.britannica.com/event/Berlin-blockade-and-airlift",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "west-berlin-admin-state-1",
+                  "t": "1948-06-24T06:00:00.000Z",
+                  "location": [
+                    13.4,
+                    52.52
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "soviet-pressure",
+      "name": "Soviet blockade authorities",
+      "standardIdentity": "6",
+      "description": "The Soviet Union attempted to pressure the Western sectors by cutting land and water access while avoiding direct air conflict inside the established corridors.",
+      "groups": [
+        {
+          "id": "blockade-system",
+          "name": "Blockade pressure",
+          "subUnits": [
+            {
+              "id": "soviet-blockade",
+              "name": "Soviet blockade authorities",
+              "shortName": "Blockade",
+              "sidc": "10031000171211000000",
+              "description": "The blockade combined political pressure with physical denial of road, rail, and barge access into West Berlin.\n- Role: Access denial and coercive pressure\n- Geographic anchor: Controlled the land and water approaches around the city while leaving the formal air corridors open.\n- Why it matters: The blockade defined the crisis by forcing the Western response into the air.\n- What to watch: Duration of pressure and whether logistical exhaustion could produce political concessions.",
+              "externalUrl": "https://history.state.gov/milestones/1945-1952/berlin-airlift",
+              "subUnits": [],
+              "state": [
+                {
+                  "id": "soviet-blockade-state-1",
+                  "t": "1948-06-24T06:00:00.000Z",
+                  "location": [
+                    12.9,
+                    52.6
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "currency-reform",
+      "startTime": "1948-06-20T06:00:00.000Z",
+      "title": "Currency reform sharpens the crisis",
+      "description": "Western moves on currency reform intensified Soviet concerns over the political future of Germany and accelerated the standoff that soon reached Berlin's transport arteries.",
+      "externalUrl": "https://history.state.gov/milestones/1945-1952/berlin-airlift",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            13.4,
+            52.52
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "blockade-begins",
+      "startTime": "1948-06-24T06:00:00.000Z",
+      "title": "The Soviet blockade begins",
+      "description": "Road, rail, and barge access to the Western sectors was interrupted, making the air corridors the only workable route for sustaining West Berlin.",
+      "externalUrl": "https://history.state.gov/milestones/1945-1952/berlin-airlift",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            13.4,
+            52.52
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "first-full-flights",
+      "startTime": "1948-06-26T06:00:00.000Z",
+      "title": "The sustained airlift begins",
+      "description": "The Western allies committed to continuous supply flights, transforming a temporary workaround into the central strategy for resisting the blockade.",
+      "externalUrl": "https://history.state.gov/milestones/1945-1952/berlin-airlift",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            13.403,
+            52.473
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "tegel-built",
+      "startTime": "1948-12-05T06:00:00.000Z",
+      "title": "Tegel expands the airfield network",
+      "description": "The rapid development of Tegel helped reduce congestion and gave the airlift more margin as winter demand and traffic intensity rose.",
+      "externalUrl": "https://www.britannica.com/event/Berlin-blockade-and-airlift",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            13.287,
+            52.559
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "easter-parade",
+      "startTime": "1949-04-16T06:00:00.000Z",
+      "title": "Easter Parade demonstrates peak throughput",
+      "description": "Record tonnage on Easter Parade day proved that the airlift had matured into a disciplined, high-output logistics system capable of defeating the blockade politically.",
+      "externalUrl": "https://history.state.gov/milestones/1945-1952/berlin-airlift",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            13.403,
+            52.473
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    },
+    {
+      "id": "blockade-lifted",
+      "startTime": "1949-05-12T06:00:00.000Z",
+      "title": "The blockade is lifted",
+      "description": "The Soviet Union reopened land access, but flights continued for months to build reserves and prove that the city would not again be easily coerced.",
+      "externalUrl": "https://history.state.gov/milestones/1945-1952/berlin-airlift",
+      "where": {
+        "type": "geometry",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            13.4,
+            52.52
+          ]
+        },
+        "mapAnimation": "flyTo",
+        "maxZoom": 8
+      }
+    }
+  ],
+  "layers": [
+    {
+      "id": "berlin-airlift-reference",
+      "name": "Reference picture",
+      "features": [
+        {
+          "type": "Feature",
+          "id": "tempelhof",
+          "properties": {
+            "note": "notes/berlin-airlift/features/tempelhof.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              13.403,
+              52.473
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Tempelhof Airport",
+            "description": "Tempelhof became the most iconic visual symbol of the airlift and one of its most important receiving airfields.",
+            "externalUrl": "https://history.state.gov/milestones/1945-1952/berlin-airlift"
+          },
+          "style": {
+            "marker-color": "#2563eb",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "gatow",
+          "properties": {
+            "note": "notes/berlin-airlift/features/gatow.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              13.151,
+              52.483
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "RAF Gatow",
+            "description": "RAF Gatow was one of the main receiving fields and an anchor for the British share of the airlift.",
+            "externalUrl": "https://www.britannica.com/event/Berlin-blockade-and-airlift"
+          },
+          "style": {
+            "marker-color": "#0f766e",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "tegel",
+          "properties": {
+            "note": "notes/berlin-airlift/features/tegel.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              13.287,
+              52.559
+            ]
+          },
+          "meta": {
+            "type": "Point",
+            "name": "Tegel Airport",
+            "description": "Tegel provided extra capacity and helped the airlift absorb the scale and rhythm demanded by the blockade.",
+            "externalUrl": "https://www.britannica.com/event/Berlin-blockade-and-airlift"
+          },
+          "style": {
+            "marker-color": "#ca8a04",
+            "marker-size": "medium",
+            "marker-symbol": "circle"
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "air-corridors",
+          "properties": {
+            "note": "notes/berlin-airlift/features/air-corridors.md"
+          },
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                9.3,
+                52.4
+              ],
+              [
+                11.4,
+                52.45
+              ],
+              [
+                13.3,
+                52.5
+              ]
+            ]
+          },
+          "meta": {
+            "type": "LineString",
+            "name": "Western air corridors into Berlin",
+            "description": "Simplified representation of the corridor structure that allowed continuous access from western Germany into Berlin.",
+            "externalUrl": "https://history.state.gov/milestones/1945-1952/berlin-airlift"
+          },
+          "style": {
+            "stroke": "#7c3aed",
+            "stroke-width": 4,
+            "stroke-opacity": 0.9
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "west-berlin-demand",
+          "properties": {
+            "note": "notes/berlin-airlift/features/west-berlin-demand.md"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              13.35,
+              52.5
+            ]
+          },
+          "meta": {
+            "type": "Circle",
+            "name": "West Berlin demand basin",
+            "description": "A reminder that the airlift was serving a living city whose demand profile set the bar for success.",
+            "externalUrl": "https://www.britannica.com/event/Berlin-blockade-and-airlift",
+            "radius": 11000
+          },
+          "style": {
+            "fill": "#b91c1c",
+            "fill-opacity": 0.14,
+            "stroke": "#b91c1c",
+            "stroke-width": 3,
+            "stroke-opacity": 0.8
+          }
+        }
+      ]
+    }
+  ],
+  "mapLayers": [],
+  "settings": {
+    "rangeRingGroups": [],
+    "statuses": [],
+    "supplyClasses": [
+      {
+        "name": "Class I"
+      },
+      {
+        "name": "Class II"
+      },
+      {
+        "name": "Class III"
+      },
+      {
+        "name": "Class IV"
+      },
+      {
+        "name": "Class V"
+      }
+    ],
+    "supplyUoMs": [
+      {
+        "name": "Kilogram",
+        "code": "KG",
+        "type": "weight"
+      },
+      {
+        "name": "Liter",
+        "code": "LI",
+        "type": "volume"
+      },
+      {
+        "name": "Each",
+        "code": "EA",
+        "type": "quantity"
+      },
+      {
+        "name": "Meter",
+        "code": "MR",
+        "type": "distance"
+      },
+      {
+        "name": "Gallon",
+        "code": "GL",
+        "type": "volume"
+      }
+    ],
+    "symbolFillColors": [],
+    "map": {
+      "baseMapId": "osm",
+      "center": [
+        13.32,
+        52.51
+      ],
+      "zoom": 8.2
+    }
+  }
+}

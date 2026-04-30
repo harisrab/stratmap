@@ -1,0 +1,10 @@
+{
+  "type": "StratMap-Scenario",
+  "version": "1.0.0",
+  "id": "turkiye-syria-earthquake",
+  "name": "Türkiye-Syria Earthquake Relief Corridors 2023",
+  "description": "A humanitarian response notebook showing the quake belt, damaged cities, border crossings into northwest Syria, and the logistics corridors that mattered in the first weeks.",
+  "assessment": "Humanitarian and disaster analysis",
+  "note": "notes/turkiye-syria-earthquake/overview.md",
+  "dataFile": "data/turkiye-syria-earthquake.json"
+}

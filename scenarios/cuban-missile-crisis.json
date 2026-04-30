@@ -1,0 +1,10 @@
+{
+  "type": "StratMap-Scenario",
+  "version": "1.0.0",
+  "id": "cuban-missile-crisis",
+  "name": "Cuban Missile Crisis 1962",
+  "description": "A notebook on missile deployment, naval quarantine, and the compressed geography that made October 1962 a global nuclear crisis.",
+  "assessment": "History",
+  "note": "notes/cuban-missile-crisis/overview.md",
+  "dataFile": "data/cuban-missile-crisis.json"
+}

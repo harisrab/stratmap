@@ -1,0 +1,10 @@
+{
+  "type": "StratMap-Scenario",
+  "version": "1.0.0",
+  "id": "falklands82",
+  "name": "Falklands War 1982",
+  "description": "An expeditionary campaign where maritime exclusion zones, carrier aviation, amphibious landings, and the final approach to Stanley all depended on geography.",
+  "assessment": "Military and defense",
+  "note": "notes/falklands82/overview.md",
+  "dataFile": "data/falklands82.json"
+}
