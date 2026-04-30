@@ -1,0 +1,9 @@
+Can you devise a quick plan for implementing Stripe inside this application? So when the user upgrades to Pro, they click on the Pro button, Upgrade to Pro, they should be able to go to the Stripe checkout and pay for the product, and it should shoot a webhook, and the webhook should come and hit the app, and it should update the database as well for that user. It should say it's subscribed. And if they subscribe, if they unsubscribe, and all of that should be managed in the Stripe's pre-built page, pages that they provide. And it should keep the state here if they're paid or not. So I also want to add a small flag, not a flag, but like add a user button in the dashboard at the top right, where they can click on the user icon and they can see the user details, like the name of the user and the email of the user, whatever information that is available there. And just below it, I need a logout button, and I need a manage payments button. And the manage payment button will lead to managing payments on the Stripe's pre-built pages. So we don't need to build any of the functionality custom, we just want to integrate what Stripe gives us. I will create the product in Stripe, I will create the webhooks in Stripe, anything you need me to, I'll do that for you. Just give me, just write the necessary code in the UX to sort of like build this functionality. And also, you should get the usage of the strategies that shows up on the right sidebar inside of the app. Right now, everybody can use it, but I only want the pro users to be able to send messages.
+
+---
+
+Give me a very brief product description that I can put in for the product in Stripe for the Pro plan.
+
+---
+
+i've setup the webhooks and envs. now should i run any sql in postgres?
