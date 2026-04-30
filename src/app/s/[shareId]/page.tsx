@@ -24,7 +24,7 @@ export async function generateMetadata({
     const proto = headersList.get("x-forwarded-proto") ?? "http";
     const host = headersList.get("x-forwarded-host") ?? headersList.get("host") ?? "localhost:3000";
     const origin = `${proto}://${host}`;
-    const imageUrl = `${origin}/api/shares/${encodeURIComponent(shareId)}/cover`;
+    const imageUrl = `${origin}/api/shares/${encodeURIComponent(shareId)}/cover?v=ir-title-v2`;
     const title = `${project.name} | Stratbook`;
     const description = project.description || "A public map-first stratbook.";
 
