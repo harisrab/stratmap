@@ -7,6 +7,7 @@ import matter from "gray-matter";
 import { nanoid } from "nanoid";
 import { createHash } from "node:crypto";
 import path from "node:path";
+import sharp from "sharp";
 
 import {
   EXAMPLE_PUBLIC_OWNER_ID,
@@ -55,6 +56,7 @@ const DEFAULT_FILE_NAME = "notes/welcome.md";
 const LAYERS_FILE_NAME = "layers/stratbook-layers.json";
 const COVER_IMAGE_HEIGHT = 630;
 const COVER_IMAGE_WIDTH = 1200;
+const COVER_IMAGE_STYLE_VERSION = "heavy-gradient-title-v2";
 const SHARE_MANIFEST_PREFIX = "_public/shares";
 export const STRATEGIST_MONTHLY_MESSAGE_LIMIT = 500;
 
@@ -380,6 +382,91 @@ function buildMapboxCoverUrl(points: WorkspaceMapPoint[], layers: StratMapLayer[
   };
   const overlay = `geojson(${encodeURIComponent(JSON.stringify(featureCollection))})`;
   return `${base}/${overlay}/auto/${size}?${params.toString()}`;
+}
+
+function escapeSvgText(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&apos;");
+}
+
+function wrapCoverTitle(title: string) {
+  const words = title.trim().split(/\s+/).filter(Boolean);
+  const lines: string[] = [];
+  let currentLine = "";
+  for (const word of words) {
+    const nextLine = currentLine ? `${currentLine} ${word}` : word;
+    if (nextLine.length > 22 && currentLine) {
+      lines.push(currentLine);
+      currentLine = word;
+      continue;
+    }
+    currentLine = nextLine;
+  }
+  if (currentLine) lines.push(currentLine);
+  const visibleLines = lines.slice(0, 2);
+  if (lines.length > 2) {
+    visibleLines[1] = `${visibleLines[1].replace(/\s+\S*$/, "") || visibleLines[1]}...`;
+  }
+  return visibleLines.length > 0 ? visibleLines : ["Untitled stratbook"];
+}
+
+function renderCoverTitle(title: string) {
+  return wrapCoverTitle(title)
+    .map((line, index) => (
+      `<tspan x="64" dy="${index === 0 ? 0 : 58}">${escapeSvgText(line)}</tspan>`
+    ))
+    .join("");
+}
+
+function getCoverTitleHash(title: string) {
+  return createHash("sha256").update(title.trim()).digest("hex").slice(0, 8);
+}
+
+async function applyCoverImageGradient(image: Blob, title: string): Promise<Blob> {
+  const input = Buffer.from(await image.arrayBuffer());
+  const gradient = Buffer.from(`
+    <svg width="${COVER_IMAGE_WIDTH}" height="${COVER_IMAGE_HEIGHT}" viewBox="0 0 ${COVER_IMAGE_WIDTH} ${COVER_IMAGE_HEIGHT}" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="left" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0" stop-color="#02060a" stop-opacity="0.9"/>
+          <stop offset="0.48" stop-color="#02060a" stop-opacity="0.4"/>
+          <stop offset="1" stop-color="#02060a" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="bottom" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stop-color="#02060a" stop-opacity="0"/>
+          <stop offset="0.62" stop-color="#02060a" stop-opacity="0.3"/>
+          <stop offset="1" stop-color="#02060a" stop-opacity="0.74"/>
+        </linearGradient>
+        <radialGradient id="vignette" cx="50%" cy="42%" r="76%">
+          <stop offset="0.46" stop-color="#02060a" stop-opacity="0"/>
+          <stop offset="1" stop-color="#02060a" stop-opacity="0.56"/>
+        </radialGradient>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#left)"/>
+      <rect width="100%" height="100%" fill="url(#bottom)"/>
+      <rect width="100%" height="100%" fill="url(#vignette)"/>
+      <g transform="translate(64 58)">
+        <text x="0" y="24" fill="#ffffff" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" font-size="27" font-weight="700" letter-spacing="0">
+          <tspan fill="#5eead4">Strat</tspan><tspan fill="#f8fafc">book</tspan>
+        </text>
+      </g>
+      <text x="64" y="154" fill="#f8fafc" font-family="Helvetica Neue, Arial, sans-serif" font-size="50" font-weight="400" letter-spacing="0" style="paint-order: stroke; stroke: rgba(2, 6, 10, 0.3); stroke-width: 3px;">
+        ${renderCoverTitle(title)}
+      </text>
+    </svg>
+  `);
+  const output = await sharp(input)
+    .resize(COVER_IMAGE_WIDTH, COVER_IMAGE_HEIGHT, { fit: "cover" })
+    .composite([{ input: gradient, blend: "over" }])
+    .png()
+    .toBuffer();
+  const imageBuffer = new ArrayBuffer(output.byteLength);
+  new Uint8Array(imageBuffer).set(output);
+  return new Blob([imageBuffer], { type: "image/png" });
 }
 
 // ─── Low-level storage primitives ────────────────────────────────────────────
@@ -923,7 +1010,7 @@ export async function generateProjectCoverImage(
     readProjectJson(ownerId, projectId),
     buildWorkspaceIndex(ownerId, projectId),
   ]);
-  const markerHash = getMapPointHash(index.mapPoints, index.layers);
+  const markerHash = `${COVER_IMAGE_STYLE_VERSION}:${getMapPointHash(index.mapPoints, index.layers)}:${getCoverTitleHash(current.name)}`;
 
   if (current.coverImage?.markerHash === markerHash) {
     return current;
@@ -936,7 +1023,7 @@ export async function generateProjectCoverImage(
   }
 
   const storagePath = `${projectStoragePrefix(ownerId, projectId)}/cover.png`;
-  const image = await response.blob();
+  const image = await applyCoverImageGradient(await response.blob(), current.name);
   await storageUploadBinary(storagePath, image, "image/png");
 
   const updated: Project = {
