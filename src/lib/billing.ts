@@ -40,10 +40,14 @@ function emptyBillingProfile(): BillingProfile {
 
 function toBillingProfile(row?: BillingRow | null): BillingProfile {
   const status = row?.status ?? "free";
+  const cancelAtPeriodEnd = Boolean(row?.cancel_at_period_end);
   return {
-    cancelAtPeriodEnd: Boolean(row?.cancel_at_period_end),
+    cancelAtPeriodEnd,
     currentPeriodEnd: row?.current_period_end ?? null,
-    isPro: proStatuses.has(status),
+    // Treat scheduled cancellations as immediately losing Pro access, even
+    // though Stripe may keep the subscription status as `active` until the
+    // billing period ends.
+    isPro: proStatuses.has(status) && !cancelAtPeriodEnd,
     priceId: row?.price_id ?? null,
     status,
     stripeCustomerId: row?.stripe_customer_id ?? null,
