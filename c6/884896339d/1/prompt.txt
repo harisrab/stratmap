@@ -1,0 +1,9 @@
+Okay. Now that we have made the updates, now we need to start marketing this. Can you help me write and plan a Twitter thread to explain the product? I want this to be my first post. And I will be attaching some screenshots as well of the app that we built.
+
+---
+
+So right now, when I share on WhatsApp or anywhere else, the main website, it doesn't have an OG image. I want it to have an OG image. The main website. I already have the image. How can I add it?
+
+---
+
+i just updated teh image ./public/images/stratbook.jpg can you cehck now?
