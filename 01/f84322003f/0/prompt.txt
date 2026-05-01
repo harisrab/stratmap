@@ -1,0 +1,5 @@
+This is still broken.
+
+---
+
+Look at the sizing. Everything is overflowing including the buttons. This is share notebook modal.
