@@ -1,23 +1,35 @@
-import { getSharedProject } from "@/lib/stratmap/workspace";
+import { generateSharedProjectCoverBlob, getSharedProject } from "@/lib/stratmap/workspace";
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
-
+// Node.js runtime required — renderCoverImage reads font files via fs.readFile
 export async function GET(
   _request: Request,
   { params }: { params: Promise<{ shareId: string }> }
 ) {
   const { shareId } = await params;
 
+  // ── Primary: Mapbox static map + Geist title composite ─────────────────────
+  try {
+    const blob = await generateSharedProjectCoverBlob(shareId);
+    return new Response(blob, {
+      headers: {
+        "Cache-Control": "public, max-age=300, stale-while-revalidate=86400",
+        "Content-Type": "image/png",
+      },
+    });
+  } catch {
+    // Mapbox unavailable or image composition failed — fall through to text card
+  }
+
+  // ── Fallback: branded text card (no external deps, always renders) ──────────
   let projectName = "Shared Stratbook";
   let projectDescription = "";
-
   try {
     const { project } = await getSharedProject(shareId);
     projectName = project.name ?? projectName;
     projectDescription = project.description ?? "";
   } catch {
-    // Use defaults — still render a valid image rather than a 404
+    // Use defaults
   }
 
   return new ImageResponse(
@@ -35,7 +47,7 @@ export async function GET(
           overflow: "hidden",
         }}
       >
-        {/* Teal glow blob — top-left */}
+        {/* Teal glow */}
         <div
           style={{
             position: "absolute",
@@ -47,34 +59,22 @@ export async function GET(
             background: "radial-gradient(circle, rgba(45,212,191,0.18) 0%, transparent 70%)",
           }}
         />
-        {/* Subtle grid texture overlay */}
+        {/* Subtle grid */}
         <div
           style={{
             position: "absolute",
-            inset: 0,
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
             background:
-              "linear-gradient(rgba(94,234,212,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(94,234,212,0.03) 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
+              "linear-gradient(rgba(94,234,212,0.03) 1px, transparent 1px)",
           }}
         />
 
-        {/* Brand tag */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-            marginBottom: 40,
-          }}
-        >
-          <div
-            style={{
-              width: 8,
-              height: 8,
-              borderRadius: "50%",
-              background: "#5eead4",
-            }}
-          />
+        {/* Brand */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 40 }}>
+          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#5eead4" }} />
           <span
             style={{
               color: "#5eead4",
@@ -106,7 +106,6 @@ export async function GET(
           {projectName}
         </div>
 
-        {/* Description — show when present */}
         {projectDescription ? (
           <div
             style={{
@@ -124,7 +123,7 @@ export async function GET(
           </div>
         ) : null}
 
-        {/* Footer row */}
+        {/* Footer */}
         <div
           style={{
             display: "flex",
@@ -138,37 +137,23 @@ export async function GET(
           <div
             style={{
               display: "flex",
-              alignItems: "center",
-              gap: 8,
-              color: "rgba(255,255,255,0.28)",
-              fontSize: 14,
+              background: "rgba(94,234,212,0.12)",
+              border: "1px solid rgba(94,234,212,0.22)",
+              borderRadius: 20,
+              padding: "4px 12px",
+              color: "rgba(94,234,212,0.72)",
+              fontSize: 12,
+              fontWeight: 600,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
             }}
           >
-            <div
-              style={{
-                background: "rgba(94,234,212,0.12)",
-                border: "1px solid rgba(94,234,212,0.22)",
-                borderRadius: 20,
-                padding: "4px 12px",
-                color: "rgba(94,234,212,0.72)",
-                fontSize: 12,
-                fontWeight: 600,
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-              }}
-            >
-              Public notebook
-            </div>
+            Public notebook
           </div>
-          <span style={{ color: "rgba(255,255,255,0.22)", fontSize: 14 }}>
-            stratbook.world
-          </span>
+          <span style={{ color: "rgba(255,255,255,0.22)", fontSize: 14 }}>stratbook.world</span>
         </div>
       </div>
     ),
-    {
-      width: 1200,
-      height: 630,
-    }
+    { width: 1200, height: 630 }
   );
 }

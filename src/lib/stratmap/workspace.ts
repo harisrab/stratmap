@@ -1402,6 +1402,27 @@ export async function readSharedProjectCoverImage(shareId: string): Promise<Blob
   return readProjectCoverImage(manifest.ownerId, manifest.projectId);
 }
 
+/**
+ * Generate a fresh map-based cover image for a shared project on-the-fly.
+ * Fetches the Mapbox static tile, composites the project title on top, and
+ * returns the PNG blob. Does NOT write to storage — caller decides caching.
+ */
+export async function generateSharedProjectCoverBlob(shareId: string): Promise<Blob> {
+  const [{ project }, index] = await Promise.all([
+    getSharedProject(shareId),
+    getSharedWorkspaceIndex(shareId),
+  ]);
+  const mapUrl = buildMapboxCoverUrl(index.mapPoints, index.layers ?? [], project.mapThemeId);
+  const mapRes = await fetch(mapUrl);
+  if (!mapRes.ok) throw new Error(`Mapbox static fetch failed (${mapRes.status}).`);
+  return renderCoverImage({
+    height: COVER_IMAGE_HEIGHT,
+    image: await mapRes.blob(),
+    title: project.name,
+    width: COVER_IMAGE_WIDTH,
+  });
+}
+
 export async function forkSharedProject(
   shareId: string,
   targetOwnerId: string

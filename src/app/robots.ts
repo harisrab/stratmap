@@ -11,9 +11,10 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: "*",
       },
       {
-        // Explicit rule so Twitterbot can fetch OG images and the landing page
-        allow: ["/", "/images/"],
-        disallow: ["/api/", "/app", "/auth", "/project/"],
+        // Twitterbot must reach /api/shares/*/cover for Twitter card images.
+        // No need to block /api/ — it returns JSON that Twitter ignores anyway.
+        allow: "/",
+        disallow: ["/app", "/auth", "/project/"],
         userAgent: "Twitterbot",
       },
       {

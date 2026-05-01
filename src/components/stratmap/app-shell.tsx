@@ -1545,7 +1545,7 @@ export function StratMapShell({
       <Dialog open={shareDialogOpen} onOpenChange={setShareDialogOpen}>
         {/* gap-0 p-0: neutralise the base grid gap-4 and padding so we own every pixel */}
         <DialogContent className="max-w-sm gap-0 rounded-[10px] border-white/12 bg-[oklch(0.11_0.015_231)] p-0 text-white shadow-[0_32px_100px_rgba(0,0,0,0.6)]">
-          <div className="flex flex-col p-5">
+          <div className="flex min-w-0 flex-col overflow-hidden p-5">
             <DialogTitle className="text-[15px] font-semibold tracking-tight text-white/92">
               Share this stratbook
             </DialogTitle>
@@ -1592,7 +1592,7 @@ export function StratMapShell({
 
                   {/* Link readout — only when public and we have a URL */}
                   {isPublic && shareUrl ? (
-                    <div className="mt-2.5 flex items-center gap-2 rounded-[7px] border border-white/12 bg-white/[0.04] py-2 pl-3 pr-2">
+                    <div className="mt-2.5 flex min-w-0 items-center gap-2 overflow-hidden rounded-[7px] border border-white/12 bg-white/[0.04] py-2 pl-3 pr-2">
                       <p className="min-w-0 flex-1 truncate font-mono text-[11px] text-white/65">
                         {shareUrl}
                       </p>
