@@ -1543,104 +1543,105 @@ export function StratMapShell({
       ) : null}
 
       <Dialog open={shareDialogOpen} onOpenChange={setShareDialogOpen}>
-        <DialogContent className="max-w-sm rounded-[10px] border-white/12 bg-[oklch(0.11_0.015_231)] p-6 text-white shadow-[0_32px_100px_rgba(0,0,0,0.6)]">
-          <DialogHeader>
+        {/* gap-0 p-0: neutralise the base grid gap-4 and padding so we own every pixel */}
+        <DialogContent className="max-w-sm gap-0 rounded-[10px] border-white/12 bg-[oklch(0.11_0.015_231)] p-0 text-white shadow-[0_32px_100px_rgba(0,0,0,0.6)]">
+          <div className="flex flex-col p-5">
             <DialogTitle className="text-[15px] font-semibold tracking-tight text-white/92">
               Share this stratbook
             </DialogTitle>
-            <DialogDescription className="text-[12px] leading-relaxed text-white/45">
+            <DialogDescription className="mt-1.5 text-[12px] leading-relaxed text-white/45">
               Anyone with the link can view the map and files. Editing stays locked until they fork a copy.
             </DialogDescription>
-          </DialogHeader>
 
-          {(() => {
-            const isPublic = Boolean(currentProject.sharing?.isPublic);
-            return (
-              <>
-                {/* Public/Private toggle row */}
-                <div className="mt-4 flex items-center gap-3 rounded-[7px] border border-white/12 bg-white/[0.03] px-3.5 py-3">
-                  <div className="min-w-0 flex-1">
-                    <p className="text-[12.5px] font-medium text-white/88">
-                      {isPublic ? "Public link is on" : "Private"}
-                    </p>
-                    <p className="mt-0.5 text-[11px] leading-relaxed text-white/42">
-                      {isPublic
-                        ? "Anyone with the link can view this stratbook."
-                        : "Only you can access this stratbook."}
-                    </p>
-                  </div>
-                  <button
-                    aria-checked={isPublic}
-                    aria-label="Toggle public sharing"
-                    className={cn(
-                      "relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors disabled:opacity-60",
-                      isPublic ? "bg-teal-400" : "bg-white/15"
-                    )}
-                    disabled={isCreatingShare}
-                    onClick={() => void (isPublic ? handleDisableShare() : handleCreateShare())}
-                    role="switch"
-                    type="button"
-                  >
-                    <span
+            {(() => {
+              const isPublic = Boolean(currentProject.sharing?.isPublic);
+              return (
+                <>
+                  {/* Public/Private toggle row */}
+                  <div className="mt-4 flex items-center gap-3 rounded-[7px] border border-white/12 bg-white/[0.03] px-3.5 py-3">
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[12.5px] font-medium text-white/88">
+                        {isPublic ? "Public link is on" : "Private"}
+                      </p>
+                      <p className="mt-0.5 text-[11px] leading-relaxed text-white/42">
+                        {isPublic
+                          ? "Anyone with the link can view this stratbook."
+                          : "Only you can access this stratbook."}
+                      </p>
+                    </div>
+                    <button
+                      aria-checked={isPublic}
+                      aria-label="Toggle public sharing"
                       className={cn(
-                        "inline-block size-5 rounded-full bg-white shadow-[0_2px_6px_rgba(0,0,0,0.25)] transition-transform",
-                        isPublic ? "translate-x-[1.375rem]" : "translate-x-0.5"
+                        "relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors disabled:opacity-60",
+                        isPublic ? "bg-teal-400" : "bg-white/15"
                       )}
-                    />
-                  </button>
-                </div>
-
-                {/* Link readout — only when public and we have a URL */}
-                {isPublic && shareUrl ? (
-                  <div className="mt-2.5 flex items-center gap-2 rounded-[7px] border border-white/12 bg-white/[0.04] py-2 pl-3 pr-2">
-                    <p className="min-w-0 flex-1 truncate font-mono text-[11px] text-white/65">
-                      {shareUrl}
-                    </p>
-                    <button
-                      className="inline-flex h-7 shrink-0 items-center gap-1 rounded-[5px] bg-white/[0.08] px-2.5 text-[11px] font-medium text-white/85 transition-colors hover:bg-white/[0.14]"
-                      onClick={() => void handleCopyShareUrl()}
+                      disabled={isCreatingShare}
+                      onClick={() => void (isPublic ? handleDisableShare() : handleCreateShare())}
+                      role="switch"
                       type="button"
                     >
-                      {copiedShareUrl ? (
-                        <CheckIcon className="size-3 text-teal-300" />
-                      ) : (
-                        <CopyIcon className="size-3" />
-                      )}
-                      {copiedShareUrl ? "Copied" : "Copy"}
+                      <span
+                        className={cn(
+                          "inline-block size-5 rounded-full bg-white shadow-[0_2px_6px_rgba(0,0,0,0.25)] transition-transform",
+                          isPublic ? "translate-x-[1.375rem]" : "translate-x-0.5"
+                        )}
+                      />
                     </button>
                   </div>
-                ) : null}
 
-                {shareError ? (
-                  <div className="mt-3 flex items-start gap-2 rounded-[7px] border border-rose-400/18 bg-rose-500/8 px-3 py-2.5 text-[11.5px] text-rose-100/85">
-                    <AlertCircleIcon className="mt-0.5 size-3.5 shrink-0" />
-                    {shareError}
-                  </div>
-                ) : null}
-
-                {/* Footer — plain div so we fully own the layout */}
-                <div className="mt-5 flex gap-2">
-                  <button
-                    className="flex h-9 flex-1 items-center justify-center rounded-[7px] border border-white/[0.13] bg-transparent text-[12.5px] font-medium text-white/60 transition-colors hover:bg-white/[0.055] hover:text-white/85"
-                    onClick={() => setShareDialogOpen(false)}
-                    type="button"
-                  >
-                    Done
-                  </button>
+                  {/* Link readout — only when public and we have a URL */}
                   {isPublic && shareUrl ? (
+                    <div className="mt-2.5 flex items-center gap-2 rounded-[7px] border border-white/12 bg-white/[0.04] py-2 pl-3 pr-2">
+                      <p className="min-w-0 flex-1 truncate font-mono text-[11px] text-white/65">
+                        {shareUrl}
+                      </p>
+                      <button
+                        className="inline-flex h-7 shrink-0 items-center gap-1 rounded-[5px] bg-white/[0.08] px-2.5 text-[11px] font-medium text-white/85 transition-colors hover:bg-white/[0.14]"
+                        onClick={() => void handleCopyShareUrl()}
+                        type="button"
+                      >
+                        {copiedShareUrl ? (
+                          <CheckIcon className="size-3 text-teal-300" />
+                        ) : (
+                          <CopyIcon className="size-3" />
+                        )}
+                        {copiedShareUrl ? "Copied" : "Copy"}
+                      </button>
+                    </div>
+                  ) : null}
+
+                  {shareError ? (
+                    <div className="mt-3 flex items-start gap-2 rounded-[7px] border border-rose-400/18 bg-rose-500/8 px-3 py-2.5 text-[11.5px] text-rose-100/85">
+                      <AlertCircleIcon className="mt-0.5 size-3.5 shrink-0" />
+                      {shareError}
+                    </div>
+                  ) : null}
+
+                  {/* Footer — flex row, buttons share space equally */}
+                  <div className="mt-5 flex gap-2">
                     <button
-                      className="flex h-9 flex-1 items-center justify-center gap-1.5 rounded-[7px] bg-teal-400 text-[12.5px] font-semibold text-slate-950 transition-colors hover:bg-teal-300 disabled:opacity-60"
-                      onClick={() => void handleCopyShareUrl()}
+                      className="flex h-9 flex-1 items-center justify-center rounded-[7px] border border-white/[0.13] bg-transparent text-[12.5px] font-medium text-white/60 transition-colors hover:bg-white/[0.055] hover:text-white/85"
+                      onClick={() => setShareDialogOpen(false)}
                       type="button"
                     >
-                      {copiedShareUrl ? <CheckIcon className="size-3.5" /> : <CopyIcon className="size-3.5" />}
-                      {copiedShareUrl ? "Copied!" : "Copy link"}
+                      Done
                     </button>
-                  ) : null}
-                </div>
-              </>
-            );
-          })()}
+                    {isPublic && shareUrl ? (
+                      <button
+                        className="flex h-9 flex-1 items-center justify-center gap-1.5 rounded-[7px] bg-teal-400 text-[12.5px] font-semibold text-slate-950 transition-colors hover:bg-teal-300 disabled:opacity-60"
+                        onClick={() => void handleCopyShareUrl()}
+                        type="button"
+                      >
+                        {copiedShareUrl ? <CheckIcon className="size-3.5" /> : <CopyIcon className="size-3.5" />}
+                        {copiedShareUrl ? "Copied!" : "Copy link"}
+                      </button>
+                    ) : null}
+                  </div>
+                </>
+              );
+            })()}
+          </div>
         </DialogContent>
       </Dialog>
 
