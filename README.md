@@ -2,6 +2,8 @@
 
 A geospatial strategy workspace: a live globe, a file tree of notes/scenarios/data backed by Supabase Storage, and a chat panel that can read and edit those files.
 
+<img width="1794" height="1159" alt="Screenshot 2026-04-29 at 3 28 39 AM" src="https://github.com/user-attachments/assets/b63ad3c5-b97e-4288-99ab-26612f5dbf4e" />
+
 ## Stack
 
 Next.js App Router · React 19 · Mapbox GL · AI SDK (Anthropic) · Supabase (Storage + Postgres)
