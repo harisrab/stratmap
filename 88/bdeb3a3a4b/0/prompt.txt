@@ -1,0 +1,5 @@
+Can you combine the commits that I made with the same commit message? Recently?
+
+---
+
+Do that.
