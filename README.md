@@ -1,4 +1,4 @@
-# StratMap
+# Stratbook - Map-based Workspace for Strategic Thinking
 
 A geospatial strategy workspace: a live globe, a file tree of notes/scenarios/data backed by Supabase Storage, and a chat panel that can read and edit those files.
 
