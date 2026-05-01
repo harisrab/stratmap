@@ -47,6 +47,7 @@ export const metadata: Metadata = {
       {
         alt: "Stratbook map-first AI research workspace",
         height: 630,
+        type: "image/jpeg",
         url: absoluteUrl(siteConfig.ogImage),
         width: 1200,
       },
@@ -76,7 +77,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     description: siteConfig.description,
-    images: [absoluteUrl(siteConfig.ogImage)],
+    images: [{ alt: "Stratbook map-first AI research workspace", height: 630, type: "image/jpeg", url: absoluteUrl(siteConfig.ogImage), width: 1200 }],
     title: "Stratbook | Map-first AI research workspace",
   },
 };

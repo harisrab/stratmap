@@ -36,7 +36,7 @@ export async function generateMetadata({
       description,
       openGraph: {
         description,
-        images: [{ height: 630, url: imageUrl, width: 1200 }],
+        images: [{ alt: title, height: 630, type: "image/png", url: imageUrl, width: 1200 }],
         siteName: "Stratbook",
         title,
         type: "article",
@@ -50,7 +50,7 @@ export async function generateMetadata({
       twitter: {
         card: "summary_large_image",
         description,
-        images: [imageUrl],
+        images: [{ alt: title, height: 630, type: "image/png", url: imageUrl, width: 1200 }],
         title,
       },
     };
