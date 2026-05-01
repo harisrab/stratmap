@@ -1,0 +1,27 @@
+{
+  "cli_version": "0.5.6",
+  "checkpoint_id": "42ac817ef215",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "src/app/api/shares/[shareId]/cover/route.ts",
+    "src/app/api/shares/[shareId]/cover/route.tsx",
+    "src/lib/stratmap/workspace.ts"
+  ],
+  "sessions": [
+    {
+      "metadata": "/42/ac817ef215/0/metadata.json",
+      "transcript": "/42/ac817ef215/0/full.jsonl",
+      "content_hash": "/42/ac817ef215/0/content_hash.txt",
+      "prompt": "/42/ac817ef215/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 22,
+    "cache_creation_tokens": 19149,
+    "cache_read_tokens": 2217406,
+    "output_tokens": 10449,
+    "api_call_count": 18
+  }
+}

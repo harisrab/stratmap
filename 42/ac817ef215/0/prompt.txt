@@ -1,0 +1,28 @@
+## Error Type
+Build Error
+
+## Error Message
+  × Expected '>', got 'ident'
+
+## Build Output
+./src/app/api/shares/[shareId]/cover/route.ts
+Error:   × Expected '>', got 'ident'
+    ╭─[/Users/harisrashid/repos/stratmap-v2/src/app/api/shares/[shareId]/cover/route.ts:26:1]
+ 23 │   return new ImageResponse(
+ 24 │     (
+ 25 │       <div
+ 26 │         style={{
+    ·         ─────
+ 27 │           background: "#04060b",
+ 28 │           width: "100%",
+ 29 │           height: "100%",
+    ╰────
+
+Caused by:
+    Syntax Error
+
+Next.js version: 16.2.4 (Webpack)
+
+---
+
+This cover is fine, but, I wonder where why we don't have the map anymore. Because we have the map when we generate the covers. For the notebooks. Why don't we have that in the OG image as well?
