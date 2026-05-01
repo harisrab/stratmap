@@ -1,0 +1,5 @@
+I think share model is causing this UI problem because the link for the stratbook is too long, it shoudl show some characters and hide the rest towards the end. It tries to shwo it all and the components overflow the body.
+
+---
+
+I still see the same issue.
