@@ -1,0 +1,5 @@
+INFO:  Page fetched successfully
+INFO:  26 metatags were found
+INFO:  twitter:card = summary_large_image tag found
+INFO:  Card loaded successfully
+WARN:  The image URL https://www.stratbook.world/api/shares/Y8buk-tdmq8BYq/cover?v=ir-light-title-v3 specified by the 'twitter:image' metatag may be restricted by the site's robots.txt file, which will prevent Twitter from fetching it.
