@@ -46,9 +46,9 @@ export const metadata: Metadata = {
     images: [
       {
         alt: "Stratbook map-first AI research workspace",
-        height: 868,
+        height: 630,
         url: siteConfig.ogImage,
-        width: 991,
+        width: 1200,
       },
     ],
     locale: "en_US",

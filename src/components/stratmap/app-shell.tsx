@@ -883,8 +883,22 @@ export function StratMapShell({
               <Share2Icon className="size-3.5" />
               Share
             </button>
-          ) : null}
-          {isOwnerMode ? (
+          ) : (
+            <button
+              className="inline-flex h-9 items-center gap-2 rounded-lg border border-white/10 bg-[rgba(6,11,17,0.88)] px-3.5 text-[12.5px] font-medium text-white/60 shadow-[0_18px_48px_rgba(0,0,0,0.35)] backdrop-blur-xl transition hover:bg-white/8 hover:text-white"
+              disabled={isForking}
+              onClick={() => setGateDialogOpen(true)}
+              type="button"
+            >
+              {isForking ? (
+                <Loader2Icon className="size-3.5 animate-spin" />
+              ) : (
+                <GitForkIcon className="size-3.5" />
+              )}
+              Fork
+            </button>
+          )}
+          {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger
                 aria-label="Open user menu"
@@ -913,37 +927,50 @@ export function StratMapShell({
                       </p>
                     </div>
                   </div>
-                  <div className="mt-3">
-                    <span className={cn(
-                      "inline-flex items-center gap-1.5 rounded-full px-2.5 py-[3px] text-[10px] font-semibold uppercase tracking-[0.13em]",
-                      isPro
-                        ? "border border-teal-300/28 bg-teal-300/10 text-teal-100/85"
-                        : "border border-white/10 bg-white/[0.045] text-white/38"
-                    )}>
-                      <CrownIcon className={cn("size-2.5", isPro ? "text-teal-300/80" : "text-white/30")} />
-                      {isPro ? (billing?.cancelAtPeriodEnd ? "Pro · Ending soon" : "Pro") : "Free plan"}
-                    </span>
-                  </div>
+                  {isOwnerMode ? (
+                    <div className="mt-3">
+                      <span className={cn(
+                        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-[3px] text-[10px] font-semibold uppercase tracking-[0.13em]",
+                        isPro
+                          ? "border border-teal-300/28 bg-teal-300/10 text-teal-100/85"
+                          : "border border-white/10 bg-white/[0.045] text-white/38"
+                      )}>
+                        <CrownIcon className={cn("size-2.5", isPro ? "text-teal-300/80" : "text-white/30")} />
+                        {isPro ? (billing?.cancelAtPeriodEnd ? "Pro · Ending soon" : "Pro") : "Free plan"}
+                      </span>
+                    </div>
+                  ) : null}
                 </div>
 
                 <div className="border-t border-white/[0.07] py-1">
-                  {billing?.stripeCustomerId ? (
-                    <button
-                      className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-[12px] text-white/60 transition-colors hover:bg-white/[0.05] hover:text-white"
-                      onClick={() => void openBilling("/api/stripe/portal")}
-                      type="button"
-                    >
-                      <CreditCardIcon className="size-3.5 shrink-0" />
-                      Manage billing
-                    </button>
+                  {isOwnerMode ? (
+                    billing?.stripeCustomerId ? (
+                      <button
+                        className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-[12px] text-white/60 transition-colors hover:bg-white/[0.05] hover:text-white"
+                        onClick={() => void openBilling("/api/stripe/portal")}
+                        type="button"
+                      >
+                        <CreditCardIcon className="size-3.5 shrink-0" />
+                        Manage billing
+                      </button>
+                    ) : (
+                      <button
+                        className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-[12px] text-teal-100/80 transition-colors hover:bg-teal-300/10 hover:text-teal-50"
+                        onClick={() => void openBilling("/api/stripe/checkout")}
+                        type="button"
+                      >
+                        <CrownIcon className="size-3.5 shrink-0" />
+                        Upgrade to Pro
+                      </button>
+                    )
                   ) : (
                     <button
-                      className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-[12px] text-teal-100/80 transition-colors hover:bg-teal-300/10 hover:text-teal-50"
-                      onClick={() => void openBilling("/api/stripe/checkout")}
+                      className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-[12px] text-white/60 transition-colors hover:bg-white/[0.05] hover:text-white"
+                      onClick={() => router.push("/app")}
                       type="button"
                     >
-                      <CrownIcon className="size-3.5 shrink-0" />
-                      Upgrade to Pro
+                      <ChevronLeftIcon className="size-3.5 shrink-0" />
+                      My workspace
                     </button>
                   )}
                   <div className="my-1 h-px bg-white/[0.05]" />
