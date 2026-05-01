@@ -1543,13 +1543,13 @@ export function StratMapShell({
       ) : null}
 
       <Dialog open={shareDialogOpen} onOpenChange={setShareDialogOpen}>
-        <DialogContent className="max-w-md rounded-[10px] border-white/12 bg-[oklch(0.11_0.015_231)] p-7 text-white shadow-[0_32px_100px_rgba(0,0,0,0.6)]">
+        <DialogContent className="max-w-sm rounded-[10px] border-white/12 bg-[oklch(0.11_0.015_231)] p-6 text-white shadow-[0_32px_100px_rgba(0,0,0,0.6)]">
           <DialogHeader>
-            <DialogTitle className="text-[16px] font-semibold tracking-tight text-white/92">
+            <DialogTitle className="text-[15px] font-semibold tracking-tight text-white/92">
               Share this stratbook
             </DialogTitle>
-            <DialogDescription className="text-[12.5px] leading-relaxed text-white/45">
-              Anyone with the link can browse the map and files. Editing and chat stay locked until they fork their own copy.
+            <DialogDescription className="text-[12px] leading-relaxed text-white/45">
+              Anyone with the link can view the map and files. Editing stays locked until they fork a copy.
             </DialogDescription>
           </DialogHeader>
 
@@ -1558,12 +1558,12 @@ export function StratMapShell({
             return (
               <>
                 {/* Public/Private toggle row */}
-                <div className="mt-5 flex items-center justify-between rounded-[7px] border border-white/12 bg-white/[0.03] px-4 py-3.5">
-                  <div className="min-w-0">
-                    <p className="text-[13px] font-medium text-white/88">
+                <div className="mt-4 flex items-center gap-3 rounded-[7px] border border-white/12 bg-white/[0.03] px-3.5 py-3">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[12.5px] font-medium text-white/88">
                       {isPublic ? "Public link is on" : "Private"}
                     </p>
-                    <p className="mt-0.5 text-[11.5px] leading-relaxed text-white/42">
+                    <p className="mt-0.5 text-[11px] leading-relaxed text-white/42">
                       {isPublic
                         ? "Anyone with the link can view this stratbook."
                         : "Only you can access this stratbook."}
@@ -1592,19 +1592,19 @@ export function StratMapShell({
 
                 {/* Link readout — only when public and we have a URL */}
                 {isPublic && shareUrl ? (
-                  <div className="mt-3 flex items-center gap-2 rounded-[7px] border border-white/12 bg-white/[0.04] py-2 pl-3 pr-2">
-                    <p className="min-w-0 flex-1 truncate font-mono text-[12px] text-white/72">
+                  <div className="mt-2.5 flex items-center gap-2 rounded-[7px] border border-white/12 bg-white/[0.04] py-2 pl-3 pr-2">
+                    <p className="min-w-0 flex-1 truncate font-mono text-[11px] text-white/65">
                       {shareUrl}
                     </p>
                     <button
-                      className="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-[6px] bg-white/[0.08] px-2.5 text-[11.5px] font-medium text-white/85 transition-colors hover:bg-white/[0.14]"
+                      className="inline-flex h-7 shrink-0 items-center gap-1 rounded-[5px] bg-white/[0.08] px-2.5 text-[11px] font-medium text-white/85 transition-colors hover:bg-white/[0.14]"
                       onClick={() => void handleCopyShareUrl()}
                       type="button"
                     >
                       {copiedShareUrl ? (
-                        <CheckIcon className="size-3.5 text-teal-300" />
+                        <CheckIcon className="size-3 text-teal-300" />
                       ) : (
-                        <CopyIcon className="size-3.5" />
+                        <CopyIcon className="size-3" />
                       )}
                       {copiedShareUrl ? "Copied" : "Copy"}
                     </button>
@@ -1612,15 +1612,16 @@ export function StratMapShell({
                 ) : null}
 
                 {shareError ? (
-                  <div className="mt-3 flex items-start gap-2 rounded-[7px] border border-rose-400/18 bg-rose-500/8 px-3 py-2.5 text-[12px] text-rose-100/85">
+                  <div className="mt-3 flex items-start gap-2 rounded-[7px] border border-rose-400/18 bg-rose-500/8 px-3 py-2.5 text-[11.5px] text-rose-100/85">
                     <AlertCircleIcon className="mt-0.5 size-3.5 shrink-0" />
                     {shareError}
                   </div>
                 ) : null}
 
-                <DialogFooter className="-mx-0 -mb-0 mt-6 gap-2 border-none bg-transparent p-0 sm:flex-row sm:justify-end">
+                {/* Footer — plain div so we fully own the layout */}
+                <div className="mt-5 flex gap-2">
                   <button
-                    className="inline-flex h-[42px] items-center justify-center gap-2 rounded-[7px] border border-white/[0.13] bg-transparent px-5 text-[13.5px] font-medium tracking-[0.01em] text-white/65 transition-all duration-150 hover:bg-white/[0.055] hover:text-white/85"
+                    className="flex h-9 flex-1 items-center justify-center rounded-[7px] border border-white/[0.13] bg-transparent text-[12.5px] font-medium text-white/60 transition-colors hover:bg-white/[0.055] hover:text-white/85"
                     onClick={() => setShareDialogOpen(false)}
                     type="button"
                   >
@@ -1628,15 +1629,15 @@ export function StratMapShell({
                   </button>
                   {isPublic && shareUrl ? (
                     <button
-                      className="inline-flex h-[42px] items-center justify-center gap-2 rounded-[7px] bg-[#5eead4] px-5 text-[13.5px] font-semibold tracking-[0.01em] text-[#04060b] transition-all duration-150 hover:-translate-y-px hover:bg-[#99f6e4] hover:shadow-[0_10px_28px_-8px_rgba(94,234,212,0.33)] disabled:cursor-not-allowed disabled:opacity-60"
+                      className="flex h-9 flex-1 items-center justify-center gap-1.5 rounded-[7px] bg-teal-400 text-[12.5px] font-semibold text-slate-950 transition-colors hover:bg-teal-300 disabled:opacity-60"
                       onClick={() => void handleCopyShareUrl()}
                       type="button"
                     >
-                      {copiedShareUrl ? <CheckIcon className="size-4" /> : <CopyIcon className="size-4" />}
-                      {copiedShareUrl ? "Copied" : "Copy link"}
+                      {copiedShareUrl ? <CheckIcon className="size-3.5" /> : <CopyIcon className="size-3.5" />}
+                      {copiedShareUrl ? "Copied!" : "Copy link"}
                     </button>
                   ) : null}
-                </DialogFooter>
+                </div>
               </>
             );
           })()}
