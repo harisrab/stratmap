@@ -27,3 +27,31 @@ Bucket schema: [supabase/storage.sql](supabase/storage.sql). Chat tables: [supab
 - `pnpm dev:turbo` — dev server (Turbopack)
 - `pnpm build` / `pnpm start` — production build + serve
 - `pnpm lint` — ESLint
+
+## Roadmap
+
+The current product roadmap is tracked in [FEATURE_REQUESTS.md](FEATURE_REQUESTS.md). Near-term priorities:
+
+1. **Map screenshot workflow**
+   - Add a Screenshot control with aspect-ratio presets, a movable capture window, Enter-to-capture behavior, and a right-side screenshot library.
+   - Captures should be static images with thumbnail previews, timestamps, metadata, and PNG/JPEG download support.
+
+2. **Distance and measurement tools**
+   - Show distance labels on drawn lines, range rings, and polygon perimeters.
+   - Add a global metrics visibility toggle plus an ad hoc measuring tape tool for temporary map measurements.
+
+3. **Strategist deep research mode**
+   - Upgrade Strategist with live web research, source-rich answers, and workspace-aware synthesis.
+   - Add integration hooks for external research tools such as Exa AI and Parallel Deep Research, with per-workspace controls for enabling internet research.
+
+4. **Instant marker creation**
+   - Make marker placement feel immediate through optimistic UI.
+   - Run persistence, note setup, and any AI-related work in the background with subtle syncing/error states.
+
+5. **In-app feedback and help**
+   - Add a persistent Feedback / Help entry point where users can send feature requests, bug reports, or questions directly to the founders.
+   - Include useful context such as user, workspace, timestamp, browser, and platform.
+
+6. **Authentication improvements**
+   - Add Google and Apple login alongside existing auth options.
+   - Make login/sign-up switching feel instant by treating auth as a single client-side view with two states.
