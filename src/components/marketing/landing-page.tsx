@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { blogPosts } from "@/lib/blog";
 import { exampleStratbooks, getExampleVersion } from "@/lib/stratmap/example-stratbooks";
 import Image from "next/image";
+import Link from "next/link";
 
 const accent = "#5eead4";
 const ctaLabel = "Create your map";
@@ -326,6 +328,27 @@ function Nav({
             {label}
           </a>
         ))}
+        <Link
+          href="/blog"
+          onMouseEnter={(event) => {
+            event.currentTarget.style.color = "rgba(255,255,255,0.85)";
+          }}
+          onMouseLeave={(event) => {
+            event.currentTarget.style.color = "rgba(255,255,255,0.48)";
+          }}
+          style={{
+            alignItems: "center",
+            borderRadius: 6,
+            color: "rgba(255,255,255,0.48)",
+            display: "inline-flex",
+            fontSize: 13,
+            height: 36,
+            padding: "0 14px",
+            transition: "color 0.15s",
+          }}
+        >
+          Blog
+        </Link>
         <div style={{ background: "rgba(255,255,255,0.1)", height: 18, margin: "0 6px", width: 1 }} />
         {isAuthenticated ? (
           <Btn accent={navAccent} href={dashboardHref}>
@@ -967,6 +990,59 @@ function Pricing({ accent: pricingAccent }: { accent: string; ctaLabel: string }
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- Temporarily hidden from the homepage while the resource launch is held back.
+function Resources({ accent: resourcesAccent }: { accent: string }) {
+  return (
+    <section className="landing-section" id="resources" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "104px 52px" }}>
+      <div style={{ margin: "0 auto", maxWidth: 1100 }}>
+        <div style={{ alignItems: "flex-end", display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "space-between", marginBottom: 36 }}>
+          <div className="reveal">
+            <p style={{ color: `${resourcesAccent}88`, fontFamily: "monospace", fontSize: 10, letterSpacing: "0.26em", marginBottom: 14, textTransform: "uppercase" }}>Guides</p>
+            <h2 style={{ color: "rgba(255,255,255,0.92)", fontFamily: "'EB Garamond',serif", fontSize: "clamp(28px,3.5vw,46px)", fontWeight: 400, letterSpacing: "-0.015em", lineHeight: 1.05 }}>
+              Learn the workflows behind
+              <br />
+              <em style={{ color: `${resourcesAccent}ee` }}>map-first research.</em>
+            </h2>
+          </div>
+          <Btn accent={resourcesAccent} href="/blog" variant="ghost">
+            Read the blog →
+          </Btn>
+        </div>
+        <div className="landing-examples-grid" style={{ display: "grid", gap: 16, gridTemplateColumns: "repeat(3,1fr)" }}>
+          {blogPosts.map((post, index) => (
+            <a
+              className={`reveal d${index + 1}`}
+              href={post.path ?? `/blog/${post.slug}`}
+              key={post.slug}
+              style={{
+                background: "linear-gradient(180deg,rgba(255,255,255,0.026),rgba(255,255,255,0.01))",
+                border: "1px solid rgba(255,255,255,0.07)",
+                borderRadius: 10,
+                display: "flex",
+                flexDirection: "column",
+                minHeight: 276,
+                padding: "24px 24px 20px",
+              }}
+            >
+              <div style={{ alignItems: "center", display: "flex", justifyContent: "space-between", marginBottom: 30 }}>
+                <span style={{ border: "1px solid rgba(255,255,255,0.08)", borderRadius: 4, color: "rgba(255,255,255,0.42)", fontSize: 10.5, padding: "3px 8px" }}>{post.category}</span>
+                <span style={{ color: "rgba(255,255,255,0.24)", fontFamily: "monospace", fontSize: 10 }}>{post.readingTime}</span>
+              </div>
+              <h3 style={{ color: "rgba(255,255,255,0.9)", fontFamily: "'EB Garamond',serif", fontSize: 28, fontWeight: 400, letterSpacing: "-0.01em", lineHeight: 1.08, marginBottom: 14 }}>
+                {post.title}
+              </h3>
+              <p style={{ color: "rgba(255,255,255,0.38)", flex: 1, fontSize: 13.5, lineHeight: 1.65 }}>{post.description}</p>
+              <span style={{ borderTop: "1px solid rgba(255,255,255,0.06)", color: `${resourcesAccent}cc`, fontSize: 12, fontWeight: 600, marginTop: 22, paddingTop: 14 }}>
+                Read article →
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function PriceCard({ accent: cardAccent, i, plan }: { accent: string; i: number; plan: { cta: string; features: string[]; name: string; note: string; price: string; primary: boolean; tag: string | null } }) {
   return (
     <div
@@ -1081,10 +1157,10 @@ function FinalCTA({ accent: finalAccent, ctaLabel: finalCtaLabel }: { accent: st
 
 function Footer({ accent: footerAccent }: { accent: string }) {
   const columns = [
-    { h: "Product", links: ["Features", "Examples", "Changelog", "Roadmap"] },
-    { h: "Use cases", links: ["OSINT", "Defense", "Journalism", "Investment"] },
-    { h: "Resources", links: ["Docs", "Markdown spec", "API", "Templates"] },
-    { h: "Company", links: ["About", "Privacy", "Terms", "Contact"] },
+    { h: "Product", links: [{ href: "#product", label: "Features" }, { href: "#examples", label: "Examples" }, { href: "#pricing", label: "Pricing" }] },
+    { h: "Use cases", links: [{ href: "#built-for", label: "OSINT" }, { href: "#built-for", label: "Defense" }, { href: "#built-for", label: "Journalism" }, { href: "#built-for", label: "Investment" }] },
+    { h: "Resources", links: [{ href: "/blog", label: "Blog" }, { href: "/blog/map-first-ai-research-workspace", label: "AI research workspace" }, { href: "/blog/osint-map-tool-for-place-based-research", label: "OSINT map tool" }] },
+    { h: "Company", links: [{ href: "/auth", label: "Sign in" }, { href: "/llms.txt", label: "llms.txt" }] },
   ];
 
   return (
@@ -1100,9 +1176,9 @@ function Footer({ accent: footerAccent }: { accent: string }) {
               <p style={{ color: "rgba(255,255,255,0.18)", fontSize: 9.5, letterSpacing: "0.24em", marginBottom: 16, textTransform: "uppercase" }}>{column.h}</p>
               <ul style={{ display: "flex", flexDirection: "column", gap: 9, listStyle: "none" }}>
                 {column.links.map((link) => (
-                  <li key={link}>
+                  <li key={link.label}>
                     <a
-                      href="#"
+                      href={link.href}
                       onMouseEnter={(event) => {
                         event.currentTarget.style.color = "rgba(255,255,255,0.72)";
                       }}
@@ -1111,7 +1187,7 @@ function Footer({ accent: footerAccent }: { accent: string }) {
                       }}
                       style={{ color: "rgba(255,255,255,0.38)", fontSize: 12.5, transition: "color 0.15s" }}
                     >
-                      {link}
+                      {link.label}
                     </a>
                   </li>
                 ))}
@@ -1142,6 +1218,7 @@ export function LandingPage({ isAuthenticated = false }: { isAuthenticated?: boo
       <BuiltFor accent={accent} />
       <Testimonial accent={accent} />
       <Examples accent={accent} />
+      {/* <Resources accent={accent} /> */}
       <Pricing accent={accent} ctaLabel={ctaLabel} />
       <FinalCTA accent={accent} ctaLabel={ctaLabel} />
       <Footer accent={accent} />

@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
     host: siteConfig.url,
     rules: [
       {
-        allow: ["/", "/s/"],
+        allow: ["/", "/s/", "/blog/", "/guides/", "/comparisons/", "/llms.txt"],
         disallow: ["/api/", "/app", "/auth", "/project/"],
         userAgent: "*",
       },
