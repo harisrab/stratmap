@@ -32,26 +32,12 @@ Bucket schema: [supabase/storage.sql](supabase/storage.sql). Chat tables: [supab
 
 The current product roadmap is tracked in [FEATURE_REQUESTS.md](FEATURE_REQUESTS.md). Near-term priorities:
 
-1. **Map screenshot workflow**
-   - Add a Screenshot control with aspect-ratio presets, a movable capture window, Enter-to-capture behavior, and a right-side screenshot library.
-   - Captures should be static images with thumbnail previews, timestamps, metadata, and PNG/JPEG download support.
-
-2. **Distance and measurement tools**
-   - Show distance labels on drawn lines, range rings, and polygon perimeters.
-   - Add a global metrics visibility toggle plus an ad hoc measuring tape tool for temporary map measurements.
-
-3. **Strategist deep research mode**
-   - Upgrade Strategist with live web research, source-rich answers, and workspace-aware synthesis.
-   - Add integration hooks for external research tools such as Exa AI and Parallel Deep Research, with per-workspace controls for enabling internet research.
-
-4. **Instant marker creation**
-   - Make marker placement feel immediate through optimistic UI.
-   - Run persistence, note setup, and any AI-related work in the background with subtle syncing/error states.
-
-5. **In-app feedback and help**
-   - Add a persistent Feedback / Help entry point where users can send feature requests, bug reports, or questions directly to the founders.
-   - Include useful context such as user, workspace, timestamp, browser, and platform.
-
-6. **Authentication improvements**
-   - Add Google and Apple login alongside existing auth options.
-   - Make login/sign-up switching feel instant by treating auth as a single client-side view with two states.
+| Priority | Feature | Status | Scope |
+| --- | --- | --- | --- |
+| P0 | Instant marker creation | Not started | Make marker placement immediate with optimistic UI; run persistence, note setup, and AI-related work in the background with subtle syncing/error states. |
+| P0 | Faster auth page load and transitions | Not started | Treat login and sign-up as a single client-side view with two states so switching feels instant and avoids full reloads. |
+| P1 | Map screenshot workflow | Not started | Add a Screenshot control with aspect-ratio presets, movable capture window, Enter-to-capture behavior, and a right-side screenshot library with static PNG/JPEG exports. |
+| P1 | Distance and measurement tools | Not started | Show labels on drawn lines, range rings, and polygon perimeters; add a global metrics toggle and ad hoc measuring tape tool. |
+| P1 | In-app feedback and help | Not started | Add a persistent Feedback / Help entry point that sends feature requests, bugs, and questions directly to the founders with useful workspace/browser context. |
+| P2 | Strategist deep research mode | Not started | Add live web research, source-rich answers, workspace-aware synthesis, and integration hooks for tools such as Exa AI and Parallel Deep Research. |
+| P2 | Social login options | Not started | Add Continue with Google and Continue with Apple alongside existing auth options. |
